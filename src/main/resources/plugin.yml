@@ -1,0 +1,15 @@
+api-version: 1.8.8
+author: Marfien
+name: RewiBW
+version: 1.0.0
+main: dev.marfien.rewibw.RewiBWPlugin
+
+commands:
+  start:
+    description: Startet das Spiel
+    usage: /start
+    permission: rewibw.start
+  forcemap:
+    description: Setzt die Map
+    usage: /forcemap [map]
+    permission: rewibw.forcemap
