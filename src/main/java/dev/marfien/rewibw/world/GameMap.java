@@ -20,17 +20,13 @@ import java.util.Map;
 @Getter
 public class GameMap extends GameWorld {
 
-    private final Material icon;
-    private final String displayName;
-    private final String builder;
+    private final GameMapInfo mapInfo;
 
     private final Map<ResourceType, Collection<Location>> spawnerLocations = new EnumMap<>(ResourceType.class);
 
-    public GameMap(String name) {
+    public GameMap(String name, GameMapInfo info) {
         super(name);
-        this.icon = super.getEnum("map.icon", Material.class);
-        this.displayName = super.getString("map.displayName");
-        this.builder = super.getString("map.builder");
+        this.mapInfo = info;
     }
 
     @Override

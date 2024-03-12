@@ -2,7 +2,8 @@ package dev.marfien.rewibw.voting;
 
 import dev.marfien.rewibw.gui.GuiInventory;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.world.GameMap;
+import dev.marfien.rewibw.world.GameMapInfo;
+import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -13,90 +14,90 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class MapVoting {
 
-    private final Map<Player, GameMap> votes = new HashMap<>();
-    private final Map<GameMap, Integer> voteCount = new HashMap<>();
-    private final List<GameMap> mapCollection;
-    private final GameMap[] votables;
+    private static final Map<Player, GameMapInfo> votes = new HashMap<>();
+    private static final Map<GameMapInfo, Integer> voteCount = new HashMap<>();
+    private static List<GameMapInfo> mapCollection;
+    private static GameMapInfo[] votables;
 
-    private final int[] votableSlots;
-    private final GuiInventory gui = new GuiInventory(1, "§8Mapvoting");
-
-    @Getter
-    private GameMap winner;
+    private static int[] votableSlots;
+    private static final GuiInventory gui = new GuiInventory(1, "§8Mapvoting");
 
     @Getter
-    private boolean running = false;
+    private static GameMapInfo winner;
 
-    public MapVoting(List<GameMap> mapCollection, int[] votableSlots) {
-        this.mapCollection = new ArrayList<>(mapCollection);
-        this.votableSlots = votableSlots;
-        this.votables = new GameMap[Math.min(votableSlots.length, mapCollection.size())];
-
-        this.chooseVotables();
+    @Getter
+    private static boolean running = false;
+    
+    public static void init(int[] votableSlots) {
+        MapVoting.votableSlots = votableSlots;
+        mapCollection = new ArrayList<>(MapPool.getMaps());
+        votables = new GameMapInfo[Math.min(votableSlots.length, mapCollection.size())];
+        
+        chooseVotables();
     }
 
-    private void chooseVotables() {
-        Collections.shuffle(this.mapCollection);
-        for (int i = 0; i < this.votables.length; i++) {
-            this.votables[i] = this.mapCollection.get(i);
+    private static void chooseVotables() {
+        Collections.shuffle(mapCollection);
+        for (int i = 0; i < votables.length; i++) {
+            votables[i] = mapCollection.get(i);
         }
 
-        for (int i = 0; i < this.votables.length; i++) {
-            GameMap map = this.votables[i];
-            int slot = this.votableSlots[i];
-            this.voteCount.put(map, 0);
-            this.gui.setItem(slot, new VotingGuiItem(slot, map));
+        for (int i = 0; i < votables.length; i++) {
+            GameMapInfo map = votables[i];
+            int slot = votableSlots[i];
+            voteCount.put(map, 0);
+            gui.setItem(slot, new VotingGuiItem(slot, map));
         }
     }
 
-    public void openGui(Player player) {
-        this.gui.openTo(player);
+    public static void openGui(Player player) {
+        gui.openTo(player);
     }
 
-    public void reset() {
-        this.gui.closeAll();
-        this.votes.clear();
-        this.winner = null;
-        this.running = false;
+    public static void reset() {
+        gui.closeAll();
+        votes.clear();
+        winner = null;
+        running = false;
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.getInventory().remove(Items.VOTE_ITEM);
         }
     }
 
-    public void start() {
-        this.chooseVotables();
-        this.running = true;
+    public static void start() {
+        chooseVotables();
+        running = true;
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.getInventory().setItem(0, Items.VOTE_ITEM);
         }
     }
 
-    public void vote(Player player, GameMap map) {
-        GameMap previousVote = this.votes.put(player, map);
-        this.voteCount.put(map, this.voteCount.get(map) + 1);
+    public static void vote(Player player, GameMapInfo map) {
+        GameMapInfo previousVote = votes.put(player, map);
+        voteCount.put(map, voteCount.get(map) + 1);
         if (previousVote != null) {
-            this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
+            voteCount.put(previousVote, voteCount.get(previousVote) - 1);
         }
     }
 
-    public void removeVote(Player player) {
-        GameMap previousVote = this.votes.remove(player);
+    public static void removeVote(Player player) {
+        GameMapInfo previousVote = votes.remove(player);
         if (previousVote != null) {
-            this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
+            voteCount.put(previousVote, voteCount.get(previousVote) - 1);
         }
     }
 
-    public GameMap getOrChooseWinner() {
-        if (this.winner == null) {
-            this.setWinner(this.chooseWinner());
+    public static GameMapInfo getOrChooseWinner() {
+        if (winner == null) {
+            setWinner(chooseWinner());
         }
 
-        return this.winner;
+        return winner;
     }
 
-    public void setWinner(GameMap map) {
-        this.reset();
-        this.winner = map;
+    public static void setWinner(GameMapInfo map) {
+        reset();
+        winner = map;
 
         String message = "\n" +
                 "§f§m-----------§r §3Voting beendet §f§m-----------§r\n" +
@@ -111,20 +112,20 @@ public class MapVoting {
 
     }
 
-    public GameMap chooseWinner() {
-        if (this.votes.isEmpty() || this.voteCount.isEmpty()) {
-            int randomIndex = ThreadLocalRandom.current().nextInt(this.votables.length);
-            return this.votables[randomIndex];
+    public static GameMapInfo chooseWinner() {
+        if (votes.isEmpty() || voteCount.isEmpty()) {
+            int randomIndex = ThreadLocalRandom.current().nextInt(votables.length);
+            return votables[randomIndex];
         }
 
-        return Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        return Collections.max(voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
     }
 
-    public int getVotes(GameMap map) {
-        return this.voteCount.get(map);
+    public static int getVotes(GameMapInfo map) {
+        return voteCount.get(map);
     }
 
-    public boolean hasVoted(Player player) {
-        return this.votes.containsKey(player);
+    public static boolean hasVoted(Player player) {
+        return votes.containsKey(player);
     }
 }

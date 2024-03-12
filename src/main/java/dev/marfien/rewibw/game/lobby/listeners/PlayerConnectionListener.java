@@ -4,6 +4,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.util.Items;
+import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -43,7 +44,7 @@ public class PlayerConnectionListener implements Listener {
             countdown.start();
         }
 
-        if (RewiBWPlugin.getMapVoting().isRunning()) {
+        if (MapVoting.isRunning()) {
             player.getInventory().setItem(0, Items.VOTE_ITEM);
         }
     }
@@ -51,7 +52,7 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        RewiBWPlugin.getMapVoting().removeVote(player);
+        MapVoting.removeVote(player);
         event.setQuitMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GOLD + " hat den Server verlassen");
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
@@ -59,7 +60,7 @@ public class PlayerConnectionListener implements Listener {
         if (players < RewiBWPlugin.getMinPlayers() && countdown.isRunning()) {
             countdown.stop();
             countdown.startIdle();
-            RewiBWPlugin.getMapVoting().reset();
+            MapVoting.reset();
         }
     }
 

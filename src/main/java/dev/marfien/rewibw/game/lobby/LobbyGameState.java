@@ -12,6 +12,7 @@ import dev.marfien.rewibw.usable.UsableItemInfo;
 import dev.marfien.rewibw.usable.UsableItemManager;
 import dev.marfien.rewibw.util.CpsTester;
 import dev.marfien.rewibw.util.Items;
+import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameWorld;
 import lombok.Getter;
 import org.bukkit.event.Listener;
@@ -35,7 +36,7 @@ public class LobbyGameState extends GameState {
         this.listeners.add(new LobbyWorldListener(this.world));
         this.listeners.add(new PlayerConnectionListener());
 
-        this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> RewiBWPlugin.getMapVoting().openGui(event.getPlayer())));
+        this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));
         this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().sendMessage("§cDu kannst keine Perks kaufen!")));
     }
 

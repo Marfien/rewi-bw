@@ -19,7 +19,10 @@ import dev.marfien.rewibw.usable.UsableItemManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.StatsTracker;
 import dev.marfien.rewibw.util.Strings;
+import dev.marfien.rewibw.voting.MapVoting;
+import dev.marfien.rewibw.world.GameMap;
 import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -35,6 +38,10 @@ public class PlayingGameState extends GameState {
     private static final PlayingGameState instance = new PlayingGameState();
 
     @Getter
+    @Setter
+    private static GameMap map;
+
+    @Getter
     private static ScoreboardObjective sidebarObjective;
     @Getter
     private static ScoreboardTeam killsTeam;
@@ -43,7 +50,7 @@ public class PlayingGameState extends GameState {
     private final UsableItemManager itemManager = new UsableItemManager();
     private final Collection<BukkitTask> spawnerTasks = new ArrayList<>();
 
-    {
+    private PlayingGameState() {
         this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new UsableItemInfo(ConsumeType.NONE, event -> {
             event.getPlayer().sendMessage("Spec Inv öffnen");
         }));
@@ -72,6 +79,7 @@ public class PlayingGameState extends GameState {
 
     @Override
     public void onStart() {
+        map.load();
         TeamManager.assignTeams();
         TeamManager.broadcastTeams();
         for (GameTeam team : TeamManager.getTeams()) {
@@ -82,7 +90,7 @@ public class PlayingGameState extends GameState {
             }
         }
 
-        RewiBWPlugin.getMapVoting().getWinner().getSpawnerLocations().forEach((type, locations) -> {
+        map.getSpawnerLocations().forEach((type, locations) -> {
             this.spawnerTasks.add(type.startSpawning(locations));
         });
 

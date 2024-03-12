@@ -4,6 +4,7 @@ import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
+import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -98,7 +99,7 @@ public class PlayerDeathListener implements Listener {
         event.setRespawnLocation(
                 team != null
                         ? team.getSpawn()
-                        : RewiBWPlugin.getMapVoting().getWinner().getSpawn()
+                        : MapVoting.getWinner().getSpawn()
         );
     }
 

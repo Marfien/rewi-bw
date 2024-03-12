@@ -10,9 +10,11 @@ repositories {
     mavenCentral()
     mavenLocal()
     maven("https://jitpack.io")
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 }
 
 dependencies {
+    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
     implementation("com.github.Slikey:EffectLib:5.10-SNAPSHOT")
 

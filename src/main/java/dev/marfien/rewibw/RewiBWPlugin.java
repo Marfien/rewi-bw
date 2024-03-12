@@ -15,6 +15,7 @@ import dev.marfien.rewibw.usable.UsableItemManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameMap;
+import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -23,7 +24,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import java.io.IOException;
 import java.lang.management.RuntimeMXBean;
+import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
@@ -33,9 +36,6 @@ public class RewiBWPlugin extends JavaPlugin {
     public static final String PREFIX = "§8[§3BedWars§8] §7";
     private static RewiBWPlugin instance;
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
-
-    @Getter
-    private static MapVoting mapVoting;
 
     @Getter
     private static Collection<TeamColor> teams;
@@ -61,7 +61,7 @@ public class RewiBWPlugin extends JavaPlugin {
 
     private final UsableItemManager globalItemManager = new UsableItemManager();
 
-    {
+    private RewiBWPlugin() {
         this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
     }
 
@@ -83,22 +83,20 @@ public class RewiBWPlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         FileConfiguration config = super.getConfig();
-        mapVoting = new MapVoting(
-                config.getStringList("voting.maps")
-                        .stream()
-                        .map(GameMap::new)
-                        .collect(Collectors.toList()),
-                config.getIntegerList("voting.votableSlots")
-                        .stream()
-                        .mapToInt(i -> i)
-                        .toArray()
-        );
+        try {
+            this.getLogger().info("Loading Maps...");
+            MapPool.loadMaps(Paths.get(config.getString("maps.path")));
+        } catch (IOException e) {
+            this.getLogger().warning("Failed to load maps: " + e.getMessage());
+            throw new RuntimeException(e);
+        }
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
         GameStateManager.setActiveGameState(LobbyGameState.getInstance());
         FakeEntityManager.init();
         CustomScoreboardManager.init();
+        MapVoting.init(config.getIntegerList("voting.votableSlots").stream().mapToInt(i -> i).toArray());
         this.globalItemManager.register();
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());

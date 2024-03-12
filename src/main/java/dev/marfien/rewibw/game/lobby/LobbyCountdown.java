@@ -4,11 +4,15 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.voting.MapVoting;
+import dev.marfien.rewibw.world.MapPool;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.io.IOException;
 
 public class LobbyCountdown extends AbstractCountdown {
 
@@ -48,7 +52,7 @@ public class LobbyCountdown extends AbstractCountdown {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage("\n" + RewiBWPlugin.PREFIX + "Der Countdown hat begonnen.\n ");
         }
-        RewiBWPlugin.getMapVoting().start();
+        MapVoting.start();
     }
 
     @Override
@@ -66,7 +70,14 @@ public class LobbyCountdown extends AbstractCountdown {
 
         switch (second) {
             case 10:
-                Bukkit.getScheduler().runTask(RewiBWPlugin.getInstance(), () -> RewiBWPlugin.getMapVoting().getOrChooseWinner().load());
+                Bukkit.getScheduler().runTask(RewiBWPlugin.getInstance(), () -> {
+                    try {
+                        PlayingGameState.setMap(MapPool.requestMap(MapVoting.getOrChooseWinner()));
+                    } catch (IOException e) {
+                        // TODO better exception handling
+                        throw new RuntimeException(e);
+                    }
+                });
             case 60:
             case 30:
             case 5:
