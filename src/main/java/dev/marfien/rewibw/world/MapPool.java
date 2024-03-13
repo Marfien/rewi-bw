@@ -72,6 +72,10 @@ public class MapPool {
         return maps.values();
     }
 
+    public static Collection<String> getMapNames() {
+        return maps.keySet();
+    }
+
     public static GameMapInfo getMapInfo(String name) {
         return maps.get(name);
     }

@@ -1,6 +1,7 @@
 package dev.marfien.rewibw;
 
 import de.slikey.effectlib.EffectManager;
+import dev.marfien.rewibw.commands.ForceMapCommand;
 import dev.marfien.rewibw.commands.StartCommand;
 import dev.marfien.rewibw.fakemobs.FakeEntityManager;
 import dev.marfien.rewibw.game.GameStateManager;
@@ -103,6 +104,7 @@ public class RewiBWPlugin extends JavaPlugin {
         this.globalItemManager.register();
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
+        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand());
     }
 
     @Override
