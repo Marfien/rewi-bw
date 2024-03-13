@@ -4,6 +4,8 @@ import com.google.common.base.Preconditions;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
 import dev.marfien.rewibw.world.GameWorld;
@@ -102,6 +104,7 @@ public class TeamManager {
         if (GameStateManager.getActiveGameState() == LobbyGameState.getInstance()) {
             player.getInventory().setArmorContents(Arrays.copyOf(team.getArmor(), 3));
         }
+        SpectatorCompass.refreshInventory();
     }
 
     public static void removeTeam(Player player) {
@@ -110,6 +113,7 @@ public class TeamManager {
             player.getInventory().setArmorContents(new ItemStack[4]);
             team.removeMember(player);
         }
+        SpectatorCompass.refreshInventory();
     }
 
     public static GameTeam getTeam(Player player) {

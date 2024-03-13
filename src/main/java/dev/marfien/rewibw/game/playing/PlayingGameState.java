@@ -3,10 +3,7 @@ package dev.marfien.rewibw.game.playing;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
-import dev.marfien.rewibw.game.playing.item.MobileShop;
-import dev.marfien.rewibw.game.playing.item.Parachute;
-import dev.marfien.rewibw.game.playing.item.RescuePlatform;
-import dev.marfien.rewibw.game.playing.item.Teleporter;
+import dev.marfien.rewibw.game.playing.item.*;
 import dev.marfien.rewibw.game.playing.listener.*;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
@@ -51,9 +48,7 @@ public class PlayingGameState extends GameState {
     private final Collection<BukkitTask> spawnerTasks = new ArrayList<>();
 
     private PlayingGameState() {
-        this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new UsableItemInfo(ConsumeType.NONE, event -> {
-            event.getPlayer().sendMessage("Spec Inv öffnen");
-        }));
+        this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
         this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
         this.itemManager.putHandler(Items.MOBILE_SHOP, new MobileShop());
         this.itemManager.putHandler(Items.PARACHUTE, new Parachute());
@@ -80,8 +75,7 @@ public class PlayingGameState extends GameState {
     @Override
     public void onStart() {
         map.load();
-        TeamManager.assignTeams();
-        TeamManager.broadcastTeams();
+        // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
             Location spawn = team.getSpawn();
             for (Player member : team.getMembers()) {
@@ -90,12 +84,26 @@ public class PlayingGameState extends GameState {
             }
         }
 
+        // Start resource spawner
         map.getSpawnerLocations().forEach((type, locations) -> {
             this.spawnerTasks.add(type.startSpawning(locations));
         });
 
-        this.itemManager.register();
 
+        buildScoreboard();
+        SpectatorCompass.refreshInventory();
+        this.itemManager.register();
+        this.countdown.start();
+    }
+
+    @Override
+    public void onStop() {
+        this.countdown.stop();
+        this.itemManager.shutdown();
+        this.spawnerTasks.forEach(BukkitTask::cancel);
+    }
+
+    private static void buildScoreboard() {
         int playersPerTeam = RewiBWPlugin.getPlayersPerTeam();
         sidebarObjective = CustomScoreboardManager.registerObjective("sidebar", "dummy");
         sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -113,14 +121,6 @@ public class PlayingGameState extends GameState {
             String displayName = team.getColor().getDisplayName();
             sidebarObjective.setScore(displayName, team.size());
         }
-
-        this.countdown.start();
     }
 
-    @Override
-    public void onStop() {
-        this.countdown.stop();
-        this.itemManager.shutdown();
-        this.spawnerTasks.forEach(BukkitTask::cancel);
-    }
 }

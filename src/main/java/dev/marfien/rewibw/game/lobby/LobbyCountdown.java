@@ -4,6 +4,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import org.bukkit.Bukkit;
@@ -57,7 +58,8 @@ public class LobbyCountdown extends AbstractCountdown {
 
     @Override
     public void onStop() {
-
+        TeamManager.assignTeams();
+        TeamManager.broadcastTeams();
     }
 
     @Override

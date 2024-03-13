@@ -1,7 +1,7 @@
 package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.PlayerManager;
-import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,7 +28,7 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
-        event.setSpawnLocation(MapVoting.getWinner().getSpawn());
+        event.setSpawnLocation(PlayingGameState.getMap().getSpawn());
     }
 
     @EventHandler

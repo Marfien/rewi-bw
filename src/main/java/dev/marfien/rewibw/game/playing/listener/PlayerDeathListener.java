@@ -2,6 +2,7 @@ package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.voting.MapVoting;
@@ -99,7 +100,7 @@ public class PlayerDeathListener implements Listener {
         event.setRespawnLocation(
                 team != null
                         ? team.getSpawn()
-                        : MapVoting.getWinner().getSpawn()
+                        : PlayingGameState.getMap().getSpawn()
         );
     }
 
