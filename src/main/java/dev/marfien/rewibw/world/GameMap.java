@@ -36,6 +36,7 @@ public class GameMap extends GameWorld {
         this.loadShops();
         this.loadTeams();
         this.loadSpawner();
+
     }
 
     private void loadSpawner() {
@@ -48,13 +49,13 @@ public class GameMap extends GameWorld {
 
     private void loadTeams() {
         for (GameTeam team : TeamManager.getTeams()) {
-            String key = team.getColor().name().toLowerCase();
-            Location spawn = super.getLocation("teams." + key + ".spawn");
+            String key = "teams." + team.getColor().name().toLowerCase();
+            Location spawn = super.getLocation(key + ".spawn");
             if (spawn == null) {
                 throw new IllegalArgumentException("The spawn location for team " + key + " is not set");
             }
             team.setSpawn(spawn);
-            team.setBed(new TeamBed(team, super.getLocation("teams." + key + ".bed"), super.getEnum("teams." + key + ".bed.direction", BlockFace.class)));
+            team.setBed(new TeamBed(team, super.getLocation(key + ".bed"), super.getEnum(key + ".bed.direction", BlockFace.class)));
         }
     }
 

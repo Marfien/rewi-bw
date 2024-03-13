@@ -26,7 +26,7 @@ public class GameMapInfo {
 
 
     static GameMapInfo fromConfig(Path path) {
-        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(path.resolve("config.yaml").toFile());
+        YamlConfiguration configuration = YamlConfiguration.loadConfiguration(path.resolve(GameWorld.CONFIG_FILE).toFile());
         String name = path.getFileName().toString();
         String displayName = configuration.getString("map.displayName");
         String builder = configuration.getString("map.builder");

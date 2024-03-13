@@ -100,7 +100,7 @@ public class RewiBWPlugin extends JavaPlugin {
         GameStateManager.setActiveGameState(LobbyGameState.getInstance());
         FakeEntityManager.init();
         CustomScoreboardManager.init();
-        MapVoting.init(config.getIntegerList("voting.votableSlots").stream().mapToInt(i -> i).toArray());
+        MapVoting.init(config.getIntegerList("voting.votable-slots").stream().mapToInt(i -> i).toArray());
         this.globalItemManager.register();
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());

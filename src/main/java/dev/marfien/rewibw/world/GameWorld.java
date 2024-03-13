@@ -13,6 +13,8 @@ import java.util.*;
 @Getter
 public class GameWorld {
 
+    public static final String CONFIG_FILE = "config.yaml";
+
     private World world;
 
     private final String name;
@@ -23,7 +25,7 @@ public class GameWorld {
 
     public GameWorld(String name) {
         this.name = name;
-        this.configuration = YamlConfiguration.loadConfiguration(Bukkit.getWorldContainer().toPath().resolve(this.name).resolve("config.yaml").toFile());
+        this.configuration = YamlConfiguration.loadConfiguration(Bukkit.getWorldContainer().toPath().resolve(this.name).resolve(CONFIG_FILE).toFile());
     }
 
     public void load() {

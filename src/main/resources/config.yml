@@ -1,13 +1,11 @@
 teams:
-  playersPerTeam: 2
+  players: 2
   colors:
     - red
     - green
     - purple
     - yellow
 voting:
-  votableSlots: [1, 4, 7]
-  maps:
-    - test1
-    - test2
-    - test3
+  votable-slots: [1, 4, 7]
+maps:
+  path: maps/
