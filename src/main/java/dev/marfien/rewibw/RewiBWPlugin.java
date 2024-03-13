@@ -17,6 +17,7 @@ import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameMap;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -26,6 +27,8 @@ import org.bukkit.util.Vector;
 
 import java.io.IOException;
 import java.lang.management.RuntimeMXBean;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -103,6 +106,7 @@ public class RewiBWPlugin extends JavaPlugin {
     }
 
     @Override
+    @SneakyThrows(IOException.class)
     public void onDisable() {
         EffectManager.disposeAll();
         this.globalItemManager.shutdown();
@@ -110,8 +114,6 @@ public class RewiBWPlugin extends JavaPlugin {
             player.kickPlayer("§cDer Server wird neu gestartet");
         }
 
-        for (World world : Bukkit.getWorlds()) {
-            Bukkit.unloadWorld(world, false);
-        }
+        MapPool.cleanUp();
     }
 }

@@ -1,6 +1,8 @@
 package dev.marfien.rewibw.world;
 
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
+import org.bukkit.World;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,7 +13,9 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MapPool {
 
+    private static final Path bukkitWorldContainer = Bukkit.getWorldContainer().toPath();
     private static final Map<String, GameMapInfo> maps = new ConcurrentHashMap<>();
+    private static final Map<String, GameMap> requestedMaps = new ConcurrentHashMap<>();
 
     public static void loadMaps(Path baseDir, DuplicatePolicy policy) throws IOException {
         Files.list(baseDir)
@@ -48,8 +52,13 @@ public class MapPool {
     }
 
     public static GameMap requestMap(GameMapInfo info) throws IOException {
-        Files.copy(info.getPath(), Bukkit.getWorldContainer().toPath());
-        return new GameMap(info.getName(), info);
+        GameMap map = requestedMaps.get(info.getName());
+        if (map != null) return map;
+
+        Files.copy(info.getPath(), bukkitWorldContainer.resolve(info.getName()));
+        map = new GameMap(info.getName(), info);
+        requestedMaps.put(info.getName(), map);
+        return map;
     }
 
     public static GameMap requestMap(String name) throws IOException {
@@ -69,6 +78,19 @@ public class MapPool {
 
     public static int size() {
         return maps.size();
+    }
+
+    @SneakyThrows
+    public static void cleanUp() {
+        for (GameMap map : requestedMaps.values()) {
+            World world = map.getWorld();
+            if (world != null) {
+                world.getPlayers().forEach(player -> player.kickPlayer("§cDie Map wurde entladen."));
+                Bukkit.unloadWorld(world, false);
+            }
+
+            Files.delete(bukkitWorldContainer.resolve(map.getName()));
+        }
     }
 
     public enum DuplicatePolicy {
