@@ -7,7 +7,7 @@ services:
     tty: true
     volumes:
       - ./data/maps:/data/maps
-      - ./data/lobby:/rewibw/lobby
+      - ./data/lobby:/server/lobby
     ports:
       - 25565:25565
     environment:

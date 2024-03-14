@@ -17,7 +17,7 @@ RUN ./gradlew shadowJar
 
 FROM eclipse-temurin:8-jre-alpine
 
-WORKDIR /rewibw
+WORKDIR /server
 
 COPY --from=spigot-builder /spigot/spigot-1.8.8.jar spigot.jar
 COPY --from=plugin-builder /plugin/build/libs/*-all.jar plugins/rewibw.jar
