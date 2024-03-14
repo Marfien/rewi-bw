@@ -12,8 +12,6 @@
         <option name="upDetach" value="false" />
       </settings>
     </deployment>
-    <method v="2">
-      <option name="Gradle.BeforeRunTask" enabled="false" tasks="shadowJar" externalProjectPath="$PROJECT_DIR$" vmOptions="" scriptParameters="" />
-    </method>
+    <method v="2" />
   </configuration>
 </component>

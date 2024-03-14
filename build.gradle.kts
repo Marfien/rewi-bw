@@ -28,14 +28,3 @@ javaToolchains {
         sourceCompatibility = JavaVersion.VERSION_1_8
     }
 }
-
-tasks {
-    // Copy jar file to folder ./data after build finished
-    val copyJar by creating(Copy::class) {
-        from("build/libs")
-        into("data/plugins")
-        include("*-all.jar")
-        dependsOn("shadowJar")
-    }
-
-}
