@@ -1,5 +1,7 @@
 package dev.marfien.rewibw.world;
 
+import dev.marfien.rewibw.util.FileUtils;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -13,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class MapPool {
 
+    @Getter
     private static final Path bukkitWorldContainer = Bukkit.getWorldContainer().toPath();
     private static final Map<String, GameMapInfo> maps = new ConcurrentHashMap<>();
     private static final Map<String, GameMap> requestedMaps = new ConcurrentHashMap<>();
@@ -55,7 +58,7 @@ public class MapPool {
         GameMap map = requestedMaps.get(info.getName());
         if (map != null) return map;
 
-        Files.copy(info.getPath(), bukkitWorldContainer.resolve(info.getName()));
+        FileUtils.copyFolder(info.getPath(), bukkitWorldContainer.resolve(info.getName()));
         map = new GameMap(info.getName(), info);
         requestedMaps.put(info.getName(), map);
         return map;

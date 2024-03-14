@@ -85,19 +85,15 @@ public class RewiBWPlugin extends JavaPlugin {
     }
 
     @Override
+    @SneakyThrows(IOException.class)
     public void onEnable() {
         FileConfiguration config = super.getConfig();
-        try {
-            this.getLogger().info("Loading Maps...");
-            MapPool.loadMaps(Paths.get(config.getString("maps.path")));
-        } catch (IOException e) {
-            this.getLogger().warning("Failed to load maps: " + e.getMessage());
-            throw new RuntimeException(e);
-        }
+        this.getLogger().info("Loading Maps...");
+        MapPool.loadMaps(Paths.get(config.getString("maps.path")));
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
-        GameStateManager.setActiveGameState(LobbyGameState.getInstance());
+        GameStateManager.setActiveGameState(new LobbyGameState(config.getString("maps.lobby")));
         FakeEntityManager.init();
         CustomScoreboardManager.init();
         MapVoting.init(config.getIntegerList("voting.votable-slots").stream().mapToInt(i -> i).toArray());
