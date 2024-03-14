@@ -43,7 +43,7 @@ public class TeamManager {
         for (TeamColor teamColor : RewiBWPlugin.getTeams()) {
             String key = teamColor.name().toLowerCase();
             Location teamJoiner = lobby.getLocation("teams." + key + ".joiner");
-            List<Location> displayLocations = lobby.getLocationList("teams." + key + ".memberDisplay");
+            List<Location> displayLocations = lobby.getLocationList("teams." + key + ".displays");
 
             if (displayLocations.size() < RewiBWPlugin.getPlayersPerTeam())
                 throw new IllegalArgumentException("The memberDisplay section needs to be at least the size of players per team");

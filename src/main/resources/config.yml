@@ -8,4 +8,4 @@ teams:
 voting:
   votable-slots: [1, 4, 7]
 maps:
-  path: maps/
+  path: /data/maps/

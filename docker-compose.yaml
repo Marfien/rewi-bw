@@ -6,8 +6,8 @@ services:
     stdin_open: true
     tty: true
     volumes:
-      - maps:/data/maps
-      - data/lobby:/spigot/lobby
+      - ./data/maps:/data/maps
+      - ./data/lobby:/rewibw/lobby
     ports:
       - 25565:25565
     environment:
