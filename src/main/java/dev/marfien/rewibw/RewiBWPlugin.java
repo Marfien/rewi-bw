@@ -65,7 +65,7 @@ public class RewiBWPlugin extends JavaPlugin {
 
     private final UsableItemManager globalItemManager = new UsableItemManager();
 
-    private RewiBWPlugin() {
+    public RewiBWPlugin() {
         this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
     }
 
@@ -108,7 +108,6 @@ public class RewiBWPlugin extends JavaPlugin {
     }
 
     @Override
-    @SneakyThrows(IOException.class)
     public void onDisable() {
         EffectManager.disposeAll();
         this.globalItemManager.shutdown();

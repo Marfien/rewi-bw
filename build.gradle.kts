@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+    //compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
     compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
     implementation("com.github.Slikey:EffectLib:5.10-SNAPSHOT")
 
@@ -35,10 +35,7 @@ tasks {
         from("build/libs")
         into("data/plugins")
         include("*-all.jar")
-    }
-
-    named("shadowJar") {
-        finalizedBy("copyJar")
+        dependsOn("shadowJar")
     }
 
 }

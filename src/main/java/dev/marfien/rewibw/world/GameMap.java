@@ -24,9 +24,18 @@ public class GameMap extends GameWorld {
 
     private final Map<ResourceType, Collection<Location>> spawnerLocations = new EnumMap<>(ResourceType.class);
 
+    private final int borderX1;
+    private final int borderX2;
+    private final int borderZ1;
+    private final int borderZ2;
+
     public GameMap(String name, GameMapInfo info) {
         super(name);
         this.mapInfo = info;
+        this.borderX1 = super.getInt("border.x1");
+        this.borderX2 = super.getInt("border.x2");
+        this.borderZ1 = super.getInt("border.z1");
+        this.borderZ2 = super.getInt("border.z2");
     }
 
     @Override
