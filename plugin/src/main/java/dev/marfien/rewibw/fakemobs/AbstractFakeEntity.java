@@ -36,7 +36,7 @@ public abstract class AbstractFakeEntity implements FakeEntity {
     private Location location;
     private boolean lookAtPlayer;
 
-    public AbstractFakeEntity(MobEquipment equipment, Location location, EntityType entityType, int height, boolean lookAtPlayer) {
+    protected AbstractFakeEntity(MobEquipment equipment, Location location, EntityType entityType, int height, boolean lookAtPlayer) {
         this.equipment = equipment;
         this.location = location.clone();
         this.entityType = entityType;

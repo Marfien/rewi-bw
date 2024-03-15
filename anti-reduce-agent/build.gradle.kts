@@ -1,10 +1,17 @@
-plugins {
-    id("java")
-}
-
-group = "dev.marfien"
-version = "1.0-SNAPSHOT"
+group = parent!!.group
+version = parent!!.version
 
 dependencies {
-    implementation("com.github.Glamdring:quckfix:master-SNAPSHOT")
+    implementation("org.javassist:javassist:3.27.0-GA")
+}
+
+tasks.withType<Jar>() {
+    manifest {
+        attributes(
+            "Can-Redefine-Classes"      to "true",
+            "Can-Retransform-Classes"   to "true",
+            "Premain-Class"             to "dev.marfien.rewibw.agent.AntiReduceAgent",
+            "Agent-Class"               to "dev.marfien.rewibw.agent.AntiReduceAgent"
+        )
+    }
 }

@@ -12,3 +12,4 @@ services:
     environment:
       EULA: true
       AIKAR_FLAGS: true
+      ANTI_REDUCE: true
