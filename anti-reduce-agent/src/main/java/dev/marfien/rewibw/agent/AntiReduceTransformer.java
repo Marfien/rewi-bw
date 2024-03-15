@@ -42,6 +42,4 @@ public class AntiReduceTransformer implements ClassFileTransformer {
         return baseClass.toBytecode();
     }
 
-
-
 }
