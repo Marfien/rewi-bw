@@ -3,28 +3,31 @@ plugins {
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
-group = "dev.marfien"
-version = "1.0-SNAPSHOT"
+group = "dev.marfien.rewibw"
+version = "1.0.0"
 
-repositories {
-    mavenCentral()
-    mavenLocal()
-    maven("https://jitpack.io")
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-}
+subprojects {
+    apply(plugin = "java")
 
-dependencies {
-    //compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
-    compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
-    implementation("com.github.Slikey:EffectLib:5.10-SNAPSHOT")
+    repositories {
+        mavenCentral()
+        mavenLocal()
+        maven("https://jitpack.io")
+        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+    }
 
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
-}
+    dependencies {
+        //compileOnly("org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT")
+        compileOnly("org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT")
 
-javaToolchains {
-    java {
-        targetCompatibility = JavaVersion.VERSION_1_8
-        sourceCompatibility = JavaVersion.VERSION_1_8
+        compileOnly("org.projectlombok:lombok:1.18.30")
+        annotationProcessor("org.projectlombok:lombok:1.18.30")
+    }
+
+    javaToolchains {
+        java {
+            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = JavaVersion.VERSION_1_8
+        }
     }
 }

@@ -25,6 +25,8 @@ import java.util.ArrayList;
 @Getter
 public class LobbyGameState extends GameState {
 
+    private static final String LOBBY_WORLD_NAME = "lobby";
+
     @Getter
     private static LobbyGameState instance;
 
@@ -37,8 +39,8 @@ public class LobbyGameState extends GameState {
     public LobbyGameState(String lobbyPath) throws IOException {
         if (instance != null) throw new IllegalStateException("LobbyGameState already exists");
 
-        FileUtils.copyFolder(Paths.get(lobbyPath), MapPool.getBukkitWorldContainer().resolve("lobby"));
-        this.world = new GameWorld("lobby");
+        FileUtils.copyFolder(Paths.get(lobbyPath), MapPool.getBukkitWorldContainer().resolve(LOBBY_WORLD_NAME));
+        this.world = new GameWorld(LOBBY_WORLD_NAME);
 
         this.listeners.add(new PlayerListener());
         this.listeners.add(new LobbyWorldListener(this.world));

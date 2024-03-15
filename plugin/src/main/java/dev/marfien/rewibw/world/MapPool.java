@@ -24,8 +24,8 @@ public class MapPool {
         Files.list(baseDir)
                 .parallel()
                 .filter(Files::isDirectory)
-                .filter(path -> Files.exists(path.resolve("config.yaml")))
-                .forEach(path -> loadMap(path.resolve("config.yaml"), policy));
+                .filter(path -> Files.exists(path.resolve(GameWorld.CONFIG_FILE)))
+                .forEach(path -> loadMap(path, policy));
     }
 
     public static void loadMaps(Path baseDir) throws IOException {

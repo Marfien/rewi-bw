@@ -8,7 +8,7 @@ RUN java -jar BuildTools.jar --rev 1.8.8
 
 FROM eclipse-temurin:8-jdk AS plugin-builder
 
-WORKDIR /plugin
+WORKDIR /build
 COPY --from=spigot-builder /root/.m2/repository/org/spigotmc/ /root/.m2/repository/org/spigotmc/
 # Copy plugin source
 COPY . .
@@ -20,7 +20,8 @@ FROM eclipse-temurin:8-jre-alpine
 WORKDIR /server
 
 COPY --from=spigot-builder /spigot/spigot-1.8.8.jar spigot.jar
-COPY --from=plugin-builder /plugin/build/libs/*-all.jar plugins/rewibw.jar
+COPY --from=plugin-builder /build/plugin/build/libs/*-all.jar plugins/rewibw.jar
+COPY --from=plugin-builder /build/anti-reduce-agent/build/libs/*-all.jar agent.jar
 COPY start.sh .
 
 RUN echo "spawn-protection=0" > server.properties
