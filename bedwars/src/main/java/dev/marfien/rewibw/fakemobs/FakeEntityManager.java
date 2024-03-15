@@ -71,4 +71,11 @@ public class FakeEntityManager {
     public static int nextEntityId() {
         return ENTITY_COUNTER--;
     }
+
+    public static void unloadFor(Player player) {
+        for (FakeEntity mob : fakeEntities.values()) {
+            mob.unloadFor(player);
+        }
+    }
+
 }

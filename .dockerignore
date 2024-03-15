@@ -2,3 +2,6 @@
 .idea
 .gitignore
 .git
+
+Dockerfile
+docker-compose.yml

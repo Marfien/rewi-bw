@@ -22,11 +22,11 @@ public class FakeHologram extends FakeEntityLiving {
 
     @Override
     public void updateMetadata() {
-        DataWatcher watcher = new DataWatcher(null);
-        watcher.a(10, (byte) (0x10 | 0x08));
-        watcher.a(0, (byte) 0x20);
-        watcher.a(3, (byte) 1);
         for (Player player : super.getLoadedPlayers()) {
+            DataWatcher watcher = new DataWatcher(null);
+            watcher.a(10, (byte) (0x10 | 0x08));
+            watcher.a(0, (byte) 0x20);
+            watcher.a(3, (byte) 1);
             watcher.a(2, this.textFunction.apply(player));
             super.sendMetadataPacket(player, watcher);
         }

@@ -18,7 +18,7 @@ teams:
       z: -5.5
       pitch: 0.0
       yaw: 0.0
-    memberDisplay:
+    displays:
       - x: 8.5
         y: 65.0
         z: -8.5
@@ -36,7 +36,7 @@ teams:
       z: -5.5
       pitch: 0.0
       yaw: 0.0
-    memberDisplay:
+    displays:
       - x: 12.5
         y: 65.0
         z: -8.5
@@ -54,7 +54,7 @@ teams:
       z: -5.5
       pitch: 0.0
       yaw: 0.0
-    memberDisplay:
+    displays:
       - x: 16.5
         y: 65.0
         z: -8.5
@@ -72,7 +72,7 @@ teams:
       z: -5.5
       pitch: 0.0
       yaw: 0.0
-    memberDisplay:
+    displays:
       - x: 20.5
         y: 65.0
         z: -8.5

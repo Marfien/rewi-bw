@@ -18,7 +18,7 @@ import org.bukkit.util.NumberConversions;
 
 public class SpectatorCompass extends UsableItemInfo {
 
-    private static final Inventory SPECTATOR_INVENTORY = Bukkit.createInventory(null, NumberConversions.ceil(RewiBWPlugin.getMaxPlayers() / 9D), "§8Spielerliste");
+    private static final Inventory SPECTATOR_INVENTORY = Bukkit.createInventory(null, NumberConversions.ceil(RewiBWPlugin.getMaxPlayers() / 9D) * 9, "§8Spielerliste");
 
     public SpectatorCompass() {
         super(ConsumeType.NONE);

@@ -14,7 +14,7 @@ subprojects {
         mavenCentral()
         mavenLocal()
         maven("https://jitpack.io")
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
+        //maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     }
 
     dependencies {

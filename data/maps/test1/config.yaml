@@ -7,7 +7,7 @@ spawn:
 world:
   generator: empty
 map:
-  icon: log
+  icon: log:2
   displayName: "Medieval Mansion"
 shops:
   - x: -76.5

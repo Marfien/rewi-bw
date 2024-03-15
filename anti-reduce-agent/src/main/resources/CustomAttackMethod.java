@@ -43,9 +43,9 @@ public void attack(Entity entity) {
                 if (entityAttackResult) {
                     if (knockbackModifire > 0) {
                         entity.g((-MathHelper.sin(this.yaw * 3.1415927F / 180.0F) * (float) knockbackModifire * 0.5F), 0.1D, (double) (MathHelper.cos(this.yaw * 3.1415927F / 180.0F) * (float) knockbackModifire * 0.5F));
-                        this.motX *= 0.6D;
-                        this.motZ *= 0.6D;
                         // This is responsible for reducing knockback
+                        // this.motX *= 0.6D;
+                        // this.motZ *= 0.6D;
                         // this.setSprinting(false);
                     }
 

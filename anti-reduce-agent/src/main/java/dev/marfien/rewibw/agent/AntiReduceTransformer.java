@@ -11,32 +11,37 @@ import java.security.ProtectionDomain;
 
 public class AntiReduceTransformer implements ClassFileTransformer {
 
-    private static final String ENTITY_HUMAN_CLASS_NAME = "net/minecraft/server/v1_8_R3/EntityHuman";
-    private static final String ENTITY_CLASS_NAME = "net/minecraft/server/v1_8_R3/Entity";
-    private static final String ATTACK_METHOD_NAME = "attack";
-
     @Override
     public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined, ProtectionDomain protectionDomain, byte[] classfileBuffer) throws IllegalClassFormatException {
-        if (!className.equals(ENTITY_HUMAN_CLASS_NAME)) return null;
-
         try {
-            return replaceMethod(className);
+            ClassPool pool = ClassPool.getDefault();
+
+            switch (className) {
+                case "net/minecraft/server/v1_8_R3/EntityHuman":
+                    return replaceMethod(className, "CustomAttackMethod.java", "attack", pool.get("net.minecraft.server.v1_8_R3.Entity"));
+                case "net/minecraft/server/v1_8_R3/PacketPlayOutUpdateAttributes":
+                    return replaceMethod(className, "CustomUpdateAttributesSerializeMethod.java", "b", pool.get("net.minecraft.server.v1_8_R3.PacketDataSerializer"));
+                default:
+                    break;
+            }
         } catch (Exception e) {
             throw new IllegalClassFormatException(e.getMessage());
         }
+
+        return null;
     }
 
-    private byte[] replaceMethod(String className) throws NotFoundException, CannotCompileException, IOException {
-        String fqn = className.replace('/', '.');
+    private byte[] replaceMethod(String className, String customMethodDeclarationResource, String methodName, CtClass... parameters) throws NotFoundException,
+            CannotCompileException, IOException {
+        String javaClassName = className.replace('/', '.');
         ClassPool pool = ClassPool.getDefault();
-        CtClass baseClass = pool.get(fqn);
-        CtClass entityClass = pool.get(ENTITY_CLASS_NAME);
+        CtClass baseClass = pool.get(javaClassName);
 
-        CtMethod oldAttackMethod = baseClass.getDeclaredMethod(ATTACK_METHOD_NAME, new CtClass[] { entityClass });
-        try (BufferedReader attackMethodStream = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream("CustomAttackMethod.java")))) {
+        CtMethod method = baseClass.getDeclaredMethod(methodName, parameters);
+        try (BufferedReader attackMethodStream = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(customMethodDeclarationResource)))) {
             String methodSource = attackMethodStream.lines().reduce((a, b) -> a + b).get();
             String methodBody = methodSource.substring(methodSource.indexOf('{'));
-            oldAttackMethod.setBody(methodBody);
+            method.setBody(methodBody);
         }
 
         return baseClass.toBytecode();

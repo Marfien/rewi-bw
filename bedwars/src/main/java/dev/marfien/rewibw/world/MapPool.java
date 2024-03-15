@@ -87,19 +87,6 @@ public class MapPool {
         return maps.size();
     }
 
-    @SneakyThrows
-    public static void cleanUp() {
-        for (GameMap map : requestedMaps.values()) {
-            World world = map.getWorld();
-            if (world != null) {
-                world.getPlayers().forEach(player -> player.kickPlayer("§cDie Map wurde entladen."));
-                Bukkit.unloadWorld(world, false);
-            }
-
-            Files.delete(bukkitWorldContainer.resolve(map.getName()));
-        }
-    }
-
     public enum DuplicatePolicy {
         THROW_EXCEPTION,
         WARN,
