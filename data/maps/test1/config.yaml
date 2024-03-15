@@ -1,0 +1,101 @@
+spawn:
+  x: 0.5
+  y: 120.0
+  z: 0.5
+  yaw: 0.0
+  pitch: 0.0
+world:
+  generator: empty
+map:
+  icon: log
+  displayName: "Medieval Mansion"
+shops:
+  - x: -76.5
+    y: 75.0
+    z: -80.5
+    yaw: -45.0
+    pitch: 0.0
+  - x: 1.5
+    y: 75.0
+    z: -10.5
+    yaw: 45.0
+    pitch: 0.0
+  - x: -68.5
+    y: 75.0
+    z: 67.5
+    yaw: 135.0
+    pitch: 0.0
+  - x: -146.5
+    y: 75.0
+    z: -2.5
+    yaw: -135.0
+    pitch: 0.0
+spawner:
+  bronze:
+    - x: -143.5
+      y: 75.0
+      z: -13.5
+      yaw: 0.0
+      pitch: 0.0
+    - x: -146.5
+      y: 75.0
+      z: -14.5
+      yaw: 0.0
+      pitch: 0.0
+  silver:
+    - x: -109.5
+      y: 73.0
+      z: -5.5
+      yaw: 0.0
+      pitch: 0.0
+  gold:
+    - x: -76.5
+      y: 76.0
+      z: -2.5
+      yaw: 0.0
+      pitch: 0.0
+teams:
+  purple:
+    bed:
+      x: -150.0
+      y: 82.0
+      z: 0.0
+      direction: north
+    spawn:
+      x: -144.5
+      y: 75.0
+      z: -6.5
+      yaw: -90.0
+  green:
+    bed:
+      x: -66.0
+      y: 82.0
+      z: 70.0
+      direction: west
+    spawn:
+      x: -72.5
+      y: 75.0
+      z: 65.5
+      yaw: 180.0
+  yellow:
+    bed:
+      x: 4.0
+      y: 82.0
+      z: -14.0
+      direction: south
+    spawn:
+      x: -0.5
+      y: 75.0
+      z: -6.5
+      yaw: 90.0
+  red:
+    bed:
+      x: -80.0
+      y: 82.0
+      z: -84.0
+      direction: east
+    spawn:
+      x: -72.5
+      y: 75.0
+      z: -78.5
+      yaw: 0.0

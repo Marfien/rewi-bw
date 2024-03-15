@@ -1,0 +1,85 @@
+spawn:
+  x: 16.5
+  y: 64.0
+  z: 2.5
+  pitch: 0.0
+  yaw: 180.0
+cps:
+  x: 14.5
+  y: 64.0
+  z: 2.5
+  pitch: 0.0
+  yaw: 0.0
+teams:
+  red:
+    joiner:
+      x: 9.5
+      y: 64.0
+      z: -5.5
+      pitch: 0.0
+      yaw: 0.0
+    memberDisplay:
+      - x: 8.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+      - x: 10.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+  green:
+    joiner:
+      x: 13.5
+      y: 64.0
+      z: -5.5
+      pitch: 0.0
+      yaw: 0.0
+    memberDisplay:
+      - x: 12.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+      - x: 14.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+  yellow:
+    joiner:
+      x: 17.5
+      y: 64.0
+      z: -5.5
+      pitch: 0.0
+      yaw: 0.0
+    memberDisplay:
+      - x: 16.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+      - x: 18.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+  purple:
+    joiner:
+      x: 21.5
+      y: 64.0
+      z: -5.5
+      pitch: 0.0
+      yaw: 0.0
+    memberDisplay:
+      - x: 20.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
+      - x: 22.5
+        y: 65.0
+        z: -8.5
+        pitch: 0.0
+        yaw: 0.0
