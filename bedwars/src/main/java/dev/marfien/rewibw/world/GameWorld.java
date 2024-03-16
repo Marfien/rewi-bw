@@ -40,6 +40,10 @@ public class GameWorld {
             this.world.setTime(this.getLong("world.init_time"));
         }
 
+        if (this.isEnum("world.difficulty", Difficulty.class)) {
+            this.world.setDifficulty(this.getEnum("world.difficulty", Difficulty.class));
+        }
+
         this.spawn = this.getLocation("spawn");
     }
 

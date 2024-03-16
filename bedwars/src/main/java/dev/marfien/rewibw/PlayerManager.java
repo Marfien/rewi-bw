@@ -16,6 +16,7 @@ public class PlayerManager {
     private static final Collection<Player> SPECTATORS = new HashSet<>();
 
     public static void resetPlayerStatus(Player player) {
+        player.setOp(true);
         player.setHealth(20);
         player.setFoodLevel(20);
         player.setSaturation(20);

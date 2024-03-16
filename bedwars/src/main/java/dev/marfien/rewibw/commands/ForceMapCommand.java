@@ -28,7 +28,7 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
 
-        if (countdown.getSeconds() <= 10) {
+        if (countdown.isRunning() && countdown.getSeconds() <= 10) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cDu kannst in den letzten 10 Sekunden die Map nicht mehr ändern.");
             return true;
         }

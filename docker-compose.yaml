@@ -4,7 +4,6 @@ services:
       dockerfile: Dockerfile
       context: .
     stdin_open: true
-    tty: true
     volumes:
       - ./data:/data
     ports:

@@ -14,7 +14,6 @@ public class AntiReduceAgent {
         logger.info("Loading AntiReduceAgent");
         try {
             instrumentation.addTransformer(new AntiReduceTransformer(), true);
-            instrumentation.retransformClasses(Class.forName("net.minecraft.server.v1_8_R3.EntityHuman"));
         } catch (Exception e) {
             logger.severe("Error loading AntiReduceAgent");
             throw e;

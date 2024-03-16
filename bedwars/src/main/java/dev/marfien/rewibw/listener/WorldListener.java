@@ -43,8 +43,16 @@ public class WorldListener implements Listener {
 
     @EventHandler
     private void onEntitySpawn(CreatureSpawnEvent event) {
-        if (event.getSpawnReason() != CreatureSpawnEvent.SpawnReason.CUSTOM) {
-            event.setCancelled(true);
+        switch (event.getSpawnReason()) {
+            case NATURAL:
+            case JOCKEY:
+            case CHUNK_GEN:
+            case VILLAGE_INVASION:
+            case DEFAULT:
+            case REINFORCEMENTS:
+            case VILLAGE_DEFENSE:
+            case SILVERFISH_BLOCK:
+                event.setCancelled(true);
         }
     }
 

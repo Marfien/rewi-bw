@@ -10,6 +10,15 @@ FROM eclipse-temurin:8-jdk AS plugin-builder
 
 WORKDIR /build
 COPY --from=spigot-builder /root/.m2/repository/org/spigotmc/ /root/.m2/repository/org/spigotmc/
+
+COPY gradle/ ./gradle/
+COPY settings.gradle.kts build.gradle.kts ./
+COPY gradlew ./
+COPY anti-reduce-agent/build.gradle.kts anti-reduce-agent/
+COPY bedwars/build.gradle.kts bedwars/
+
+RUN ./gradlew --no-daemon
+
 # Copy plugin source
 COPY . .
 # build shadow jar

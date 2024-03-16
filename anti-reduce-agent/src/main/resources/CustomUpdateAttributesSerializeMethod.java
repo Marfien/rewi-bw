@@ -1,20 +1,23 @@
-public void serialize(PacketDataSerializer serializer) throws IOException {
-    serializer.b(this.a);
-    serializer.writeInt(this.b.size());
-    Iterator var2 = this.b.iterator();
+public void serialize(PacketDataSerializer $1) throws IOException {
+    System.out.println("Serializing PacketPlayOutUpdateAttributes");
+    $1.b($0.a);
+    $1.writeInt($0.b.size());
+    java.util.Iterator var2 = $0.b.iterator();
 
-    for (PacketPlayOutUpdateAttributes.AttributeSnapshot attribute : this.b) {
-        String attributeName = attribute.a();
-        serializer.a(attributeName);
-        // Attack Damage
-        serializer.writeDouble(GenericAttributes.ATTACK_DAMAGE.getName().equals(attributeName) ? 0.0 : attribute.b());
-        serializer.b(attribute.c().size());
-        Iterator var4 = attribute.c().iterator();
+    while(var2.hasNext()) {
+        net.minecraft.server.v1_8_R3.PacketPlayOutUpdateAttributes.AttributeSnapshot var3 = (net.minecraft.server.v1_8_R3.PacketPlayOutUpdateAttributes.AttributeSnapshot)var2.next();
+        String attributeName = var3.a();
+        $1.a(attributeName);
+        $1.writeDouble(.equals(attributeName) ? 0.0 : var3.b());
+        $1.b(var3.c().size());
+        java.util.Iterator var4 = var3.c().iterator();
 
-        for (AttributeModifier modifier : attribute.c()) {
-            serializer.a(modifier.a());
-            serializer.writeDouble(modifier.d());
-            serializer.writeByte(modifier.c());
+        while(var4.hasNext()) {
+            net.minecraft.server.v1_8_R3.AttributeModifier var5 = (net.minecraft.server.v1_8_R3.AttributeModifier)var4.next();
+            $1.a(var5.a());
+            $1.writeDouble(var5.d());
+            $1.writeByte(var5.c());
         }
     }
+
 }

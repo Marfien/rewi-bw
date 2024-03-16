@@ -110,7 +110,5 @@ public class RewiBWPlugin extends JavaPlugin {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.kickPlayer("§cDer Server wird neu gestartet");
         }
-
-        MapPool.cleanUp();
     }
 }
