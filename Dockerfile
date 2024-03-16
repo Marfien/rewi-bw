@@ -6,6 +6,14 @@ RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastS
 # Build Spigot 1.8.8
 RUN java -jar BuildTools.jar --rev 1.8.8
 
+FROM eclipse-temurin:8-jdk AS paper-builder
+
+WORKDIR /paper
+
+RUN wget -O spigot.jar https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/445/downloads/paper-1.8.8-445.jar
+# Will fail because of missing eula.txt
+RUN java -jar spigot.jar || true
+
 FROM eclipse-temurin:8-jdk AS plugin-builder
 
 WORKDIR /build
@@ -26,18 +34,17 @@ RUN ./gradlew shadowJar --no-daemon
 
 FROM eclipse-temurin:8-jre
 
+EXPOSE 25565
 WORKDIR /server
-
-COPY --from=spigot-builder /spigot/spigot-1.8.8.jar spigot.jar
-COPY --from=plugin-builder /build/bedwars/build/libs/*-all.jar plugins/rewibw.jar
-COPY --from=plugin-builder /build/anti-reduce-agent/build/libs/*-all.jar agent.jar
-COPY start.sh .
-
 ARG ONLINE_MODE=true
 
-RUN echo "spawn-protection=0" > server.properties
-RUN echo "allow-nether=false" >> server.properties
+COPY --from=paper-builder /paper/spigot.jar spigot.jar
+COPY --from=paper-builder /paper/cache/ cache/
+
+COPY server-bin/ ./
 RUN echo "online-mode=${ONLINE_MODE}" >> server.properties
-RUN echo "settings: { allow-end: false }" > bukkit.yml
+
+COPY --from=plugin-builder /build/bedwars/build/libs/*-all.jar plugins/rewibw.jar
+COPY --from=plugin-builder /build/anti-reduce-agent/build/libs/*-all.jar agent.jar
 
 ENTRYPOINT ["/bin/sh", "start.sh"]

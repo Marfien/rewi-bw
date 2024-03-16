@@ -1,5 +1,4 @@
 public void serialize(PacketDataSerializer $1) throws IOException {
-    System.out.println("Serializing PacketPlayOutUpdateAttributes");
     $1.b($0.a);
     $1.writeInt($0.b.size());
     java.util.Iterator var2 = $0.b.iterator();
@@ -8,7 +7,7 @@ public void serialize(PacketDataSerializer $1) throws IOException {
         net.minecraft.server.v1_8_R3.PacketPlayOutUpdateAttributes.AttributeSnapshot var3 = (net.minecraft.server.v1_8_R3.PacketPlayOutUpdateAttributes.AttributeSnapshot)var2.next();
         String attributeName = var3.a();
         $1.a(attributeName);
-        $1.writeDouble(.equals(attributeName) ? 0.0 : var3.b());
+        $1.writeDouble("generic.attackDamage".equals(attributeName) ? 0.0 : var3.b());
         $1.b(var3.c().size());
         java.util.Iterator var4 = var3.c().iterator();
 

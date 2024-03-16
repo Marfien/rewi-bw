@@ -1,0 +1,3 @@
+world-settings:
+  default:
+    keep-spawn-loaded: false

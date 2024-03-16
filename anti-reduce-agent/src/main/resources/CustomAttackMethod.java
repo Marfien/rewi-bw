@@ -1,5 +1,4 @@
 public void attack(Entity $1) {
-    System.out.println("Attack method called");
     if ($1.aD()) {
         if (!$1.l($0)) {
             float attackDamage = (float) $0.getAttributeInstance(net.minecraft.server.v1_8_R3.GenericAttributes.ATTACK_DAMAGE).getValue();
