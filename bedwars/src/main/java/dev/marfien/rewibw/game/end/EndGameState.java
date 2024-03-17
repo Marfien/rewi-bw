@@ -23,6 +23,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 public class EndGameState extends GameState {
 
     private static final GameWorld lobby = LobbyGameState.getInstance().getWorld();
+    private final EndCountdown countdown = new EndCountdown(this);
     private final GameTeam winner;
 
     @Getter
@@ -63,6 +64,7 @@ public class EndGameState extends GameState {
             );
             firework.setFireworkMeta(meta);
         }, 20L);
+        this.countdown.start();
     }
 
     @Override
