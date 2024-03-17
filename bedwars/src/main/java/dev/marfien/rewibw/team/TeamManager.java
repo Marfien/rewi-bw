@@ -122,27 +122,6 @@ public class TeamManager {
 
         player.getInventory().setArmorContents(new ItemStack[4]);
         team.removeMember(player);
-
-        if (isIngame) {
-            SpectatorCompass.refreshInventory();
-
-            if (team.size() == 0) {
-                Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
-            }
-
-            GameTeam winner = null;
-            for (GameTeam gameTeam : teams) {
-                if (gameTeam.size() == 0) continue;
-
-                // If there are more than 1 team left, return
-                if (winner != null) {
-                    Bukkit.broadcastMessage(RewiBWPlugin.PREFIX + Message.REMAINING_TEAMS.format(teams.size(), playerTeamMap.size()));
-                    return;
-                }
-                winner = gameTeam;
-            }
-            GameStateManager.setActiveGameState(new EndGameState(winner));
-        }
     }
 
     public static GameTeam getTeam(Player player) {
@@ -167,6 +146,10 @@ public class TeamManager {
                     team.getMembers().stream().map(Player::getName).reduce((a, b) -> a + ", " + b).get()));
         }
         Message.broadcast(Message.TEAM_BROADCAST_HEADER.toString());
+    }
+
+    public static Collection<Player> getPlayersWithTeam() {
+        return playerTeamMap.keySet();
     }
 
     private static class TeamListener implements Listener {

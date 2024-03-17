@@ -41,6 +41,7 @@ public class LobbyGameState extends GameState {
 
         FileUtils.copyFolder(Paths.get(lobbyPath), MapPool.getBukkitWorldContainer().resolve(LOBBY_WORLD_NAME));
         this.world = new GameWorld(LOBBY_WORLD_NAME);
+        this.world.load();
 
         this.listeners.add(new PlayerListener());
         this.listeners.add(new LobbyWorldListener(this.world.getSpawn()));

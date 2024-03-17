@@ -21,7 +21,7 @@ public class Message {
     public static final Message START_COMMAND_TOO_LATE = bad("§cDer Countdown kann nicht mehr verkürzt werden.");
     public static final Message START_COMMAND_COUNTDOWN_REDUCED = info("Der Countdown wurde verkürzt.");
 
-    public static final Message LOBBY_IDLE = system("Damit die Runde startet, müssen noch §a%d§r Spieler beitreten.");
+    public static final Message LOBBY_IDLE = info("Damit die Runde startet, müssen noch §a%d§r Spieler beitreten.");
     public static final Message LOBBY_JOIN = system("%s§r hat den Server betreten §8(§a%d§8/§a" + RewiBWPlugin.getMaxPlayers() + "§8)");
     public static final Message LOBBY_LEAVE = system("%s§r hat den Server verlassen.");
     public static final Message COUNTDOWN_BEGAN = info("Der Countdown hat begonnen.");

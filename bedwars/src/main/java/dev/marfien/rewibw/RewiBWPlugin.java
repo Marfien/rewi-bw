@@ -37,7 +37,7 @@ import java.util.stream.Collectors;
 @Getter
 public class RewiBWPlugin extends JavaPlugin {
 
-    public static final String PREFIX = "§8[§3BedWars§8] §7";
+    public static final String PREFIX = "§8[§3BedWars§8] §r";
     private static RewiBWPlugin instance;
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
 

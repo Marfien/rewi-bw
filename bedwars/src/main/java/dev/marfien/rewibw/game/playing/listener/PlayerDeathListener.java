@@ -3,7 +3,10 @@ package dev.marfien.rewibw.game.playing.listener;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.GameStateManager;
+import dev.marfien.rewibw.game.end.EndGameState;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.voting.MapVoting;
@@ -18,6 +21,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.PlayerInventory;
+
+import java.util.Collection;
 
 public class PlayerDeathListener implements Listener {
 
@@ -49,7 +54,7 @@ public class PlayerDeathListener implements Listener {
         // final death
 
         Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
-        TeamManager.removeTeam(player);
+        removeFromGame(player);
         PlayerManager.setSpectator(player);
         event.setCancelled(true);
     }
@@ -59,8 +64,9 @@ public class PlayerDeathListener implements Listener {
         Player player = event.getPlayer();
 
         if (TeamManager.hasTeam(player)) return;
+
         Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
-        TeamManager.removeTeam(player);
+        removeFromGame(player);
     }
 
     @EventHandler
@@ -70,6 +76,36 @@ public class PlayerDeathListener implements Listener {
         Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
             event.getEntity().spigot().respawn();
         }, 20);
+    }
+
+    private static void removeFromGame(Player player) {
+        GameTeam team = TeamManager.getTeam(player);
+        TeamManager.removeTeam(player);
+        SpectatorCompass.refreshInventory();
+
+        if (team.size() == 0) {
+            Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
+        }
+
+        GameTeam winner = null;
+        Collection<GameTeam> teams = TeamManager.getTeams();
+        boolean singleTeamLeft = true;
+        for (GameTeam gameTeam : teams) {
+            if (gameTeam.size() == 0) continue;
+
+            // If there are more than 1 team left, return
+            if (winner != null) {
+                singleTeamLeft = false;
+                break;
+            }
+            winner = gameTeam;
+        }
+
+        if (singleTeamLeft) {
+            GameStateManager.setActiveGameState(new EndGameState(winner));
+        } else {
+            Message.broadcast(RewiBWPlugin.PREFIX + Message.REMAINING_TEAMS.format(teams.size(), TeamManager.getPlayersWithTeam().size()));
+        }
     }
 
     private static String getDeathMessage(Player player) {

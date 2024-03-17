@@ -1,0 +1,12 @@
+teams:
+  players: 2
+  colors:
+    - red
+    - green
+    - purple
+    - yellow
+voting:
+  votable-slots: [1, 4, 7]
+maps:
+  path: /data/maps/
+  lobby: /data/lobby/

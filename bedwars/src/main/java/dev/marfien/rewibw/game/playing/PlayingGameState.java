@@ -75,6 +75,7 @@ public class PlayingGameState extends GameState {
     @Override
     public void onStart() {
         map.load();
+        TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
             Location spawn = team.getSpawn();
@@ -98,6 +99,7 @@ public class PlayingGameState extends GameState {
 
     @Override
     public void onStop() {
+        TeamManager.setIngame(false);
         this.countdown.stop();
         this.itemManager.shutdown();
         this.spawnerTasks.forEach(BukkitTask::cancel);
