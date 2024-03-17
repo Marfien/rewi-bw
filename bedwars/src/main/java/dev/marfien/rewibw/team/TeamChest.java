@@ -62,20 +62,23 @@ public class TeamChest implements Listener {
 
         Block block = event.getClickedBlock();
         if (!this.chest.equals(block)) return;
+        event.setCancelled(true);
 
         Player player = event.getPlayer();
         if (player.isSneaking() && event.getItem() != null) {
             return;
         }
 
-        if (!this.owningTeam.isMember(player)) return;
+        if (!this.owningTeam.isMember(player)) {
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_CHEST_NO_ACCESS);
+            return;
+        }
 
         if (this.viewers.add(player)) {
             this.updateViewerCount();
         }
 
         player.openInventory(this.owningTeam.getTeamChest());
-        event.setCancelled(true);
     }
 
     public void destroy() {

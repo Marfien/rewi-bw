@@ -9,6 +9,11 @@ world:
 map:
   icon: log:2
   displayName: "Medieval Mansion"
+  border:
+    x1: 30
+    x2: -170
+    z1: -110
+    z2: 90
 shops:
   - x: -76.5
     y: 75.0

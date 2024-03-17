@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.listener;
 
+import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
 import org.bukkit.event.inventory.CraftItemEvent;
+import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldInitEvent;
@@ -39,6 +41,7 @@ public class WorldListener implements Listener {
         World world = event.getWorld();
         world.setGameRuleValue("doDaylightCycle", "false");
         world.setAutoSave(false);
+        world.setDifficulty(Difficulty.NORMAL);
     }
 
     @EventHandler
@@ -90,6 +93,11 @@ public class WorldListener implements Listener {
 
     @EventHandler
     private void onBedInteract(PlayerBedEnterEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onAchievement(PlayerAchievementAwardedEvent event) {
         event.setCancelled(true);
     }
 

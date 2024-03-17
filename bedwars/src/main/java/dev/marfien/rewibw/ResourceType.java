@@ -64,6 +64,7 @@ public enum ResourceType {
         effect.type = EffectType.INSTANT;
         effect.particle = ParticleEffect.SPELL_MOB;
         effect.particles = 25;
+        effect.asynchronous = true;
         return effect;
     }
 

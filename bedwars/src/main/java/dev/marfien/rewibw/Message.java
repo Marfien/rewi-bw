@@ -60,8 +60,8 @@ public class Message {
     public static final Message TEAM_BROADCAST_FORMAT = of("▆ %sTeam %s§r: §6%s", ChatColor.WHITE);
     public static final Message VOTING_BROADCAST = of(
             " \n" +
-                    "     §o§cAbstimmung beendet! §r\n" +
-                    "     §6Karte: §a%s\n" +
+                    "          §o§cAbstimmung beendet! §r\n" +
+                    "          §6Karte: §a%s\n" +
                     " ",
             ChatColor.WHITE);
     public static final Message VOTE_CHANGED = system("Du hast deine Stimme auf §a%s§r geändert.");
@@ -75,6 +75,8 @@ public class Message {
     public static final Message SERVER_STOPPING = bad("Der Server stoppt in §a%d§r Sekunden.");
     public static final Message BROADCAST_WINNER = of("Team %s§r hat die Runde gewonnen!", ChatColor.AQUA);
     public static final Message NO_WINNER = info("Es konnte kein Team die Runde für sich entscheiden.");
+    public static final Message BLOCK_OUT_OF_MAP = bad("Du kannst hier keine Blöcke platzieren!");
+    public static final Message TEAM_CHEST_NO_ACCESS = bad("Diese Teamkiste gehört nicht deinem Team!");
 
     private final String message;
 

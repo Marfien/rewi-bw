@@ -1,10 +1,13 @@
 package dev.marfien.rewibw.game.playing.listener;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamChest;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
+import dev.marfien.rewibw.world.GameMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -57,6 +60,19 @@ public class BlockListener implements Listener {
 
         itemStack.setAmount(amount);
         item.setItemStack(itemStack);
+    }
+
+    @EventHandler(priority = EventPriority.LOWEST)
+    private void onPlaceOutOfMap(BlockPlaceEvent event) {
+        GameMap map = PlayingGameState.getMap();
+        Block block = event.getBlockPlaced();
+
+        if (block.getX() <= map.getBorderUpperX() && block.getX() >= map.getBorderLowerX()
+                && block.getZ() <= map.getBorderUpperZ() && block.getZ() >= map.getBorderLowerZ()) {
+            return;
+        }
+        event.setCancelled(true);
+        event.getPlayer().sendMessage(RewiBWPlugin.PREFIX + Message.BLOCK_OUT_OF_MAP);
     }
 
     @EventHandler(ignoreCancelled = true)

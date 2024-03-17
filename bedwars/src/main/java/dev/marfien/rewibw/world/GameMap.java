@@ -9,7 +9,6 @@ import dev.marfien.rewibw.team.TeamManager;
 import lombok.Getter;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 
 import java.util.Collection;
@@ -24,18 +23,23 @@ public class GameMap extends GameWorld {
 
     private final Map<ResourceType, Collection<Location>> spawnerLocations = new EnumMap<>(ResourceType.class);
 
-    private final int borderX1;
-    private final int borderX2;
-    private final int borderZ1;
-    private final int borderZ2;
+    private final int borderUpperX;
+    private final int borderLowerX;
+    private final int borderUpperZ;
+    private final int borderLowerZ;
 
     public GameMap(String name, GameMapInfo info) {
         super(name);
         this.mapInfo = info;
-        this.borderX1 = super.getInt("border.x1");
-        this.borderX2 = super.getInt("border.x2");
-        this.borderZ1 = super.getInt("border.z1");
-        this.borderZ2 = super.getInt("border.z2");
+        int x1 = super.getInt("map.border.x1");
+        int x2 = super.getInt("map.border.x2");
+        int z1 = super.getInt("map.border.z1");
+        int z2 = super.getInt("map.border.z2");
+
+        this.borderUpperX = Math.max(x1, x2);
+        this.borderLowerX = Math.min(x1, x2);
+        this.borderUpperZ = Math.max(z1, z2);
+        this.borderLowerZ = Math.min(z1, z2);
     }
 
     @Override

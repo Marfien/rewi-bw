@@ -10,13 +10,10 @@ import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.usable.ConsumeType;
-import dev.marfien.rewibw.usable.UsableItemInfo;
 import dev.marfien.rewibw.usable.UsableItemManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.StatsTracker;
 import dev.marfien.rewibw.util.Strings;
-import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameMap;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,6 +44,8 @@ public class PlayingGameState extends GameState {
     private final UsableItemManager itemManager = new UsableItemManager();
     private final Collection<BukkitTask> spawnerTasks = new ArrayList<>();
 
+    private BukkitTask borderTask;
+
     private PlayingGameState() {
         this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
         this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
@@ -75,6 +74,7 @@ public class PlayingGameState extends GameState {
     @Override
     public void onStart() {
         map.load();
+        borderTask = new BorderTask().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 0, 30);
         TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
@@ -103,6 +103,7 @@ public class PlayingGameState extends GameState {
         this.countdown.stop();
         this.itemManager.shutdown();
         this.spawnerTasks.forEach(BukkitTask::cancel);
+        this.borderTask.cancel();
     }
 
     private static void buildScoreboard() {

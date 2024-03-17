@@ -91,7 +91,6 @@ public class LobbyCountdown extends AbstractCountdown {
                 }
                 break;
             case 0:
-                super.stop();
                 GameStateManager.setActiveGameState(PlayingGameState.getInstance());
                 break;
         }
