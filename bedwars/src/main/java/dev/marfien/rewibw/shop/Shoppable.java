@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.shop;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.util.IntPair;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -91,7 +92,7 @@ public interface Shoppable extends ShopButton {
         }
 
         if (multiplier == 0) {
-            clicker.sendMessage("§b[Shop] §cDu hast nicht genug " + price.getType().getTranslation() + ".");
+            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
             clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
             return;
         }

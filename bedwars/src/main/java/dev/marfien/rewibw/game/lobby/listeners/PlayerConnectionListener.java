@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.lobby.listeners;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
@@ -36,7 +37,7 @@ public class PlayerConnectionListener implements Listener {
     private void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
         player.getInventory().setContents(LOBBY_CONTENTS);
-        event.setJoinMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GOLD + " hat den Server betreten " + "§8(§a" + Bukkit.getOnlinePlayers().size() + "§8/§a" + RewiBWPlugin.getMaxPlayers() + "§8)");
+        event.setJoinMessage(Message.LOBBY_JOIN.format(ChatColor.GRAY + player.getDisplayName(), Bukkit.getOnlinePlayers().size()));
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
 
@@ -53,7 +54,7 @@ public class PlayerConnectionListener implements Listener {
     private void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         MapVoting.removeVote(player);
-        event.setQuitMessage(ChatColor.GRAY + player.getDisplayName() + ChatColor.GOLD + " hat den Server verlassen");
+        event.setQuitMessage(Message.LOBBY_LEAVE.format(ChatColor.GRAY + player.getDisplayName()));
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
         int players = Bukkit.getOnlinePlayers().size() - 1;

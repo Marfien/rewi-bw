@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.item;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.fakemobs.FakeEntityManager;
 import dev.marfien.rewibw.shop.FakeDealer;
@@ -29,7 +30,7 @@ public class MobileShop extends UsableItemInfo {
         if (!event.hasBlock()) return false;
 
         if (event.getBlockFace() != BlockFace.UP) {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu kannst du Mobilen Shop nur auf dem Boden platzieren.");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.MOBILE_SHOP_NOT_GROUND);
             return false;
         }
 

@@ -15,4 +15,8 @@ public class AntiReduceAgent {
         System.out.println("AntiReduceAgent loaded");
     }
 
+    public static void agentmain(String args, Instrumentation instrumentation) throws Exception {
+        premain(args, instrumentation);
+    }
+
 }

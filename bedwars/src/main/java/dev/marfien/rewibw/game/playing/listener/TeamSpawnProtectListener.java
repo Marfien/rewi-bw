@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.listener;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
@@ -22,7 +23,7 @@ public class TeamSpawnProtectListener implements Listener {
             Block spawnBlock = team.getSpawn().getBlock();
 
             if (block.equals(spawnBlock) || blockBelow.equals(spawnBlock)) {
-                event.getPlayer().sendMessage(RewiBWPlugin.PREFIX + "Du kannst keine Blöcke auf den Spawn eines Teams plazieren.");
+                event.getPlayer().sendMessage("§8[§2HyPro§8] " + Message.CANNOT_PLACE_BLOCKS_TEAMSPAWN);
                 event.setCancelled(true);
                 return;
             }

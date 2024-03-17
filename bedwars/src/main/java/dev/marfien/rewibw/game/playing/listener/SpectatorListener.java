@@ -45,7 +45,7 @@ public class SpectatorListener implements Listener {
         if (!PlayerManager.isSpectator(player)) return;
 
         event.setCancelled(true);
-        PlayerManager.forAllSpectators(member -> member.sendMessage("§6SPECTATOR §8︳§7" + player.getName() + "§8 » §f" + event.getMessage()));
+        PlayerManager.forAllSpectators(member -> member.sendMessage("§8[§7SPECTATOR§8] §7" + player.getName() + "§8 » §f" + event.getMessage()));
     }
 
     @EventHandler

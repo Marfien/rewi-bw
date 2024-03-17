@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.team;
 
 import de.slikey.effectlib.util.ParticleEffect;
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import net.minecraft.server.v1_8_R3.BlockPosition;
 import net.minecraft.server.v1_8_R3.PacketPlayOutBlockAction;
@@ -104,7 +105,7 @@ public class TeamChest implements Listener {
 
         if (!this.owningTeam.isMember(breaker)) {
             for (Player member : this.owningTeam.getMembers()) {
-                member.sendMessage(RewiBWPlugin.PREFIX + "§cEine Teamkiste wurde zerstört!");
+                member.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_CHEST_DESTROY);
             }
         }
 

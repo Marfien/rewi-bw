@@ -1,15 +1,17 @@
 package dev.marfien.rewibw.team;
 
 import com.google.common.base.Preconditions;
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
+import dev.marfien.rewibw.game.end.EndGameState;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
-import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
-import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
-import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
 import dev.marfien.rewibw.world.GameWorld;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -30,6 +32,10 @@ public class TeamManager {
     private static final Collection<GameTeam> teams = new HashSet<>();
 
     private static final Map<Player, GameTeam> playerTeamMap = new HashMap<>();
+
+    @Getter
+    @Setter
+    private static boolean isIngame = false;
 
     public static Collection<Listener> init(GameWorld lobby) {
         Bukkit.getPluginManager().registerEvents(new TeamListener(), RewiBWPlugin.getInstance());
@@ -67,10 +73,10 @@ public class TeamManager {
     private static void assignTeam(Player player) {
         GameTeam team = getSmallestTeam();
         if (tryJoinTeam(player, team)) {
-            player.sendMessage(RewiBWPlugin.PREFIX + "Du wurdest dem Team " + team.getColor().getChatColor() + team.getColor().getName() + "§7 zugewiesen.");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_ASSIGNED.format(team.getColor().getDisplayName()));
             return;
         }
-        player.kickPlayer("Es konnte kein Team für dich gefunden werden.");
+        player.kickPlayer(Message.NO_TEAM_FOUND.toString());
     }
 
     private static GameTeam getSmallestTeam() {
@@ -104,16 +110,39 @@ public class TeamManager {
         if (GameStateManager.getActiveGameState() == LobbyGameState.getInstance()) {
             player.getInventory().setArmorContents(Arrays.copyOf(team.getArmor(), 3));
         }
-        SpectatorCompass.refreshInventory();
+
+        if (isIngame) {
+            SpectatorCompass.refreshInventory();
+        }
     }
 
     public static void removeTeam(Player player) {
         GameTeam team = playerTeamMap.remove(player);
-        if (team != null) {
-            player.getInventory().setArmorContents(new ItemStack[4]);
-            team.removeMember(player);
+        if (team == null) return;
+
+        player.getInventory().setArmorContents(new ItemStack[4]);
+        team.removeMember(player);
+
+        if (isIngame) {
+            SpectatorCompass.refreshInventory();
+
+            if (team.size() == 0) {
+                Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
+            }
+
+            GameTeam winner = null;
+            for (GameTeam gameTeam : teams) {
+                if (gameTeam.size() == 0) continue;
+
+                // If there are more than 1 team left, return
+                if (winner != null) {
+                    Bukkit.broadcastMessage(RewiBWPlugin.PREFIX + Message.REMAINING_TEAMS.format(teams.size(), playerTeamMap.size()));
+                    return;
+                }
+                winner = gameTeam;
+            }
+            GameStateManager.setActiveGameState(new EndGameState(winner));
         }
-        SpectatorCompass.refreshInventory();
     }
 
     public static GameTeam getTeam(Player player) {
@@ -130,17 +159,14 @@ public class TeamManager {
 
     public static void broadcastTeams() {
         Collection<String> teamStrings = new ArrayList<>();
+        Message.broadcast(Message.TEAM_BROADCAST_HEADER.toString());
         for (GameTeam team : teams) {
             if (team.getMembers().isEmpty()) continue;
-            teamStrings.add(team.getColor().getChatColor() + "Team " + team.getColor().getName() + "§7: §f" + team.getMembers().stream().map(Player::getName).reduce((a, b) -> a + ", " + b).orElse(""));
+            TeamColor color = team.getColor();
+            Message.broadcast(Message.TEAM_BROADCAST_FORMAT.format(color.getChatColor(), color.getName(),
+                    team.getMembers().stream().map(Player::getName).reduce((a, b) -> a + ", " + b).get()));
         }
-
-        String[] messages = teamStrings.toArray(new String[0]);
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(" \n§f§m-----------§r §3Teams §f§m-----------§r");
-            player.sendMessage(messages);
-            player.sendMessage(" ");
-        }
+        Message.broadcast(Message.TEAM_BROADCAST_HEADER.toString());
     }
 
     private static class TeamListener implements Listener {

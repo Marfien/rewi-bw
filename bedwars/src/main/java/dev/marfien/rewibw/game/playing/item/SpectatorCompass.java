@@ -30,8 +30,6 @@ public class SpectatorCompass extends UsableItemInfo {
     }
 
     public static void refreshInventory() {
-        if (!(GameStateManager.getActiveGameState() instanceof PlayingGameState)) return;
-
         ItemStack[] contents = new ItemStack[SPECTATOR_INVENTORY.getSize()];
         int slot = 0;
         for (GameTeam team : TeamManager.getTeams()) {

@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.listener;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
@@ -47,7 +48,7 @@ public class PlayerDeathListener implements Listener {
         if (team.getBed().isAlive()) return;
         // final death
 
-        Bukkit.broadcastMessage(RewiBWPlugin.PREFIX + getDeathMessage(player));
+        Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
         TeamManager.removeTeam(player);
         PlayerManager.setSpectator(player);
         event.setCancelled(true);
@@ -58,9 +59,7 @@ public class PlayerDeathListener implements Listener {
         Player player = event.getPlayer();
 
         if (TeamManager.hasTeam(player)) return;
-        for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
-            onlinePlayer.sendMessage(RewiBWPlugin.PREFIX + getDeathMessage(player));
-        }
+        Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
         TeamManager.removeTeam(player);
     }
 
@@ -77,7 +76,7 @@ public class PlayerDeathListener implements Listener {
         Player killer = player.getKiller();
 
         if (killer == null || killer == player) {
-            return player.getDisplayName() + " §7ist gestorben.";
+            return Message.PLAYER_DIED.format(player.getDisplayName());
         }
 
         long health = Math.round(killer.getHealth());
@@ -88,7 +87,7 @@ public class PlayerDeathListener implements Listener {
                         : health >= 3 ? ChatColor.RED
                         : ChatColor.DARK_RED;
 
-        return player.getDisplayName() + " §7wurde von §7" + killer.getDisplayName() + "§7[§c❤" + color + Math.round(health / 2D) + "§7] getötet.";
+        return Message.PLAYER_KILLED.format(player.getDisplayName(), killer.getDisplayName(), color.toString() + Math.round(health / 2D));
     }
 
     @EventHandler

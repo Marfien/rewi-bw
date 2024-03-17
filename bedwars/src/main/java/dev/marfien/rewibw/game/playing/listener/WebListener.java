@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.listener;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,7 +31,7 @@ public class WebListener implements Listener {
         long lastPlace = lastWebPlace.getOrDefault(player, 0L);
         if (System.currentTimeMillis() - lastPlace < 20_000) {
             event.setCancelled(true);
-            player.sendMessage(RewiBWPlugin.PREFIX + "§cDu kannst nur alle 20 Sekunden ein Cobweb platzieren.");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.WEB_COOLDOWN);
             return;
         }
 

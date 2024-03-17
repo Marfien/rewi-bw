@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.item;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.usable.ConsumeType;
 import dev.marfien.rewibw.usable.UsableItemInfo;
@@ -36,12 +37,12 @@ public class Parachute extends UsableItemInfo {
         Player clicker = event.getPlayer();
 
         if (clicker.isOnGround()) {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu steht bereits auf dem Boden.");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.PARACHUTE_ON_GROUND);
             return false;
         }
 
         if (activeParachutes.containsKey(clicker)) {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu hast bereits einen aktiven Fallschirm.");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.PARACHUTE_ALREADY_ACTIVE);
             return false;
         }
 
@@ -50,7 +51,7 @@ public class Parachute extends UsableItemInfo {
 
         clicker.setVelocity(clicker.getVelocity().setY(0));
         activeParachutes.put(clicker, Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDein Fallschirm ist kaputt gegangen.");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.PARACHUTE_BROKE);
             removeParachute(clicker);
         }, 30 * 20));
         return true;

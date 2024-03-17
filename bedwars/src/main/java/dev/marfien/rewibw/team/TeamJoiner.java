@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.team;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -45,15 +46,15 @@ public class TeamJoiner implements Listener {
 
         Player player = event.getPlayer();
         if (TeamManager.getTeam(player) == this.team) {
-            player.sendMessage(RewiBWPlugin.PREFIX + "§cDu bist bereits in diesem Team!");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.ALREADY_IN_TEAM);
             return;
         }
 
         if (TeamManager.tryJoinTeam(event.getPlayer(), this.team)) {
             player.playSound(player.getLocation(), Sound.PISTON_EXTEND, 0.7F, 1.0F);
-            player.sendMessage(RewiBWPlugin.PREFIX + "Du bist nun im Team " + this.team.getColor().getName());
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_JOINED.format(this.team.getColor().getName()));
         } else {
-            player.sendMessage(RewiBWPlugin.PREFIX + "§cDas Team ist bereits voll!");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_FULL);
         }
     }
 

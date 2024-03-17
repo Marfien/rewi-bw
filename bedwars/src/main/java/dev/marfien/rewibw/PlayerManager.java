@@ -73,4 +73,10 @@ public class PlayerManager {
         SPECTATORS.forEach(action);
     }
 
+    public static void showSpectators(Player player) {
+        for (Player spectator : SPECTATORS) {
+            if (spectator == player) continue;
+            player.showPlayer(spectator);
+        }
+    }
 }

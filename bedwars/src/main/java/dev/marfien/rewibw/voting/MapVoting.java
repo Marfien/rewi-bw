@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.voting;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.gui.GuiInventory;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.world.GameMapInfo;
@@ -99,14 +100,8 @@ public class MapVoting {
         reset();
         winner = map;
 
-        String message = "\n" +
-                "§f§m-----------§r §3Voting beendet §f§m-----------§r\n" +
-                " \n" +
-                "§7Map: §f" + map.getDisplayName() + "\n" +
-                "§7Gebaut von: §f" + Optional.ofNullable(map.getBuilder()).orElse("RewisServerTeam") + "\n ";
-
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage(message);
+            player.sendMessage(Message.VOTING_BROADCAST.format(map.getDisplayName()));
             player.playSound(player.getLocation(), Sound.ANVIL_LAND, 1.0F, 1.0F);
         }
 

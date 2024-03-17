@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.team;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import lombok.Getter;
@@ -37,7 +38,7 @@ public class TeamBed implements Listener {
         Player breaker = event.getPlayer();
         if (this.team.isMember(breaker)) {
             event.setCancelled(true);
-            breaker.sendMessage(RewiBWPlugin.PREFIX + "Du kannst dein eigenes Bett nicht zerstören.");
+            breaker.sendMessage(RewiBWPlugin.PREFIX + Message.OWN_BED_DESTROY);
             return;
         }
 
@@ -47,7 +48,7 @@ public class TeamBed implements Listener {
         this.team.getDisplayScoreboardTeam().updatePrefix();
         PlayingGameState.getSidebarObjective().removeScore(this.team.getColor().getDisplayName());
         this.team.updateScoreboardEntry();
-        Bukkit.broadcastMessage(RewiBWPlugin.PREFIX + "Das Bett von Team " + team.getColor().getDisplayName() + "§7 wurde von " + event.getPlayer().getDisplayName() + " §7zerstört.");
+        Message.broadcast(RewiBWPlugin.PREFIX + Message.BED_DESTROYED.format(this.team.getColor().getDisplayName(), breaker.getDisplayName()));
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), Sound.IRONGOLEM_DEATH, 1F, 0.8F);
         }

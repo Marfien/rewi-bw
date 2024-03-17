@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.playing.listener;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
@@ -22,8 +23,8 @@ public class MiscListener implements Listener {
         String format = player.getDisplayName() + "§8 » §f%2$s";
         String message = event.getMessage();
 
-        if (message.charAt(0) == '@') {
-            format = "§6§lGLOBAL §8︳ §r" + format;
+        if (message.charAt(0) == '@' || RewiBWPlugin.getPlayersPerTeam() == 1) {
+            format = "§6[§lGLOBAL] §r" + format;
             event.setMessage(message.substring(1));
             event.setFormat(format);
             return;
@@ -42,7 +43,7 @@ public class MiscListener implements Listener {
 
         if (PlayerManager.isSpectator(player)) return;
 
-        event.setQuitMessage(RewiBWPlugin.PREFIX + player.getDisplayName() + " §7hat das Spiel verlassen.");
+        event.setQuitMessage(RewiBWPlugin.PREFIX + Message.INGAME_LEAVE.format(player.getDisplayName()));
     }
 
 }

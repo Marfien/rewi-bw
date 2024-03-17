@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.lobby;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
@@ -33,10 +34,7 @@ public class LobbyCountdown extends AbstractCountdown {
         this.idleTask = new BukkitRunnable() {
             @Override
             public void run() {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(RewiBWPlugin.PREFIX + "Damit die Runde startet, müssen noch " + (RewiBWPlugin.getMinPlayers() - Bukkit.getOnlinePlayers().size()) + "§7 " +
-                            "Spieler beitreten.");
-                }
+                    Message.broadcast(RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(RewiBWPlugin.getMinPlayers() - Bukkit.getOnlinePlayers().size()));
             }
         }.runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 0, 20 * 30);
     }
@@ -54,9 +52,7 @@ public class LobbyCountdown extends AbstractCountdown {
     @Override
     public void onStart() {
         this.stopIdle();
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            player.sendMessage("\n" + RewiBWPlugin.PREFIX + "Der Countdown hat begonnen.\n ");
-        }
+        Message.broadcast("\n " + RewiBWPlugin.PREFIX + Message.COUNTDOWN_BEGAN + "\n ");
         MapVoting.start();
     }
 
@@ -90,7 +86,7 @@ public class LobbyCountdown extends AbstractCountdown {
             case 30:
             case 5:
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(RewiBWPlugin.PREFIX + "Die Spielphase beginnt in §f" + second + "§7 Sekunden.");
+                    player.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_STARTS_IN.format(second));
                     player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
                 }
                 break;

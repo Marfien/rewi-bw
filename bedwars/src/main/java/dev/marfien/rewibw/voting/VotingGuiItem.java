@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.voting;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.gui.GuiInventory;
 import dev.marfien.rewibw.gui.GuiItem;
@@ -40,9 +41,9 @@ public class VotingGuiItem implements GuiItem {
 
         player.playSound(player.getLocation(), Sound.ENDERDRAGON_HIT, 1.0F, 1.0F);
         if (MapVoting.hasVoted(player)) {
-            player.sendMessage(RewiBWPlugin.PREFIX + "Du hast Deine Stimme auf die Map §a" + ChatColor.stripColor(this.map.getDisplayName()) + " §7geändert.");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.VOTE_CHANGED.format(this.map.getDisplayName()));
         } else {
-            player.sendMessage(RewiBWPlugin.PREFIX + "Du hast für die Map §a" + ChatColor.stripColor(map.getDisplayName()) + " §7gestimmt.");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.VOTE_CAST.format(this.map.getDisplayName()));
         }
         player.playSound(player.getLocation(), Sound.CLICK, 1.0F, 1.0F);
         player.closeInventory();

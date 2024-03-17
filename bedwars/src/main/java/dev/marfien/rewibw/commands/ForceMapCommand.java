@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.commands;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
@@ -22,19 +23,19 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (GameStateManager.getActiveGameState() != LobbyGameState.getInstance()) {
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cDas Spiel läuft bereits.");
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_ALREADY_RUNNING);
             return true;
         }
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
 
         if (countdown.isRunning() && countdown.getSeconds() <= 10) {
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cDu kannst in den letzten 10 Sekunden die Map nicht mehr ändern.");
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.FORCEMAP_COMMAND_TOO_LATE);
             return true;
         }
 
         if (args.length != 1) {
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cVerwendung: /forcemap <name>");
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.FORCEMAP_COMMAND_USAGE);
             return true;
         }
 
@@ -42,13 +43,13 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
         GameMapInfo mapInfo = MapPool.getMapInfo(mapName);
 
         if (mapInfo == null) {
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cDie Map §f" + mapName + "§c existiert nicht.");
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§7Verfügbare Maps: §f" + MapPool.getMaps().stream().map(GameMapInfo::getName).reduce((s1, s2) -> s1 + ", " + s2).orElse("§c-"));
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.UNKNOWN_MAP.format(mapName));
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.AVAILABLE_MAPS.format(MapPool.getMaps().stream().map(GameMapInfo::getName).reduce((s1, s2) -> s1 + ", " + s2).orElse("§c-")));
             return true;
         }
 
         MapVoting.setWinner(mapInfo);
-        commandSender.sendMessage(RewiBWPlugin.PREFIX + "§aDie Map wurde auf §f" + mapInfo.getDisplayName() + "§a geändert.");
+        commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.MAP_CHANGED.format(mapInfo.getDisplayName()));
         return true;
     }
 

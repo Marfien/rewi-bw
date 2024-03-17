@@ -43,7 +43,7 @@ public class LobbyGameState extends GameState {
         this.world = new GameWorld(LOBBY_WORLD_NAME);
 
         this.listeners.add(new PlayerListener());
-        this.listeners.add(new LobbyWorldListener(this.world));
+        this.listeners.add(new LobbyWorldListener(this.world.getSpawn()));
         this.listeners.add(new PlayerConnectionListener());
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));

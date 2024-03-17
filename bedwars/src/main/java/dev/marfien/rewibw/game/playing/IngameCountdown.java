@@ -1,11 +1,10 @@
 package dev.marfien.rewibw.game.playing;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.end.EndGameState;
-import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
 
 public class IngameCountdown extends AbstractCountdown {
 
@@ -32,18 +31,16 @@ public class IngameCountdown extends AbstractCountdown {
         PlayingGameState.getSidebarObjective().setDisplayName("§3BedWars §7- §b" + timeString);
 
         if (isTimeValidForBroadcast(totalSeconds, minutes)) {
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                player.sendMessage(RewiBWPlugin.PREFIX + "Das Spiel endet in §f" + (
-                        totalSeconds > 60
-                                ? minutes + "§7 Minuten."
-                                : totalSeconds + "§7 Sekunden."
-                ));
-            }
+            Message.broadcast(RewiBWPlugin.PREFIX + (
+                    totalSeconds > 60
+                            ? Message.GAME_ENDS_IN_MINUTES.format(minutes)
+                            : Message.GAME_ENDS_IN_SECONDS.format(totalSeconds)
+            ));
         }
 
         if (totalSeconds > 0) return;
 
-        GameStateManager.setActiveGameState(EndGameState.getInstance());
+        GameStateManager.setActiveGameState(new EndGameState(null));
     }
 
     private static boolean isTimeValidForBroadcast(int totalSeconds, int minutes) {

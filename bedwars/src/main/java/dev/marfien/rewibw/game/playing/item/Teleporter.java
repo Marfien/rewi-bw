@@ -3,6 +3,7 @@ package dev.marfien.rewibw.game.playing.item;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.CircleEffect;
 import de.slikey.effectlib.util.ParticleEffect;
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
@@ -63,12 +64,12 @@ public class Teleporter extends UsableItemInfo {
         if (team == null) return false;
 
         if (teleportingPlayers.containsKey(clicker)) {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu bist bereits im Teleportier-Vorgang!");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.ALREADY_TELEPORTING);
             return false;
         }
 
         if (checkUnderBlocks(clicker.getLocation())) {
-            clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu musst unter freiem Himmel stehen!");
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.TELEPORTER_BELOW_BLOCK);
             return false;
         }
 
@@ -132,7 +133,7 @@ public class Teleporter extends UsableItemInfo {
                 return;
             }
 
-            player.sendMessage(RewiBWPlugin.PREFIX + "§cDer Teleport wurde abgebrochen!");
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TELEPORT_CANCELLED);
             teleportingPlayers.remove(player).cancel();
         }
 
@@ -163,14 +164,14 @@ public class Teleporter extends UsableItemInfo {
         public void run() {
             Location location = this.clicker.getLocation();
             if (checkUnderBlocks(location)) {
-                this.clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu musst unter freiem Himmel stehen!");
+                this.clicker.sendMessage(RewiBWPlugin.PREFIX + Message.TELEPORTER_BELOW_BLOCK);
                 teleportingPlayers.remove(this.clicker);
                 this.cancel();
                 return;
             }
 
             if (!inventory.containsAtLeast(Items.TELEPORTER, 1)) {
-                this.clicker.sendMessage(RewiBWPlugin.PREFIX + "§cDu hast keinen Teleporter mehr!");
+                this.clicker.sendMessage(RewiBWPlugin.PREFIX + Message.TELEPORTER_LOST);
                 teleportingPlayers.remove(this.clicker);
                 super.cancel();
                 return;
