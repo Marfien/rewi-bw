@@ -45,8 +45,7 @@ public class BorderTask extends BukkitRunnable {
     private static void drawBorderX(EntityPlayer player, float x, float y, float z) {
         for (float yOffset = -BORDER_DISPLACE_HEIGHT; yOffset < BORDER_DISPLACE_HEIGHT; yOffset += 0.5F) {
             for (float zOffset = -BORDER_DISPLACE_WIDTH; zOffset < BORDER_DISPLACE_WIDTH; zOffset += 0.5F) {
-                player.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(PARTICLE_EFFECT, false, x,  y + yOffset, z + zOffset, 0, 0, 0, 0, 1));
+                spawnParticle(player, x, y + yOffset, z + zOffset);
             }
         }
     }
@@ -54,10 +53,14 @@ public class BorderTask extends BukkitRunnable {
     private static void drawBorderZ(EntityPlayer player, float x, float y, float z) {
         for (float yOffset = -BORDER_DISPLACE_HEIGHT; yOffset < BORDER_DISPLACE_HEIGHT; yOffset += 0.5F) {
             for (float xOffset = -BORDER_DISPLACE_WIDTH; xOffset < BORDER_DISPLACE_WIDTH; xOffset += 0.5F) {
-                player.playerConnection.sendPacket(
-                        new PacketPlayOutWorldParticles(PARTICLE_EFFECT, false, x + xOffset, y + yOffset, z, 0, 0, 0, 0, 1));
+                spawnParticle(player, x + xOffset, y + yOffset, z);
             }
         }
+    }
+
+    private static void spawnParticle(EntityPlayer player, float x, float y, float z) {
+        player.playerConnection.sendPacket(
+                new PacketPlayOutWorldParticles(PARTICLE_EFFECT, false, x, y, z, 0, 0, 0, 1, 1));
     }
 
 }
