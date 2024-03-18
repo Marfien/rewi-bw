@@ -9,7 +9,6 @@ import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;

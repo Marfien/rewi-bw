@@ -1,7 +1,6 @@
 package dev.marfien.rewibw.scoreboard;
 
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.Validate;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.DisplaySlot;

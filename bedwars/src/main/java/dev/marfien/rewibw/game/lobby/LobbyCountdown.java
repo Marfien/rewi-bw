@@ -7,9 +7,7 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.voting.MapVoting;
-import dev.marfien.rewibw.world.GameMap;
 import dev.marfien.rewibw.world.MapPool;
-import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -18,7 +16,6 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Supplier;
 
 public class LobbyCountdown extends AbstractCountdown {
 

@@ -2,9 +2,7 @@ package dev.marfien.rewibw.world;
 
 import dev.marfien.rewibw.util.FileUtils;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
-import org.bukkit.World;
 
 import java.io.IOException;
 import java.nio.file.Files;

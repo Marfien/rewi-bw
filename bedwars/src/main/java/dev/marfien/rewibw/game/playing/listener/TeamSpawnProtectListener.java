@@ -1,7 +1,6 @@
 package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.Message;
-import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.block.Block;

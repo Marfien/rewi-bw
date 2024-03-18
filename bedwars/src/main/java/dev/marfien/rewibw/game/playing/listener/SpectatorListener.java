@@ -2,7 +2,6 @@ package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
-import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
