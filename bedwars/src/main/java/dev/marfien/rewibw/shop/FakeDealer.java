@@ -5,6 +5,7 @@ import com.mojang.authlib.properties.Property;
 import dev.marfien.rewibw.fakemobs.FakePlayer;
 import dev.marfien.rewibw.fakemobs.MobEquipment;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 
 public class FakeDealer extends FakePlayer {
@@ -21,6 +22,7 @@ public class FakeDealer extends FakePlayer {
 
     public FakeDealer(Location location) {
         super(new MobEquipment(), location, false, PROFILE);
+        location.getWorld().getNearbyEntities(location, 0.1, 0.1, 0.1).forEach(Entity::remove);
     }
 
     @Override

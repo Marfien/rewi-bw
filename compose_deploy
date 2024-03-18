@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+docker compose down || true
+docker rmi rewi-bw-minecraft-server || true
+
+docker compose up -d
+docker attach rewi-bw-minecraft-server-1

@@ -61,7 +61,7 @@ public class BorderTask extends BukkitRunnable {
 
     private static void spawnParticle(EntityPlayer player, float x, float y, float z) {
         player.playerConnection.sendPacket(
-                new PacketPlayOutWorldParticles(PARTICLE_EFFECT, false, x, y, z, 0, 0, 0, 1, 1));
+                new PacketPlayOutWorldParticles(PARTICLE_EFFECT, false, x, y, z, 0, 0, 0, 0, 0));
     }
 
 }
