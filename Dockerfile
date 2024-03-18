@@ -32,6 +32,7 @@ COPY . .
 # build shadow jar
 RUN ./gradlew shadowJar --no-daemon
 
+# TODO: Somehow use alpine
 FROM eclipse-temurin:8-jre
 
 EXPOSE 25565
