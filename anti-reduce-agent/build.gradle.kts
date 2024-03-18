@@ -2,7 +2,7 @@ group = parent!!.group
 version = parent!!.version
 
 dependencies {
-    implementation("org.javassist:javassist:3.27.0-GA")
+    implementation(libs.javassist)
 }
 
 tasks.withType<Jar>() {
