@@ -32,14 +32,12 @@ COPY . .
 # build shadow jar
 RUN ./gradlew shadowJar --no-daemon
 
-FROM eclipse-temurin:8-jre-alpine
+FROM eclipse-temurin:8-jre
 
 EXPOSE 25565
 WORKDIR /server
 ARG ONLINE_MODE=true
 
-# Copy ssl certificates
-COPY --from=spigot-builder /etc/ssl/certs/ /etc/ssl/certs/
 # Copy server jars
 COPY --from=paper-builder /paper/spigot.jar spigot.jar
 COPY --from=paper-builder /paper/cache/ cache/
