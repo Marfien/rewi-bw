@@ -6,7 +6,7 @@ spawn:
 world:
   generator: empty
 map:
-  icon: log2:1
+  icon: log_2:1
   displayName: "Medieval Mansion"
   border:
     x1: 21

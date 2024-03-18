@@ -80,7 +80,7 @@ spawner:
       z: 77.5
     - x: -15.5
       y: 88.0
-      z: 77.5
+      z: 78.5
   gold:
     - x: 26.5
       y: 89.0
@@ -114,9 +114,9 @@ teams:
       z: 155.0
       direction: north
     spawn:
-      x: 27.0
+      x: 27.5
       y: 88.0
-      z: 145.0
+      z: 145.5
       yaw: 180.0
   green:
     bed:
@@ -149,5 +149,5 @@ teams:
     spawn:
       x: 29.5
       y: 88.0
-      z: 1.5
+      z: 11.5
       yaw: 0.0

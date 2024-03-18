@@ -78,6 +78,8 @@ public class Message {
     public static final Message BLOCK_OUT_OF_MAP = bad("Du kannst hier keine Blöcke platzieren!");
     public static final Message TEAM_CHEST_NO_ACCESS = bad("Diese Teamkiste gehört nicht deinem Team!");
     public static final Message PLAYER_NOT_FOUND = bad("Der Spieler konnte nicht gefunden werden.");
+    public static final Message DEATH_TITLE = system("Du bist gestorben");
+    public static final Message DEATH_TITLE_KILLED = system("Du wurdest getötet");
 
     private final String message;
 

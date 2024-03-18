@@ -56,6 +56,12 @@ public class PlayerDeathListener implements Listener {
         removeFromGame(player);
         PlayerManager.setSpectator(player);
         event.setCancelled(true);
+        player.sendTitle(
+                player.getKiller() != null && player.getKiller() != player
+                        ? Message.DEATH_TITLE_KILLED.toString()
+                        : Message.DEATH_TITLE.toString(),
+                ""
+        );
     }
 
     @EventHandler

@@ -19,7 +19,7 @@ import java.util.Collection;
 @AllArgsConstructor
 public enum ResourceType {
 
-    BRONZE(ChatColor.RED, "Bronze", Material.CLAY_BRICK, null, 10),
+    BRONZE(ChatColor.RED, "Bronze", Material.CLAY_BRICK, null, 12),
     SILVER(ChatColor.GRAY, "Eisen", Material.IRON_INGOT, Color.SILVER, 10 * 20),
     GOLD(ChatColor.GOLD, "Gold", Material.GOLD_INGOT, Color.YELLOW, 30 * 20);
 

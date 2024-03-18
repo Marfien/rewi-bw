@@ -31,7 +31,7 @@ public class GameMapInfo {
         String displayName = configuration.getString("map.displayName");
         String builder = configuration.getString("map.builder");
         String[] iconString = configuration.getString("map.icon").split(":");
-        Material icon = Material.getMaterial(iconString[0].toUpperCase());
+        Material icon = Material.matchMaterial(iconString[0]);
         short iconData = iconString.length > 1 ? Short.parseShort(iconString[1]) : 0;
 
         System.out.println("Loaded map: " + name + " (" + displayName + ")" + " by " + builder + " with icon " + icon + ":" + iconData);
