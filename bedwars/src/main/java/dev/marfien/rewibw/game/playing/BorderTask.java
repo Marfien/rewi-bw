@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.game.playing;
 
 import net.minecraft.server.v1_8_R3.*;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.CraftWorld;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -25,19 +26,19 @@ public class BorderTask extends BukkitRunnable {
             EntityPlayer player = (EntityPlayer) human;
 
             if (Math.abs(player.locX - borderLowerX) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderX(player, borderLowerX, (float) player.locY, (float) player.locZ);
+                drawBorderX(player, borderLowerX, Location.locToBlock(player.locY) + 0.5F, Location.locToBlock(player.locZ) + 0.5F);
             }
 
             if (Math.abs(player.locX - borderUpperX) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderX(player, borderUpperX, (float) player.locY, (float) player.locZ);
+                drawBorderX(player, borderUpperX, Location.locToBlock(player.locY) + 0.5F, Location.locToBlock(player.locZ) + 0.5F);
             }
 
             if (Math.abs(player.locZ - borderLowerZ) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderZ(player, (float) player.locX, (float) player.locY, borderLowerZ);
+                drawBorderZ(player, Location.locToBlock(player.locX) + 0.5F, Location.locToBlock(player.locY) + 0.5F, borderLowerZ);
             }
 
             if (Math.abs(player.locZ - borderUpperZ) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderZ(player, (float) player.locX, (float) player.locY, borderUpperZ);
+                drawBorderZ(player, Location.locToBlock(player.locX) + 0.5F, Location.locToBlock(player.locY) + 0.5F, borderUpperZ);
             }
         }
     }

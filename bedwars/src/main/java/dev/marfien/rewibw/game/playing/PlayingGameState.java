@@ -74,7 +74,7 @@ public class PlayingGameState extends GameState {
     @Override
     public void onStart() {
         map.load();
-        borderTask = new BorderTask().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 0, 30);
+        borderTask = new BorderTask().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 20, 20);
         TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
