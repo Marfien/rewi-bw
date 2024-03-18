@@ -46,14 +46,6 @@ public class PlayingGameState extends GameState {
 
     private BukkitTask borderTask;
 
-    private PlayingGameState() {
-        this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
-        this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
-        this.itemManager.putHandler(Items.MOBILE_SHOP, new MobileShop());
-        this.itemManager.putHandler(Items.PARACHUTE, new Parachute());
-        this.itemManager.putHandler(Items.TELEPORTER, new Teleporter());
-    }
-
     private final Listener[] listeners = new Listener[]{
             new MapProtectionListener(),
             new WebListener(),
@@ -64,7 +56,16 @@ public class PlayingGameState extends GameState {
             new BlockListener(),
             new Parachute.ParachuteListener(),
             new Teleporter.TeleporterListener(),
+            new SpectatorCompass.SpectatorCompassListener()
     };
+
+    private PlayingGameState() {
+        this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
+        this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
+        this.itemManager.putHandler(Items.MOBILE_SHOP, new MobileShop());
+        this.itemManager.putHandler(Items.PARACHUTE, new Parachute());
+        this.itemManager.putHandler(Items.TELEPORTER, new Teleporter());
+    }
 
     @Override
     public Listener[] getListeners() {
