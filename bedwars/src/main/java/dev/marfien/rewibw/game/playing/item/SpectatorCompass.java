@@ -1,8 +1,6 @@
 package dev.marfien.rewibw.game.playing.item;
 
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.game.GameStateManager;
-import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.usable.ConsumeType;
