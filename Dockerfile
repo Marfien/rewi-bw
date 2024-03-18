@@ -38,8 +38,9 @@ EXPOSE 25565
 WORKDIR /server
 ARG ONLINE_MODE=true
 
-# Copy ssl certificates from spigot-builder
+# Copy ssl certificates
 COPY --from=spigot-builder /etc/ssl/certs/ /etc/ssl/certs/
+# Copy server jars
 COPY --from=paper-builder /paper/spigot.jar spigot.jar
 COPY --from=paper-builder /paper/cache/ cache/
 
