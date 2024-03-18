@@ -6,7 +6,7 @@ RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastS
 # Build Spigot 1.8.8
 RUN java -jar BuildTools.jar --rev 1.8.8
 
-FROM eclipse-temurin:8-jdk AS paper-builder
+FROM eclipse-temurin:8-jdk-alpine AS paper-builder
 
 WORKDIR /paper
 
@@ -32,12 +32,14 @@ COPY . .
 # build shadow jar
 RUN ./gradlew shadowJar --no-daemon
 
-# TODO: Somehow use alpine
-FROM eclipse-temurin:8-jre
+FROM eclipse-temurin:8-jre-alpine
 
 EXPOSE 25565
 WORKDIR /server
 ARG ONLINE_MODE=true
+
+# Otherwise we encounter ssl handshake_failure with online mode
+RUN if [ "$ONLINE_MODE" = "true" ]; then apk --update upgrade && apk add --no-cache libgcc; fi
 
 # Copy server jars
 COPY --from=paper-builder /paper/spigot.jar spigot.jar
