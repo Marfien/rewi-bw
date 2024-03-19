@@ -6,6 +6,9 @@ plugins {
 group = "dev.marfien.rewibw"
 version = "1.0.0"
 
+val lombokVersion = "1.18.30"
+val lombok = "org.projectlombok:lombok:$lombokVersion"
+
 subprojects {
     apply(plugin = "java")
 
@@ -17,8 +20,8 @@ subprojects {
     }
 
     dependencies {
-        compileOnly("org.projectlombok:lombok:1.18.30")
-        annotationProcessor("org.projectlombok:lombok:1.18.30")
+        compileOnly(lombok)
+        annotationProcessor(lombok)
     }
 
     javaToolchains {

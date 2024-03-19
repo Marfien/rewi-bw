@@ -2,6 +2,7 @@ package dev.marfien.rewibw.setuptool.command;
 
 import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
+import dev.marfien.rewibw.setuptool.item.*;
 import dev.marfien.rewibw.shared.world.EmptyChunkGenerator;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import org.bukkit.Location;
@@ -63,15 +64,15 @@ public class SetupCommand implements CommandExecutor {
 
         Inventory inventory = player.getInventory();
         inventory.clear();
-        inventory.setItem(0, ItemBuilder.of(Material.HARD_CLAY).setDisplayName("§aBronze-Spawner hinzufügen").asItemStack());
-        inventory.setItem(1, ItemBuilder.of(Material.IRON_BLOCK).setDisplayName("§aEisen-Spawner hinzufügen").asItemStack());
-        inventory.setItem(2, ItemBuilder.of(Material.GOLD_BLOCK).setDisplayName("§aGold-Spawner hinzufügen").asItemStack());
+        inventory.setItem(0, BronzeSpawnerAdder.ITEM);
+        inventory.setItem(1, SilverSpawnerAdder.ITEM);
+        inventory.setItem(2, GoldSpawnerAdder.ITEM);
 
-        inventory.setItem(4, ItemBuilder.of(Material.ARMOR_STAND).setDisplayName("§aShop hinzufügen").asItemStack());
-        inventory.setItem(5, ItemBuilder.of(Material.GLASS).setDisplayName("§aSpectator-Spawn setzen").asItemStack());
+        inventory.setItem(4, ShopAdder.ITEM);
+        inventory.setItem(5, SpecSpawnSetter.ITEM);
 
-        inventory.setItem(7, ItemBuilder.of(Material.BANNER).setDisplayName("§aTeam hinzufügen").asItemStack());
-        inventory.setItem(8, ItemBuilder.of(Material.REDSTONE_BLOCK).setDisplayName("§cPosition entfernen").asItemStack());
+        inventory.setItem(7, TeamAdder.ITEM);
+        inventory.setItem(8, LocationRemover.ITEM);
         return false;
     }
 

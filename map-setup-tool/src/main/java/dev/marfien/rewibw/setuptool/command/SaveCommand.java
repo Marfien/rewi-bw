@@ -33,8 +33,14 @@ public class SaveCommand implements CommandExecutor {
                 : Paths.get(String.join(" ", args));
 
         player.sendMessage("§7Saving map config...");
-        session.save(savePath);
-        player.sendMessage("§aMap config saved.");
+        try {
+            session.save(savePath);
+            player.sendMessage("§aMap config saved.");
+        } catch (Exception e) {
+            player.sendMessage("§cFailed to save map config: " + e.getMessage());
+            e.printStackTrace();
+            return true;
+        }
 
         return false;
     }
