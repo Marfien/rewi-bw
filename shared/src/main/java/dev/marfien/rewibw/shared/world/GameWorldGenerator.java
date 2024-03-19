@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.shared;
+package dev.marfien.rewibw.shared.world;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.shared;
+package dev.marfien.rewibw.shared.world;
 
 import org.bukkit.World;
 import org.bukkit.generator.BlockPopulator;

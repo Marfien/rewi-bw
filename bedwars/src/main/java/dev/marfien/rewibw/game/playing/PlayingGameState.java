@@ -10,7 +10,7 @@ import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.usable.UsableItemManager;
+import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.StatsTracker;
 import dev.marfien.rewibw.util.Strings;
@@ -94,7 +94,7 @@ public class PlayingGameState extends GameState {
 
         buildScoreboard();
         SpectatorCompass.refreshInventory();
-        this.itemManager.register();
+        this.itemManager.register(RewiBWPlugin.getInstance());
         this.countdown.start();
     }
 

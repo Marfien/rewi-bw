@@ -2,7 +2,7 @@ package dev.marfien.rewibw.setuptool.command;
 
 import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
-import dev.marfien.rewibw.shared.EmptyChunkGenerator;
+import dev.marfien.rewibw.shared.world.EmptyChunkGenerator;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import org.bukkit.Location;
 import org.bukkit.Material;

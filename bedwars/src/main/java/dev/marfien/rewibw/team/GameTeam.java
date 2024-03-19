@@ -5,6 +5,7 @@ import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
+import dev.marfien.rewibw.shared.TeamColor;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;

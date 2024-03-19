@@ -1,9 +1,9 @@
 package dev.marfien.rewibw.shop;
 
 import dev.marfien.rewibw.ResourceType;
-import dev.marfien.rewibw.gui.GuiInventory;
+import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.util.InventoryUtil;
+import dev.marfien.rewibw.shared.InventoryUtil;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.util.Items;
 import org.bukkit.ChatColor;

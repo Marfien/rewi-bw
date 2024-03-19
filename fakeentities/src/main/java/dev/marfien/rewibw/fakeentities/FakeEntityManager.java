@@ -1,8 +1,9 @@
-package dev.marfien.rewibw.fakemob;
+package dev.marfien.rewibw.fakeentities;
 
-import dev.marfien.rewibw.RewiBWPlugin;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -18,9 +19,13 @@ public class FakeEntityManager {
 
     private static final Map<Integer, FakeEntity> fakeEntities = new HashMap<>();
 
-    public static void init() {
-        Bukkit.getPluginManager().registerEvents(new FakeEntityUpdateListener(), RewiBWPlugin.getInstance());
-        Bukkit.getPluginManager().registerEvents(new ProtocolListener(), RewiBWPlugin.getInstance());
+    @Getter
+    private static Plugin plugin;
+
+    public static void init(Plugin plugin) {
+        FakeEntityManager.plugin = plugin;
+        Bukkit.getPluginManager().registerEvents(new FakeEntityUpdateListener(plugin), plugin);
+        Bukkit.getPluginManager().registerEvents(new ProtocolListener(), plugin);
     }
 
     public static Collection<FakeEntity> getFakeEntities() {

@@ -1,7 +1,7 @@
 package dev.marfien.rewibw.shop;
 
-import dev.marfien.rewibw.gui.GuiInventory;
-import dev.marfien.rewibw.gui.GuiItem;
+import dev.marfien.rewibw.shared.gui.GuiInventory;
+import dev.marfien.rewibw.shared.gui.GuiItem;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 public interface ShopButton extends GuiItem {

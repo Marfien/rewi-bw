@@ -1,7 +1,7 @@
 package dev.marfien.rewibw.world;
 
 import dev.marfien.rewibw.ResourceType;
-import dev.marfien.rewibw.fakemob.FakeEntityManager;
+import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.shop.FakeDealer;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamBed;

@@ -2,9 +2,9 @@ package dev.marfien.rewibw.util;
 
 import com.mojang.authlib.GameProfile;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.fakemob.FakeHologram;
-import dev.marfien.rewibw.fakemob.FakePlayer;
-import dev.marfien.rewibw.fakemob.MobEquipment;
+import dev.marfien.rewibw.fakeentities.FakeHologram;
+import dev.marfien.rewibw.fakeentities.FakePlayer;
+import dev.marfien.rewibw.fakeentities.MobEquipment;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
 import net.minecraft.server.v1_8_R3.WorldSettings;
 import org.bukkit.Bukkit;

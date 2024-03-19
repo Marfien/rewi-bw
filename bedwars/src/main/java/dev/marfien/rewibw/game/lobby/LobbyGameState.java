@@ -1,14 +1,15 @@
 package dev.marfien.rewibw.game.lobby;
 
-import dev.marfien.rewibw.fakemob.FakeEntityManager;
+import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.usable.ConsumeType;
-import dev.marfien.rewibw.usable.UsableItemInfo;
-import dev.marfien.rewibw.usable.UsableItemManager;
+import dev.marfien.rewibw.shared.usable.ConsumeType;
+import dev.marfien.rewibw.shared.usable.UsableItemInfo;
+import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.util.CpsTester;
 import dev.marfien.rewibw.util.FileUtils;
 import dev.marfien.rewibw.util.Items;
@@ -58,7 +59,7 @@ public class LobbyGameState extends GameState {
 
     @Override
     public void onStart() {
-        this.itemManager.register();
+        this.itemManager.register(RewiBWPlugin.getInstance());
         this.countdown.startIdle();
         this.world.load();
         FakeEntityManager.spawn(new CpsTester(this.world.getLocation("cps")));

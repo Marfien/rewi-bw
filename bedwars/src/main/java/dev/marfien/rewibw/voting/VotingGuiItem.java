@@ -2,8 +2,8 @@ package dev.marfien.rewibw.voting;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.gui.GuiInventory;
-import dev.marfien.rewibw.gui.GuiItem;
+import dev.marfien.rewibw.shared.gui.GuiInventory;
+import dev.marfien.rewibw.shared.gui.GuiItem;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.world.GameMapInfo;
 import lombok.RequiredArgsConstructor;

@@ -6,6 +6,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
+import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.world.GameWorld;
 import lombok.Getter;
 import lombok.Setter;

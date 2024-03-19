@@ -1,8 +1,9 @@
-package dev.marfien.rewibw.gui;
+package dev.marfien.rewibw.shared.gui;
 
-import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.util.InventoryUtil;
+import dev.marfien.rewibw.shared.InventoryUtil;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -21,6 +23,10 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 
 public class GuiInventory {
+
+    @Getter
+    @Setter
+    private static Plugin plugin;
 
     private final GuiItem[] items;
     private final Function<Player, String> titleFactory;
@@ -33,7 +39,7 @@ public class GuiInventory {
         this.titleFactory = titleFactory;
         this.useCache = useCache;
 
-        Bukkit.getPluginManager().registerEvents(this.new EventListener(), RewiBWPlugin.getInstance());
+        Bukkit.getPluginManager().registerEvents(this.new EventListener(), plugin);
     }
 
     public GuiInventory(int rows, Function<Player, String> titleFactory) {

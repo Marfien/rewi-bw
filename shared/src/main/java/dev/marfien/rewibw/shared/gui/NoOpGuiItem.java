@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.gui;
+package dev.marfien.rewibw.shared.gui;
 
 import org.bukkit.event.inventory.InventoryClickEvent;
 

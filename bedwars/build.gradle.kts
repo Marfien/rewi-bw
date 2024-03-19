@@ -10,4 +10,5 @@ dependencies {
     compileOnly(libs.spigot)
     implementation(libs.effectlib)
     implementation(project(":shared"))
+    implementation(project(":fakeentities"))
 }

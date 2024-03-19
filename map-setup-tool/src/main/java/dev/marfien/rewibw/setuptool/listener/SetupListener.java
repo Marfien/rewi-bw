@@ -48,10 +48,10 @@ public class SetupListener implements Listener {
         SetupSession session = SetupToolPlugin.getSession(player);
 
         if (session == null) return;
-        event.setCancelled(true);
         Block targetBlock = event.getClickedBlock().getRelative(event.getBlockFace());
         Location location = toCleanLocation(targetBlock.getLocation());
 
+        boolean cancel = true;
         switch (event.getItem().getType()) {
             case HARD_CLAY:
                 session.getBronzeSpawns().add(location);
@@ -91,7 +91,12 @@ public class SetupListener implements Listener {
                 addLocationEffect(location, ParticleEffect.FLAME, null, null);
                 player.sendMessage("§aSpectator-Spawn set.");
                 break;
+            default:
+                cancel = false;
+                break;
         }
+
+        if (cancel) event.setCancelled(true);
     }
 
     @EventHandler

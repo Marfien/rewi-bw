@@ -1,6 +1,6 @@
-package dev.marfien.rewibw.fakemob;
+package dev.marfien.rewibw.fakeentities;
 
-import dev.marfien.rewibw.RewiBWPlugin;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -10,13 +10,17 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
+import org.bukkit.plugin.Plugin;
 
+@RequiredArgsConstructor
 public class FakeEntityUpdateListener implements Listener {
+
+    private final Plugin plugin;
 
     @EventHandler
     public void onPlayerTeleport(PlayerTeleportEvent event) {
         final Player player = event.getPlayer();
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> FakeEntityManager.updateView(player), 5L);
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> FakeEntityManager.updateView(player), 5L);
     }
 
     @EventHandler
@@ -41,7 +45,7 @@ public class FakeEntityUpdateListener implements Listener {
 
     @EventHandler
     public void onPlayerJoined(PlayerJoinEvent event) {
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> {
             Player player = event.getPlayer();
             FakeEntityManager.updateView(player);
             FakeEntityManager.smoothUpdateView(player);
@@ -90,7 +94,7 @@ public class FakeEntityUpdateListener implements Listener {
     @EventHandler
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         final Player player = event.getPlayer();
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> FakeEntityManager.updateView(player), 10L);
+        Bukkit.getScheduler().runTaskLater(this.plugin, () -> FakeEntityManager.updateView(player), 10L);
     }
 
     @EventHandler

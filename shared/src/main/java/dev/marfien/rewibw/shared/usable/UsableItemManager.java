@@ -1,6 +1,5 @@
-package dev.marfien.rewibw.usable;
+package dev.marfien.rewibw.shared.usable;
 
-import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -8,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
 
@@ -20,8 +20,8 @@ public class UsableItemManager {
         this.listener = this.new EventListener();
     }
 
-    public void register() {
-        Bukkit.getPluginManager().registerEvents(this.listener, RewiBWPlugin.getInstance());
+    public void register(Plugin plugin) {
+        Bukkit.getPluginManager().registerEvents(this.listener, plugin);
     }
 
     public void shutdown() {

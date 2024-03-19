@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.fakemob;
+package dev.marfien.rewibw.fakeentities;
 
 import io.netty.buffer.Unpooled;
 import lombok.AccessLevel;

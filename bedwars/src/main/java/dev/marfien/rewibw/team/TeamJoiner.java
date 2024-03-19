@@ -2,6 +2,7 @@ package dev.marfien.rewibw.team;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.shared.TeamColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;

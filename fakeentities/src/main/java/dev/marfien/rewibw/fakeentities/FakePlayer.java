@@ -1,7 +1,6 @@
-package dev.marfien.rewibw.fakemob;
+package dev.marfien.rewibw.fakeentities;
 
 import com.mojang.authlib.GameProfile;
-import dev.marfien.rewibw.RewiBWPlugin;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import lombok.Setter;
@@ -84,7 +83,7 @@ public class FakePlayer extends AbstractFakeEntity {
         } catch (IllegalAccessException e) {
             // ignored
         }
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> this.removeFromTabList(player), 20 * 2L);
+        Bukkit.getScheduler().runTaskLater(FakeEntityManager.getPlugin(), () -> this.removeFromTabList(player), 20 * 2L);
     }
 
     @SneakyThrows

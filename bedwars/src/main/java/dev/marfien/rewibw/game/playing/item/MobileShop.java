@@ -2,10 +2,10 @@ package dev.marfien.rewibw.game.playing.item;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.fakemob.FakeEntityManager;
+import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.shop.FakeDealer;
-import dev.marfien.rewibw.usable.ConsumeType;
-import dev.marfien.rewibw.usable.UsableItemInfo;
+import dev.marfien.rewibw.shared.usable.ConsumeType;
+import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;

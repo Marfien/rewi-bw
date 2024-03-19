@@ -1,7 +1,7 @@
 package dev.marfien.rewibw.voting;
 
 import dev.marfien.rewibw.Message;
-import dev.marfien.rewibw.gui.GuiInventory;
+import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.world.GameMapInfo;
 import dev.marfien.rewibw.world.MapPool;
