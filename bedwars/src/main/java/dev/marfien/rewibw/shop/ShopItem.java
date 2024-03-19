@@ -1,7 +1,7 @@
 package dev.marfien.rewibw.shop;
 
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.util.ItemBuilder;
+import dev.marfien.rewibw.shared.ItemBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.Location;

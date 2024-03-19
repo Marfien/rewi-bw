@@ -6,7 +6,7 @@ import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.HelixEffect;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.shop.ShopPrice;
-import dev.marfien.rewibw.util.ItemBuilder;
+import dev.marfien.rewibw.shared.ItemBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.bukkit.*;

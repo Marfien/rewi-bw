@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.world;
 
+import dev.marfien.rewibw.shared.GameWorldGenerator;
 import dev.marfien.rewibw.util.Position;
 import lombok.Getter;
 import org.bukkit.*;

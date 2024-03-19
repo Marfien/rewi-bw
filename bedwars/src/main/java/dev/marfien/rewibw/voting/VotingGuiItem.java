@@ -4,7 +4,7 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.gui.GuiInventory;
 import dev.marfien.rewibw.gui.GuiItem;
-import dev.marfien.rewibw.util.ItemBuilder;
+import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.world.GameMapInfo;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;

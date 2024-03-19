@@ -1,6 +1,6 @@
 api-version: 1.8.8
 author: Marfien
-name: RewiBW
+name: RewiBW-SetupTool
 version: 1.0.0
 main: dev.marfien.rewibw.setuptool.SetupToolPlugin
 
@@ -9,3 +9,7 @@ commands:
     description: Setup a new map
     usage: /setup <mapName>
     permission: rewibw.setup
+  save:
+    description: Save the current map
+    usage: /save [path]
+    permission: rewibw.save

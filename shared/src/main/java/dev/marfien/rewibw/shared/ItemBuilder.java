@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.util;
+package dev.marfien.rewibw.shared;
 
 import org.bukkit.Color;
 import org.bukkit.Material;

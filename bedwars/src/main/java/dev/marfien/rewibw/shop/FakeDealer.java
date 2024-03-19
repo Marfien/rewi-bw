@@ -22,7 +22,6 @@ public class FakeDealer extends FakePlayer {
 
     public FakeDealer(Location location) {
         super(new MobEquipment(), location, false, PROFILE);
-        location.getWorld().getNearbyEntities(location, 0.1, 0.1, 0.1).forEach(Entity::remove);
     }
 
     @Override
