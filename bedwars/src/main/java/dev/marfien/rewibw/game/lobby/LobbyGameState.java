@@ -1,6 +1,6 @@
 package dev.marfien.rewibw.game.lobby;
 
-import dev.marfien.rewibw.fakemobs.FakeEntityManager;
+import dev.marfien.rewibw.fakemob.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;

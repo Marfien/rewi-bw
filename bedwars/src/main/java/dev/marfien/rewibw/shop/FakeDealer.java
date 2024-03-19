@@ -2,8 +2,8 @@ package dev.marfien.rewibw.shop;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
-import dev.marfien.rewibw.fakemobs.FakePlayer;
-import dev.marfien.rewibw.fakemobs.MobEquipment;
+import dev.marfien.rewibw.fakemob.FakePlayer;
+import dev.marfien.rewibw.fakemob.MobEquipment;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;

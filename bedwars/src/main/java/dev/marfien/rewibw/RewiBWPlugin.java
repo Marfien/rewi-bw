@@ -1,9 +1,9 @@
 package dev.marfien.rewibw;
 
 import de.slikey.effectlib.EffectManager;
-import dev.marfien.rewibw.commands.ForceMapCommand;
-import dev.marfien.rewibw.commands.StartCommand;
-import dev.marfien.rewibw.fakemobs.FakeEntityManager;
+import dev.marfien.rewibw.command.ForceMapCommand;
+import dev.marfien.rewibw.command.StartCommand;
+import dev.marfien.rewibw.fakemob.FakeEntityManager;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.listener.PlayerConnectionListener;

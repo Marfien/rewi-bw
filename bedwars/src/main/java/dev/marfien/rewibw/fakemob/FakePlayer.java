@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.fakemobs;
+package dev.marfien.rewibw.fakemob;
 
 import com.mojang.authlib.GameProfile;
 import dev.marfien.rewibw.RewiBWPlugin;

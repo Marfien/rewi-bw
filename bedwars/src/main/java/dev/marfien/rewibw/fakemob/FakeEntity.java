@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.fakemobs;
+package dev.marfien.rewibw.fakemob;
 
 import net.minecraft.server.v1_8_R3.MathHelper;
 import org.bukkit.Chunk;

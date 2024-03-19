@@ -1,3 +1,7 @@
+plugins {
+    alias(libs.plugins.shadow)
+}
+
 group = parent!!.group
 version = parent!!.version
 

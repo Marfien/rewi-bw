@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.fakemobs;
+package dev.marfien.rewibw.fakemob;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Bukkit;

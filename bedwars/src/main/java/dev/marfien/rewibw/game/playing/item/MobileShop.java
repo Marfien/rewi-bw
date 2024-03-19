@@ -2,7 +2,7 @@ package dev.marfien.rewibw.game.playing.item;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.fakemobs.FakeEntityManager;
+import dev.marfien.rewibw.fakemob.FakeEntityManager;
 import dev.marfien.rewibw.shop.FakeDealer;
 import dev.marfien.rewibw.usable.ConsumeType;
 import dev.marfien.rewibw.usable.UsableItemInfo;

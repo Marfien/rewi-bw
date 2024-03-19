@@ -1,8 +1,8 @@
 package dev.marfien.rewibw.team;
 
-import dev.marfien.rewibw.fakemobs.FakeEntityManager;
-import dev.marfien.rewibw.fakemobs.FakePlayer;
-import dev.marfien.rewibw.fakemobs.MobEquipment;
+import dev.marfien.rewibw.fakemob.FakeEntityManager;
+import dev.marfien.rewibw.fakemob.FakePlayer;
+import dev.marfien.rewibw.fakemob.MobEquipment;
 import lombok.Getter;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

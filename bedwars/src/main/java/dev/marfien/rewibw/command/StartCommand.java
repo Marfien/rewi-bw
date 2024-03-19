@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.commands;
+package dev.marfien.rewibw.command;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;

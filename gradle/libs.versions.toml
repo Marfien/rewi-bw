@@ -1,6 +1,13 @@
+[versions]
+spigot = "1.8.8-R0.1-SNAPSHOT"
+
 [libraries]
-spigot = { group = "org.spigotmc", name = "spigot", version = "1.8.8-R0.1-SNAPSHOT" }
+spigot = { group = "org.spigotmc", name = "spigot", version.ref = "spigot" }
+spigot-api = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigot" }
 effectlib = { group = "com.github.Slikey", name = "EffectLib", version = "5.10-SNAPSHOT" }
 javassist = { group = "org.javassist", name = "javassist", version = "3.27.0-GA" }
 # Cannot be used in subproject scope
 lombok = { group = "org.projectlombok", name = "lombok", version = "1.18.30" }
+
+[plugins]
+shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

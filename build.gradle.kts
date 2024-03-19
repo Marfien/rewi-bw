@@ -1,6 +1,6 @@
 plugins {
     id("java")
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    alias(libs.plugins.shadow)
 }
 
 group = "dev.marfien.rewibw"
@@ -8,7 +8,6 @@ version = "1.0.0"
 
 subprojects {
     apply(plugin = "java")
-    apply(plugin = "com.github.johnrengelman.shadow")
 
     repositories {
         mavenCentral()
