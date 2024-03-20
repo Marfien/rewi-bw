@@ -2,8 +2,10 @@ services:
   minecraft-server:
     platform: linux/x86_64
     build:
-      dockerfile: Dockerfile
+      dockerfile: bedwars/Dockerfile
       context: .
+      additional_contexts:
+
     stdin_open: true
     volumes:
       - ./data:/data
