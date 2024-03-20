@@ -3,10 +3,10 @@ package dev.marfien.rewibw.team;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.perk.PerkManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -50,7 +50,7 @@ public class TeamBed implements Listener {
         this.team.updateScoreboardEntry();
         Message.broadcast(RewiBWPlugin.PREFIX + Message.BED_DESTROYED.format(this.team.getColor().getDisplayName(), breaker.getDisplayName()));
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), Sound.IRONGOLEM_DEATH, 1F, 0.8F);
+            player.playSound(player.getLocation(), PerkManager.getBedDestroySoundPerk().getOrDefault(player), 1F, 0.8F);
         }
     }
 

@@ -5,6 +5,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.playing.item.*;
 import dev.marfien.rewibw.game.playing.listener.*;
+import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
@@ -95,6 +96,7 @@ public class PlayingGameState extends GameState {
         buildScoreboard();
         SpectatorCompass.refreshInventory();
         this.itemManager.register(RewiBWPlugin.getInstance());
+        PerkManager.init(RewiBWPlugin.getInstance());
         this.countdown.start();
     }
 
