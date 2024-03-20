@@ -3,12 +3,15 @@ package dev.marfien.rewibw.perk;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.RewiBWPlugin;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.ProjectileHitEvent;
 import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.projectiles.ProjectileSource;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
@@ -16,10 +19,15 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ProjectileParticlePerk extends AbstractPerk<ParticleEffect> {
+public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>> {
 
-    public ProjectileParticlePerk(ParticleEffect defaultPerk) {
-        super(defaultPerk, ProjectileParticlePerkListener.class);
+    public ProjectileTailPerkGroup(ItemStack displayItem, DataPerk<ParticleEffect> defaultPerk, DataPerk<ParticleEffect>... perks) {
+        super(displayItem, defaultPerk, perks);
+    }
+
+    @Override
+    public void init(Plugin plugin) {
+        Bukkit.getPluginManager().registerEvents(new ProjectileParticlePerkListener(), plugin);
     }
 
     public class ProjectileParticlePerkListener implements Listener {
@@ -32,12 +40,13 @@ public class ProjectileParticlePerk extends AbstractPerk<ParticleEffect> {
             if (!(shooter instanceof Player)) return;
             Player player = (Player) shooter;
 
-            ParticleEffect effect = getOrDefault(player);
+            DataPerk<ParticleEffect> data = getOrDefault(player);
+            ParticleEffect effect = data.getData();
 
-            if (effect != null) {
-                Projectile projectile = event.getEntity();
-                this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 2));
-            }
+            if (effect == null) return;
+
+            Projectile projectile = event.getEntity();
+            this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 2));
         }
 
         @EventHandler

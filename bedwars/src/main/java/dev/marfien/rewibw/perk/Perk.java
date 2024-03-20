@@ -1,23 +1,12 @@
 package dev.marfien.rewibw.perk;
 
-import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
+import lombok.Data;
+import org.bukkit.inventory.ItemStack;
 
-public interface Perk<T> {
+@Data
+public abstract class Perk {
 
-    T getPerk(Player player);
-
-    T getDefault();
-
-    void setPerk(Player player, T perk);
-
-    void unsetPerk(Player player);
-
-    Listener getListener();
-
-    default T getOrDefault(Player player) {
-        T perk = getPerk(player);
-        return perk == null ? getDefault() : perk;
-    }
+    private final String name;
+    private final ItemStack displayItem;
 
 }

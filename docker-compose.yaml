@@ -1,15 +1,22 @@
 services:
-  minecraft-server:
+  rewi-bw-server:
     platform: linux/x86_64
-    build:
-      dockerfile: bedwars/Dockerfile
-      context: .
-      additional_contexts:
-
-    stdin_open: true
+    image: marfiens/rewi-bw-server:latest
     volumes:
       - ./data:/data
       - ./data/RewiBW/:/server/plugins/RewiBW/
+    ports:
+      - 25565:25565
+    environment:
+      EULA: true
+      AIKAR_FLAGS: true
+      ANTI_REDUCE: true
+  rewi-bw-setup-tool:
+    platform: linux/x86_64
+    image: marfiens/rewi-bw-setup-tool:latest
+    volumes:
+      - ./data:/data
+      - ./data/import/:/server/
     ports:
       - 25565:25565
     environment:

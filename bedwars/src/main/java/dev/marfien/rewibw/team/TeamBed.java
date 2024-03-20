@@ -50,7 +50,7 @@ public class TeamBed implements Listener {
         this.team.updateScoreboardEntry();
         Message.broadcast(RewiBWPlugin.PREFIX + Message.BED_DESTROYED.format(this.team.getColor().getDisplayName(), breaker.getDisplayName()));
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.playSound(player.getLocation(), PerkManager.getBedDestroySoundPerk().getOrDefault(player), 1F, 0.8F);
+            player.playSound(player.getLocation(), PerkManager.getBedDestroySoundPerkGroup().getOrDefault(player), 1F, 0.8F);
         }
     }
 

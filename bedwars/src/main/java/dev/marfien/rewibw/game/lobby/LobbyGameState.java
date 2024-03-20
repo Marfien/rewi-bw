@@ -6,6 +6,7 @@ import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
+import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
@@ -49,7 +50,7 @@ public class LobbyGameState extends GameState {
         this.listeners.add(new PlayerConnectionListener());
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));
-        this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().sendMessage("§cDu kannst keine Perks kaufen!")));
+        this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> PerkManager.openGui(event.getPlayer())));
         instance = this;
     }
 
