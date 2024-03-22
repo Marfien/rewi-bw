@@ -21,6 +21,7 @@ import java.util.Map;
 
 public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>> {
 
+    @SafeVarargs
     public ProjectileTailPerkGroup(ItemStack displayItem, DataPerk<ParticleEffect> defaultPerk, DataPerk<ParticleEffect>... perks) {
         super(displayItem, defaultPerk, perks);
     }

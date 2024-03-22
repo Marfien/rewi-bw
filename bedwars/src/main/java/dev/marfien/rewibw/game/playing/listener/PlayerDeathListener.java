@@ -62,6 +62,11 @@ public class PlayerDeathListener implements Listener {
                         : Message.DEATH_TITLE.toString(),
                 ""
         );
+
+        Player killer = player.getKiller();
+        if (killer != null && killer != player) {
+
+        }
     }
 
     @EventHandler
