@@ -1,7 +1,6 @@
 package dev.marfien.rewibw.shop;
 
 import dev.marfien.rewibw.Message;
-import dev.marfien.rewibw.util.IntPair;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -10,7 +9,6 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 
 public interface Shoppable extends ShopButton {
@@ -59,13 +57,13 @@ public interface Shoppable extends ShopButton {
 
         ItemStack[] inventoryContents = playerInventory.getContents();
 
-        List<IntPair> slots = new LinkedList<>();
+        List<int[]> slots = new ArrayList<>(inventoryContents.length / 2);
 
         // Collect all the slots with matching resource type
         for (int i = 0; i < inventoryContents.length; i++) {
             ItemStack current = inventoryContents[i];
             if (current != null && price.getType().getMaterial() == current.getType()) {
-                slots.add(new IntPair(i, current.getAmount()));
+                slots.add(new int[]{i, current.getAmount()});
             }
         }
 
@@ -76,19 +74,17 @@ public interface Shoppable extends ShopButton {
         }
 
         // Sort them so we get the one with the lowest quantity first
-        slots.sort(Comparator.comparingInt(IntPair::getSecond));
+        slots.sort(Comparator.comparingInt(slot -> slot[1]));
 
         // Calculate all slots we need to remove and check how many times this purchase will be done
         int resourcesFound = 0;
         int multiplier = 0;
 
         int index = 0;
-        IntPair[] usedSlots = new IntPair[slots.size()];
-        for (IntPair slot : slots) {
-            // first: slot index
-            // second: amount
-            resourcesFound += slot.getSecond();
-            usedSlots[index++] = slot;
+        int[][] usedSlots = new int[slots.size()][2];
+        for (int[] slotAndAmount : slots) {
+            resourcesFound += slotAndAmount[1];
+            usedSlots[index++] = slotAndAmount;
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();
@@ -100,13 +96,13 @@ public interface Shoppable extends ShopButton {
             if (multiplier >= maxMultiplier) break;
         }
 
-        IntPair last = usedSlots[usedSlots.length - 1];
+        int lastSlot = usedSlots[usedSlots.length - 1][0];
 
         // Clear the slots and set the last one to the rest of it
         int rest = resourcesFound;
-        for (IntPair slot : usedSlots) {
-            int inventorySlot = slot.getFirst();
-            if (rest > 0 && slot == last) {
+        for (int[] slotAndAmount : usedSlots) {
+            int inventorySlot = slotAndAmount[0];
+            if (rest > 0 && inventorySlot == lastSlot) {
                 inventoryContents[inventorySlot].setAmount(rest);
             } else {
                 inventoryContents[inventorySlot] = null;
