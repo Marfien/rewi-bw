@@ -13,7 +13,7 @@ import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.util.StatsTracker;
+import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.util.Strings;
 import dev.marfien.rewibw.world.GameMap;
 import lombok.Getter;
@@ -120,7 +120,7 @@ public class PlayingGameState extends GameState {
         sidebarObjective.setScore("§6Kills", playersPerTeam + 3);
         killsTeam = CustomScoreboardManager.registerTeam("stat_kills");
         killsTeam.addEntry("§1");
-        killsTeam.setPrefix(player -> "§r" + StatsTracker.getKills(player.getUniqueId()));
+        killsTeam.setPrefix(player -> "§r" + StatisticsManager.getKills(player.getUniqueId()));
         sidebarObjective.setScore("§1", playersPerTeam + 2);
         sidebarObjective.setScore("§2", playersPerTeam + 1);
         for (GameTeam team : TeamManager.getTeams()) {

@@ -26,4 +26,5 @@ public class Items {
     public static final ItemStack TNT = ItemBuilder.of(Material.TNT).setDisplayName(ChatColor.GOLD + "TNT").asItemStack();
     public static final ItemStack PARACHUTE = ItemBuilder.of(Material.MONSTER_EGG).setDisplayName(ChatColor.GOLD + "Fallschirm").asItemStack();
     public static final ItemStack RESCUE_PLATFORM = ItemBuilder.of(Material.NETHER_STAR).setDisplayName(ChatColor.GOLD + "Rettungsplattform").asItemStack();
+
 }
