@@ -8,6 +8,7 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
@@ -68,18 +69,26 @@ public interface Shoppable extends ShopButton {
             }
         }
 
+        if (slots.isEmpty()) {
+            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
+            clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
+            return;
+        }
+
         // Sort them so we get the one with the lowest quantity first
         slots.sort(Comparator.comparingInt(IntPair::getSecond));
 
         // Calculate all slots we need to remove and check how many times this purchase will be done
         int resourcesFound = 0;
         int multiplier = 0;
-        LinkedList<IntPair> usedSlots = new LinkedList<>();
+
+        int index = 0;
+        IntPair[] usedSlots = new IntPair[slots.size()];
         for (IntPair slot : slots) {
             // first: slot index
             // second: amount
             resourcesFound += slot.getSecond();
-            usedSlots.add(slot);
+            usedSlots[index++] = slot;
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();
@@ -91,24 +100,18 @@ public interface Shoppable extends ShopButton {
             if (multiplier >= maxMultiplier) break;
         }
 
-        if (multiplier == 0) {
-            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
-            clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
-            return;
-        }
-
-        IntPair last = usedSlots.getLast();
+        IntPair last = usedSlots[usedSlots.length - 1];
 
         // Clear the slots and set the last one to the rest of it
         int rest = resourcesFound;
-        usedSlots.forEach(slot -> {
+        for (IntPair slot : usedSlots) {
             int inventorySlot = slot.getFirst();
             if (rest > 0 && slot == last) {
                 inventoryContents[inventorySlot].setAmount(rest);
             } else {
                 inventoryContents[inventorySlot] = null;
             }
-        });
+        }
 
         playerInventory.setContents(inventoryContents);
 

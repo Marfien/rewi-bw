@@ -31,7 +31,7 @@ public class CpsTester extends FakePlayer {
             return "§6CPS: §a" + (cps == null ? "0 §7& §a0" : cps[0] + " §7& §a" + cps[1]);
         }, "§6CPS: §a0 §7& §a0");
         Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
-            hologram.updateMetadata();
+            this.hologram.updateMetadata();
             cps.clear();
         }, 0, 20);
 
@@ -55,24 +55,24 @@ public class CpsTester extends FakePlayer {
     @Override
     public void smoothUpdateFor(Player player) {
         super.smoothUpdateFor(player);
-        hologram.smoothUpdateFor(player);
+        this.hologram.smoothUpdateFor(player);
     }
 
     @Override
     public void loadFor(Player player) {
         super.loadFor(player);
-        hologram.loadFor(player);
+        this.hologram.loadFor(player);
     }
 
     @Override
     public void unloadFor(Player player) {
         super.unloadFor(player);
-        hologram.unloadFor(player);
+        this.hologram.unloadFor(player);
     }
 
     @Override
     public void teleport(Location location) {
         super.teleport(location);
-        hologram.teleport(location.clone().add(0, 2.2, 0));
+        this.hologram.teleport(location.clone().add(0, 2.2, 0));
     }
 }
