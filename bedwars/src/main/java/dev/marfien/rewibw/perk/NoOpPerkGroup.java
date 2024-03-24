@@ -10,8 +10,4 @@ public class NoOpPerkGroup<P extends Perk> extends PerkGroup<P> {
         super(displayItem, defaultPerk, perks);
     }
 
-    @Override
-    public void init(Plugin plugin) {
-        // Do nothing
-    }
 }

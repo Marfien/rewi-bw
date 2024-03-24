@@ -2,6 +2,7 @@ package dev.marfien.rewibw.perk;
 
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import dev.marfien.rewibw.shared.gui.GuiInventory;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -17,6 +18,7 @@ public class PerkManager {
             new DataPerk<>("Skelett-Tod", ItemBuilder.of(Material.BONE).setDisplayName("§9Skelett-Tod").asItemStack(), Sound.SKELETON_DEATH),
             new DataPerk<>("Wither-Tod", ItemBuilder.of(Material.SKULL_ITEM).setDamage((short) 1).setDisplayName("§9Wither-Tod").asItemStack(), Sound.WITHER_DEATH)
     );
+
     public static final NoOpPerkGroup<DataPerk<Sound>> KILL_SOUND_PERK_GROUP = new NoOpPerkGroup<>(
             ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§6Kill-Sound").asItemStack(),
             null,
@@ -30,14 +32,16 @@ public class PerkManager {
             new DataPerk<>("Verwandlung", ItemBuilder.of(Material.GOLDEN_APPLE).setDisplayName("§eVerwandlung").asItemStack(), Sound.ZOMBIE_UNFECT)
     );
 
-    private static final PerkGroup<?>[] PERK_GROUPS = new PerkGroup<?>[]{
-            new ItemPerkGroup(
-                    ItemBuilder.of(Material.STICK).setDisplayName("§6Knüppel").asItemStack(),
-                    new ItemStackDataPerk("Knüppel", ItemBuilder.of(Material.STICK).setDisplayName("§cKnüppel").asItemStack()),
-                    new ItemStackDataPerk("Knochen", ItemBuilder.of(Material.BONE).setDisplayName("§cKnochen").asItemStack()),
-                    new ItemStackDataPerk("Blazerod", ItemBuilder.of(Material.BLAZE_ROD).setDisplayName("§cBlazerod").asItemStack()),
-                    new ItemStackDataPerk("Feder", ItemBuilder.of(Material.FEATHER).setDisplayName("§cFeder").asItemStack())
-            ),
+    public static final ItemPerkGroup STICK_PERK_GROUP = new ItemPerkGroup(
+            ItemBuilder.of(Material.STICK).setDisplayName("§6Knüppel").asItemStack(),
+            new ItemStackDataPerk("Knüppel", ItemBuilder.of(Material.STICK).setDisplayName("§cKnüppel").asItemStack()),
+            new ItemStackDataPerk("Knochen", ItemBuilder.of(Material.BONE).setDisplayName("§cKnochen").asItemStack()),
+            new ItemStackDataPerk("Blazerod", ItemBuilder.of(Material.BLAZE_ROD).setDisplayName("§cBlazerod").asItemStack()),
+            new ItemStackDataPerk("Feder", ItemBuilder.of(Material.FEATHER).setDisplayName("§cFeder").asItemStack())
+    );
+
+    static final PerkGroup<?>[] PERK_GROUPS = new PerkGroup<?>[]{
+            STICK_PERK_GROUP,
             BED_DESTROY_SOUND_PERK_GROUP,
             KILL_SOUND_PERK_GROUP,
             new ProjectileTailPerkGroup(
@@ -55,11 +59,11 @@ public class PerkManager {
 
     public static void init(Plugin plugin) {
         for (PerkGroup<?> perkGroup : PERK_GROUPS) {
-            perkGroup.init(plugin);
+            perkGroup.init(plugin, PERK_GROUPS);
         }
     }
 
     public static void openGui(Player player) {
-        // TODO
+        STICK_PERK_GROUP.openGui(player);
     }
 }

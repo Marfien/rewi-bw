@@ -27,7 +27,8 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
     }
 
     @Override
-    public void init(Plugin plugin) {
+    public void init(Plugin plugin, PerkGroup<?>[] perkGroups) {
+        super.init(plugin, perkGroups);
         Bukkit.getPluginManager().registerEvents(new ProjectileParticlePerkListener(), plugin);
     }
 
@@ -47,7 +48,7 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
             if (effect == null) return;
 
             Projectile projectile = event.getEntity();
-            this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 2));
+            this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 1));
         }
 
         @EventHandler
@@ -67,6 +68,11 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
 
         @Override
         public void run() {
+            if (!this.projectile.isValid()) {
+                this.cancel();
+                return;
+            }
+
             this.effect.display(0, 0, 0, 0, 1, this.projectile.getLocation(), 64);
         }
     }

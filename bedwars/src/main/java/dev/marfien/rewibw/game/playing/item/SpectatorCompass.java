@@ -48,6 +48,7 @@ public class SpectatorCompass extends UsableItemInfo {
         private void onClick(InventoryClickEvent event) {
             Inventory inventory = event.getClickedInventory();
 
+            if (inventory == null) return;
             if (!inventory.getTitle().equals(SPECTATOR_INVENTORY.getTitle())) return;
             event.setCancelled(true);
 

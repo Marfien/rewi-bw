@@ -21,7 +21,8 @@ public class ItemPerkGroup extends PerkGroup<DataPerk<ItemStack>> {
     }
 
     @Override
-    public void init(Plugin plugin) {
+    public void init(Plugin plugin, PerkGroup<?>[] perkGroups) {
+        super.init(plugin, perkGroups);
         Bukkit.getPluginManager().registerEvents(new MaterialPerkListener(), plugin);
     }
 

@@ -65,6 +65,7 @@ public class LobbyGameState extends GameState {
         this.world.load();
         FakeEntityManager.spawn(new CpsTester(this.world.getLocation("cps")));
         this.listeners.addAll(TeamManager.init(this.world));
+        PerkManager.init(RewiBWPlugin.getInstance());
     }
 
     @Override

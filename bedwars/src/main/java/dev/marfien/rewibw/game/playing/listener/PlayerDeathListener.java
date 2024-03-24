@@ -7,10 +7,13 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.end.EndGameState;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
+import dev.marfien.rewibw.perk.DataPerk;
+import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -64,8 +67,12 @@ public class PlayerDeathListener implements Listener {
         );
 
         Player killer = player.getKiller();
-        if (killer != null && killer != player) {
 
+        if (killer != null && killer != player) {
+            PerkManager.KILL_SOUND_PERK_GROUP.getPerk(player).ifPresent(perk -> {
+                Sound sound = perk.getData();
+                player.playSound(player.getLocation(), sound, 1.0F, 1.0F);
+            });
         }
     }
 

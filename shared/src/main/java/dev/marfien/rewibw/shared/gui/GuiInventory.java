@@ -92,6 +92,15 @@ public class GuiInventory {
         }
     }
 
+    public void update(int slot, Player player) {
+        if (slot < 0 || slot >= this.items.length) throw new IndexOutOfBoundsException("Index: " + slot + ", array size: " + this.items.length);
+
+        Inventory inventory = this.cache.get(player);
+        if (inventory == null) return;
+
+        inventory.setItem(slot, this.items[slot].getDisplayItemFor(player));
+    }
+
     public void setItem(int index, GuiItem item) {
         if (index < 0 || index >= this.items.length)
             throw new IndexOutOfBoundsException("Index: " + index + ", array size: " + this.items.length);

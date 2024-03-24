@@ -47,10 +47,11 @@ public class Message {
     public static final Message CANNOT_PLACE_BLOCKS_TEAMSPAWN = bad("Du kannst keine Blöcke auf einen Spawnpunkt setzen.");
 
     public static final Message WEB_COOLDOWN = bad("Du kannst nur alle 20 Sekunden ein Cobweb platzieren.");
-    public static final Message SHOP_NOT_ENOUGH_RESOURCES = bad("Du hast nicht genug %s%r.");
+    public static final Message SHOP_NOT_ENOUGH_RESOURCES = bad("Du hast nicht genug %s§r.");
     public static final Message OWN_BED_DESTROY = bad("Du kannst dein eigenes Bett nicht zerstören.");
     public static final Message TEAM_CHEST_DESTROY = bad("Eine Teamkiste wurde zerstört.");
 
+    public static final Message SELECT_PERK = system("Du hast das Perk §a%s§r ausgewählt.");
     public static final Message ALREADY_IN_TEAM = bad("Du bist bereits in diesem Team!");
     public static final Message TEAM_JOINED = system("Du bist nun im Team %s§r.");
     public static final Message TEAM_FULL = bad("Das Team ist bereits voll!");
