@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -73,10 +74,18 @@ public class Shop {
             ),
             new ShopCategory("Schwerter", Material.WOOD_SWORD,
                     new ShopItem(ResourceType.BRONZE.withAmount(10),
-                            ItemBuilder.of(Material.STICK)
+                            ignored -> ItemBuilder.of(Material.STICK)
                                     .setDisplayName(ChatColor.RED + "Knüppel")
                                     .addEnchantment(Enchantment.KNOCKBACK, 1)
                                     .asItemStack(),
+                            player -> {
+                                ItemStack stack = ItemBuilder.of(Material.STICK)
+                                        .setDisplayName(ChatColor.RED + "Knüppel")
+                                        .addEnchantment(Enchantment.KNOCKBACK, 1)
+                                        .asItemStack();
+                                PerkManager.STICK_PERK_GROUP.getPerk(player).ifPresent(perk -> perk.transformItem(stack));
+                                return stack;
+                            },
                             1),
                     new ShopItem(ResourceType.SILVER.withAmount(1), ItemBuilder.of(Material.WOOD_SWORD).setDisplayName(ChatColor.RED + "Schwert I").asItemStack(), 1),
                     new ShopItem(ResourceType.SILVER.withAmount(3),

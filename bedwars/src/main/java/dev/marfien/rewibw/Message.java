@@ -81,6 +81,7 @@ public class Message {
     public static final Message PLAYER_NOT_FOUND = bad("Der Spieler konnte nicht gefunden werden.");
     public static final Message DEATH_TITLE = system("Du bist gestorben");
     public static final Message DEATH_TITLE_KILLED = system("Du wurdest getötet");
+    public static final Message RESET_PERK = system("Dein Perk wurde zurückgesetzt.");
 
     private final String message;
 

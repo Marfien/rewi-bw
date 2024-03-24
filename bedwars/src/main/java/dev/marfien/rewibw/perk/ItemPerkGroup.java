@@ -98,18 +98,14 @@ public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
                     }
                     break;
                 case HOTBAR_SWAP:
-                    int hotbarSlot = event.getHotbarButton();
                     if (isPlayerInventory) return;
+                    int hotbarSlot = event.getHotbarButton();
                     ItemStack inOtherInventory = inventory.getItem(slot);
                     ItemStack inPlayerInventory = player.getInventory().getItem(hotbarSlot);
 
                     resetItem(player, inPlayerInventory);
                     applyPerk(player, inOtherInventory);
-                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
-                        Inventory playerInventory = player.getInventory();
-                        playerInventory.setItem(hotbarSlot, playerInventory.getItem(hotbarSlot));
-                        player.updateInventory();
-                    }, 1);
+                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), player::updateInventory, 1);
                     break;
             }
         }

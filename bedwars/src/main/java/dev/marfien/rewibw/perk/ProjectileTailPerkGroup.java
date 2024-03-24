@@ -18,6 +18,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>> {
 
@@ -60,11 +61,19 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
         }
     }
 
-    @RequiredArgsConstructor
     private static class ProjectileParticleTask extends BukkitRunnable {
+
+        private static final Random RANDOM = new Random();
 
         private final Projectile projectile;
         private final ParticleEffect effect;
+        private final boolean isColorable;
+
+        public ProjectileParticleTask(Projectile projectile, ParticleEffect effect) {
+            this.projectile = projectile;
+            this.effect = effect;
+            this.isColorable = effect == ParticleEffect.REDSTONE || effect == ParticleEffect.SPELL_MOB || effect == ParticleEffect.SPELL_MOB_AMBIENT;
+        }
 
         @Override
         public void run() {
@@ -73,7 +82,12 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
                 return;
             }
 
-            this.effect.display(0, 0, 0, 0, 1, this.projectile.getLocation(), 64);
+            if (this.isColorable) {
+                this.effect.display(RANDOM.nextFloat(), RANDOM.nextFloat(), RANDOM.nextFloat(), 0, 1, this.projectile.getLocation(), 64);
+            } else {
+                this.effect.display(0, 0, 0, 0, 1, this.projectile.getLocation(), 64);
+            }
+
         }
     }
 
