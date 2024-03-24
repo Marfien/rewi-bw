@@ -96,6 +96,12 @@ public interface Shoppable extends ShopButton {
             if (multiplier >= maxMultiplier) break;
         }
 
+        if (multiplier == 0) {
+            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
+            clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
+            return;
+        }
+
         int lastSlot = usedSlots[usedSlots.length - 1][0];
 
         // Clear the slots and set the last one to the rest of it

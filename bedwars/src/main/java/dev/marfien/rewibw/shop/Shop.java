@@ -131,7 +131,7 @@ public class Shop {
                     new ShopItem(ResourceType.GOLD.withAmount(2), ItemBuilder.of(Material.GOLDEN_APPLE).setDisplayName(ChatColor.DARK_GREEN + "Goldapfel").asItemStack(), 64)
             ),
             new ShopCategory("Kisten", Material.ENDER_CHEST,
-                    new ShopItem(ResourceType.SILVER.withAmount(3), Items.CHEST, 64),
+                    new ShopItem(ResourceType.SILVER.withAmount(2), Items.CHEST, 64),
                     new ShopItem(ResourceType.GOLD.withAmount(1), Items.TEAM_CHEST, 64)
             ),
             new ShopCategory("Tränke", Material.POTION, item -> item.setDurability((short) 8230),

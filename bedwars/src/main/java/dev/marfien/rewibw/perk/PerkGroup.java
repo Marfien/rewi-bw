@@ -145,13 +145,13 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
                         Player clicker = (Player) click.getWhoClicked();
                         PerkGroup.this.setPerk(clicker, (P) perk);
                         clicker.closeInventory();
-                        clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(perk.getName()));
+                        clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(ChatColor.stripColor(perk.getName())));
                     }
                 };
             }
         }
 
-        contents[5*9 + 8] = new StaticNoOpGuiItem(ItemBuilder.of(Material.BARRIER).setDisplayName("§cZurücksetzen").asItemStack()) {
+        contents[4*9 + 8] = new StaticNoOpGuiItem(ItemBuilder.of(Material.BARRIER).setDisplayName("§cZurücksetzen").asItemStack()) {
             @Override
             public void onClick(GuiInventory inventory, InventoryClickEvent click) {
                 Player player = (Player) click.getWhoClicked();

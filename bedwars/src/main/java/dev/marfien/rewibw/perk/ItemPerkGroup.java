@@ -1,22 +1,28 @@
 package dev.marfien.rewibw.perk;
 
+import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.inventory.DoubleChestInventory;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 
-public class ItemPerkGroup extends PerkGroup<DataPerk<ItemStack>> {
+import java.util.function.BiConsumer;
 
-    @SafeVarargs
-    public ItemPerkGroup(ItemStack displayItem, DataPerk<ItemStack> defaultPerk, DataPerk<ItemStack>... perks) {
+public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
+
+    public ItemPerkGroup(ItemStack displayItem, ItemStackTransformPerk defaultPerk, ItemStackTransformPerk... perks) {
         super(displayItem, defaultPerk, perks);
     }
 
@@ -26,7 +32,21 @@ public class ItemPerkGroup extends PerkGroup<DataPerk<ItemStack>> {
         Bukkit.getPluginManager().registerEvents(new MaterialPerkListener(), plugin);
     }
 
-    public class MaterialPerkListener implements Listener {
+    private class MaterialPerkListener implements Listener {
+
+        private void resetItem(Player player, ItemStack item) {
+            getPerk(player).ifPresent(perk -> {
+                if (perk.isSimilar(item)) {
+                    getDefaultPerk().transformItem(item);
+                }
+            });
+        }
+
+        private void applyPerk(Player player, ItemStack item) {
+            if (!getDefaultPerk().isSimilar(item)) return;
+
+            getPerk(player).ifPresent(perk -> perk.transformItem(item));
+        }
 
         @EventHandler
         private void onDrop(PlayerDropItemEvent event) {
@@ -34,14 +54,8 @@ public class ItemPerkGroup extends PerkGroup<DataPerk<ItemStack>> {
             ItemStack droppedItemStack = dropped.getItemStack();
             Player player = event.getPlayer();
 
-            getPerk(player).ifPresent(perk -> {
-                ItemStack perkItemStack = perk.getData();
-                if (!droppedItemStack.isSimilar(perkItemStack)) return;
-
-                ItemStack newItemStack = getDefaultPerk().getData().clone();
-                newItemStack.setAmount(droppedItemStack.getAmount());
-                dropped.setItemStack(newItemStack);
-            });
+            resetItem(player, droppedItemStack);
+            dropped.setItemStack(droppedItemStack);
         }
 
         @EventHandler
@@ -50,57 +64,63 @@ public class ItemPerkGroup extends PerkGroup<DataPerk<ItemStack>> {
             ItemStack pickedUpItemStack = item.getItemStack();
             Player player = event.getPlayer();
 
-            if (!pickedUpItemStack.isSimilar(getDefaultPerk().getData())) return;
-
-            getPerk(player).ifPresent(perk -> {
-                ItemStack perkItemStack = perk.getData();
-
-                ItemStack newItemStack = perkItemStack.clone();
-                newItemStack.setAmount(pickedUpItemStack.getAmount());
-                item.setItemStack(newItemStack);
-            });
+            applyPerk(player, pickedUpItemStack);
+            item.setItemStack(pickedUpItemStack);
         }
 
-        @EventHandler
+        @EventHandler(ignoreCancelled = true)
         private void onMoveIntoInventory(InventoryClickEvent event) {
-            // TODO: check if this is the correct way to check for inventory move
+            HumanEntity human = event.getWhoClicked();
+            if (!(human instanceof Player)) return;
+            Player player = (Player) human;
+            Inventory inventory = event.getClickedInventory();
+            int slot = event.getSlot();
+
+            boolean isPlayerInventory = inventory instanceof PlayerInventory;
             switch (event.getAction()) {
-                // item clicked is set into inventory
                 case PLACE_ALL:
                 case PLACE_ONE:
                 case PLACE_SOME:
-                    // item in cursor is set to inventory
                 case SWAP_WITH_CURSOR:
-                case MOVE_TO_OTHER_INVENTORY:
-                case HOTBAR_MOVE_AND_READD:
-                case HOTBAR_SWAP:
+                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+                        if (isPlayerInventory) {
+                            applyPerk(player, inventory.getItem(slot));
+                        } else {
+                            resetItem(player, inventory.getItem(slot));
+                        }
+                    }, 1);
                     break;
-                default:
-                    return;
+                case MOVE_TO_OTHER_INVENTORY:
+                    if (isPlayerInventory) {
+                        resetItem(player, event.getCurrentItem());
+                    } else {
+                        applyPerk(player, event.getCurrentItem());
+                    }
+                    break;
+                case HOTBAR_SWAP:
+                    int hotbarSlot = event.getHotbarButton();
+                    if (isPlayerInventory) return;
+                    ItemStack inOtherInventory = inventory.getItem(slot);
+                    ItemStack inPlayerInventory = player.getInventory().getItem(hotbarSlot);
+
+                    resetItem(player, inPlayerInventory);
+                    applyPerk(player, inOtherInventory);
+                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+                        Inventory playerInventory = player.getInventory();
+                        playerInventory.setItem(hotbarSlot, playerInventory.getItem(hotbarSlot));
+                        player.updateInventory();
+                    }, 1);
+                    break;
             }
+        }
 
-            ItemStack itemStack = event.getCurrentItem();
-            HumanEntity human = event.getWhoClicked();
+        @EventHandler
+        private void onInteract(PlayerInteractEvent event) {
+            if (!event.hasBlock()) return;
+            if (!event.hasItem()) return;
 
-            if (!(human instanceof Player)) return;
-            Player player = (Player) human;
-
-            if (event.getClickedInventory() instanceof PlayerInventory) {
-                getPerk(player).ifPresent(perk -> {
-                    ItemStack perkItemStack = perk.getData();
-                    if (!itemStack.isSimilar(perkItemStack)) return;
-
-                    ItemStack newItemStack = perkItemStack.clone();
-                    newItemStack.setAmount(itemStack.getAmount());
-                    event.setCurrentItem(newItemStack);
-                });
-            } else {
-                ItemStack defaultItemStack = getDefaultPerk().getData();
-                if (!itemStack.isSimilar(defaultItemStack)) return;
-
-                ItemStack newItemStack = defaultItemStack.clone();
-                newItemStack.setAmount(itemStack.getAmount());
-                event.setCurrentItem(newItemStack);
+            if (getOrDefault(event.getPlayer()).isSimilar(event.getItem())) {
+                event.setUseItemInHand(Event.Result.DENY);
             }
         }
 

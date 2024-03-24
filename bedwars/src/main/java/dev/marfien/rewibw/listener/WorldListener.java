@@ -5,10 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockGrowEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.LeavesDecayEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
@@ -98,6 +95,21 @@ public class WorldListener implements Listener {
 
     @EventHandler
     private void onAchievement(PlayerAchievementAwardedEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onFade(BlockFadeEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onFromTo(BlockFromToEvent event) {
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onSpread(BlockSpreadEvent event) {
         event.setCancelled(true);
     }
 

@@ -20,9 +20,9 @@ RUN ./gradlew --no-daemon
 COPY --from=spigot-builder /root/.m2/repository/org/spigotmc/ /root/.m2/repository/org/spigotmc/
 
 # Copy plugin source
-COPY . bedwars/
 COPY --from=project-dir fakeentities fakeentities/
 COPY --from=project-dir shared shared/
+COPY . bedwars/
 
 # build shadow jar
 RUN ./gradlew bedwars:shadowJar --no-daemon

@@ -3,9 +3,14 @@ package dev.marfien.rewibw.perk;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.block.banner.Pattern;
+import org.bukkit.block.banner.PatternType;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemFlag;
+import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.plugin.Plugin;
 
 public class PerkManager {
@@ -34,10 +39,33 @@ public class PerkManager {
 
     public static final ItemPerkGroup STICK_PERK_GROUP = new ItemPerkGroup(
             ItemBuilder.of(Material.STICK).setDisplayName("§6Knüppel").asItemStack(),
-            new ItemStackDataPerk("Knüppel", ItemBuilder.of(Material.STICK).setDisplayName("§cKnüppel").asItemStack()),
-            new ItemStackDataPerk("Knochen", ItemBuilder.of(Material.BONE).setDisplayName("§cKnochen").asItemStack()),
-            new ItemStackDataPerk("Blazerod", ItemBuilder.of(Material.BLAZE_ROD).setDisplayName("§cBlazerod").asItemStack()),
-            new ItemStackDataPerk("Feder", ItemBuilder.of(Material.FEATHER).setDisplayName("§cFeder").asItemStack())
+            new ItemStackTransformPerk("§cKnüppel", Material.STICK),
+            new ItemStackTransformPerk("§cKnochen", Material.BONE),
+            new ItemStackTransformPerk("§cBlazerod", Material.BLAZE_ROD),
+            new ItemStackTransformPerk("§cFeder", Material.FEATHER),
+            new ItemStackTransformPerk("§cSchweizer Flagge", Material.BANNER, itemMeta -> {
+                BannerMeta meta = (BannerMeta) itemMeta;
+                meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                meta.setBaseColor(DyeColor.RED);
+                meta.addPattern(new Pattern(DyeColor.WHITE, PatternType.STRIPE_MIDDLE));
+                meta.addPattern(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
+                meta.addPattern(new Pattern(DyeColor.RED, PatternType.BORDER));
+                meta.addPattern(new Pattern(DyeColor.RED, PatternType.STRIPE_TOP));
+                meta.addPattern(new Pattern(DyeColor.RED, PatternType.STRIPE_BOTTOM));
+            }),
+            new ItemStackTransformPerk("§cDeutsche Flagge", Material.BANNER, itemMeta -> {
+                BannerMeta meta = (BannerMeta) itemMeta;
+                meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                meta.setBaseColor(DyeColor.RED);
+                meta.addPattern(new Pattern(DyeColor.YELLOW, PatternType.STRIPE_LEFT));
+                meta.addPattern(new Pattern(DyeColor.BLACK, PatternType.STRIPE_RIGHT));
+            }),
+            new ItemStackTransformPerk("§cÖsterreichische Flagge", Material.BANNER, itemMeta -> {
+                BannerMeta meta = (BannerMeta) itemMeta;
+                meta.addItemFlags(ItemFlag.HIDE_POTION_EFFECTS);
+                meta.setBaseColor(DyeColor.RED);
+                meta.addPattern(new Pattern(DyeColor.WHITE, PatternType.STRIPE_CENTER));
+            })
     );
 
     static final PerkGroup<?>[] PERK_GROUPS = new PerkGroup<?>[]{
