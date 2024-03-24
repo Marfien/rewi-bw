@@ -87,6 +87,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
             contents[contents.length - 9 + i] = PANE;
         }
 
+        // perk group selection
         for (int i = 0; i < perkGroups.length; i++) {
             PerkGroup<?> perkGroup = perkGroups[i];
             int row = i + 1;
@@ -102,8 +103,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
                 ItemStack displayItem = perkGroup.getDisplayItemFor(player).clone();
                 ItemMeta meta = displayItem.getItemMeta();
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                displayItem.setItemMeta(meta);
-                displayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                displayItem.setItemMeta(meta);                displayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 return displayItem;
             };
         }
@@ -151,6 +151,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
             }
         }
 
+        // reset button
         contents[4*9 + 8] = new StaticNoOpGuiItem(ItemBuilder.of(Material.BARRIER).setDisplayName("§cZurücksetzen").asItemStack()) {
             @Override
             public void onClick(GuiInventory inventory, InventoryClickEvent click) {
@@ -161,7 +162,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
             }
         };
 
-        this.inventory = new GuiInventory(contents, ChatColor.GOLD + "BedWars - Perks");
+        this.inventory = new GuiInventory(contents, ChatColor.GOLD + "Perks");
     }
 
     public void openGui(Player player) {
