@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-if [ -z "$EULA" ] || [ "$EULA" != 'true' ]; then
+if [ "$EULA" != 'true' ]; then
   echo 'EULA is not set to true. Exiting.'
   exit 1
 fi

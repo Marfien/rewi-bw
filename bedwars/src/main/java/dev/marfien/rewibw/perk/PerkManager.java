@@ -2,7 +2,6 @@ package dev.marfien.rewibw.perk;
 
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.shared.ItemBuilder;
-import dev.marfien.rewibw.shared.gui.GuiInventory;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;

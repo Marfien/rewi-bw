@@ -71,6 +71,7 @@ public class LobbyGameState extends GameState {
     @Override
     public void onStop() {
         this.itemManager.shutdown();
+        TeamManager.assignTeams();
     }
 
 }

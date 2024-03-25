@@ -136,7 +136,6 @@ public class TeamManager {
     }
 
     public static void broadcastTeams() {
-        Collection<String> teamStrings = new ArrayList<>();
         Message.broadcast(Message.TEAM_BROADCAST_HEADER.toString());
         for (GameTeam team : teams) {
             if (team.getMembers().isEmpty()) continue;

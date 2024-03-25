@@ -11,4 +11,5 @@ dependencies {
     implementation(libs.effectlib)
     implementation(project(":shared"))
     implementation(project(":fakeentities"))
+    compileOnly(libs.noteblockapi)
 }

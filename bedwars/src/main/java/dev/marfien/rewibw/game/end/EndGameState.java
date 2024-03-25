@@ -1,5 +1,7 @@
 package dev.marfien.rewibw.game.end;
 
+import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
+import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
@@ -23,6 +25,8 @@ import org.bukkit.inventory.meta.FireworkMeta;
 public class EndGameState extends GameState {
 
     private static final GameWorld lobby = LobbyGameState.getInstance().getWorld();
+
+    private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
     private final EndCountdown countdown = new EndCountdown(this);
     private final GameTeam winner;
 
@@ -38,7 +42,11 @@ public class EndGameState extends GameState {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(lobby.getSpawn());
             PlayerManager.showSpectators(player);
+            this.songPlayer.addPlayer(player);
         }
+
+        this.songPlayer.setAutoDestroy(true);
+        this.songPlayer.setPlaying(true);
 
         Message.broadcast(" ");
         Message.broadcast(

@@ -3,6 +3,8 @@ author: Marfien
 name: RewiBW
 version: 1.0.0
 main: dev.marfien.rewibw.RewiBWPlugin
+depend:
+  - NoteBlockAPI
 
 commands:
   start:

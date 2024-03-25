@@ -54,10 +54,7 @@ public class LobbyCountdown extends AbstractCountdown {
     }
 
     @Override
-    public void onStop() {
-        TeamManager.assignTeams();
-        TeamManager.broadcastTeams();
-    }
+    public void onStop() { }
 
     @Override
     public void onSecond(int second) {

@@ -87,10 +87,10 @@ public class PlayingGameState extends GameState {
             }
         }
 
+        TeamManager.broadcastTeams();
+
         // Start resource spawner
-        map.getSpawnerLocations().forEach((type, locations) -> {
-            this.spawnerTasks.add(type.startSpawning(locations));
-        });
+        map.getSpawnerLocations().forEach((type, locations) -> this.spawnerTasks.add(type.startSpawning(locations)));
 
 
         buildScoreboard();

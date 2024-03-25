@@ -1,13 +1,5 @@
 FROM scratch AS project-dir
 
-FROM eclipse-temurin:8-jdk-alpine AS paper-builder
-
-WORKDIR /paper
-
-RUN wget -O spigot.jar https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/445/downloads/paper-1.8.8-445.jar
-# Will fail because of missing eula.txt
-RUN java -jar spigot.jar || true
-
 FROM eclipse-temurin:8-jdk AS plugin-builder
 
 WORKDIR /build
