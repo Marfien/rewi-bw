@@ -84,7 +84,8 @@ public interface Shoppable extends ShopButton {
         int[][] usedSlots = new int[slots.size()][2];
         for (int[] slotAndAmount : slots) {
             resourcesFound += slotAndAmount[1];
-            usedSlots[index++] = slotAndAmount;
+            usedSlots[index] = slotAndAmount;
+            index++;
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();

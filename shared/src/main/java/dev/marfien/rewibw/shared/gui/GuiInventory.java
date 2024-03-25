@@ -8,12 +8,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
@@ -184,6 +186,25 @@ public class GuiInventory {
                 if (clickedItem == null) return;
                 clickedItem.onClick(GuiInventory.this, event);
             }
+        }
+
+        @EventHandler
+        private void onShiftClick(InventoryClickEvent event) {
+            if (event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY) return;
+
+            Inventory inventory = event.getClickedInventory();
+            if (!(inventory instanceof PlayerInventory)) return;
+
+            Inventory topInventory = event.getView().getTopInventory();
+            if (topInventory == null) return;
+            InventoryHolder holder = topInventory.getHolder();
+
+            if (!(holder instanceof GuiInventoryHolder)) return;
+            GuiInventoryHolder guiHolder = (GuiInventoryHolder) holder;
+
+            if (guiHolder.guiInventory != GuiInventory.this) return;
+
+            event.setCancelled(true);
         }
 
         @EventHandler

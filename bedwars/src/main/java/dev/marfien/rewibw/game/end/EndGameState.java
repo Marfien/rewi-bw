@@ -27,7 +27,7 @@ public class EndGameState extends GameState {
     private static final GameWorld lobby = LobbyGameState.getInstance().getWorld();
 
     // TODO find a good song
-    private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
+    private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("JohnCena.nbs")));
     private final EndCountdown countdown = new EndCountdown(this);
     private final GameTeam winner;
 
@@ -49,18 +49,21 @@ public class EndGameState extends GameState {
         this.songPlayer.setAutoDestroy(true);
         this.songPlayer.setPlaying(true);
 
-        Message.broadcast(" ");
-        Message.broadcast(
-                this.winner == null
-                    ? Message.NO_WINNER.toString()
-                    : Message.BROADCAST_WINNER.format(this.winner.getColor().getDisplayName())
-        );
-        Message.broadcast(" ");
+        this.countdown.start();
+        if (winner == null) {
+            Message.broadcast(" ");
+            Message.broadcast(Message.NO_WINNER.toString());
+            Message.broadcast(" ");
+            return;
+        }
 
-        if (winner == null) return;
+        Message.broadcast(" ");
+        Message.broadcast(Message.BROADCAST_WINNER.format(winner.getColor().getDisplayName()));
+        Message.broadcast(" ");
 
         Location location = lobby.getLocation("teams." + winner.getColor().name().toLowerCase() + ".joiner");
         Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+            this.songPlayer.setPlaying(false);
             Firework firework = lobby.getWorld().spawn(location, Firework.class);
             FireworkMeta meta = firework.getFireworkMeta();
             meta.setPower(10);
@@ -72,8 +75,7 @@ public class EndGameState extends GameState {
                             .build()
             );
             firework.setFireworkMeta(meta);
-        }, 20L);
-        this.countdown.start();
+        }, 70L);
     }
 
     @Override

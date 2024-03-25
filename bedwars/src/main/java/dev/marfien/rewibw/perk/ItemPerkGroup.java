@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -112,8 +113,7 @@ public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
 
         @EventHandler
         private void onInteract(PlayerInteractEvent event) {
-            if (!event.hasBlock()) return;
-            if (!event.hasItem()) return;
+            if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
             if (getOrDefault(event.getPlayer()).isSimilar(event.getItem())) {
                 event.setUseItemInHand(Event.Result.DENY);
