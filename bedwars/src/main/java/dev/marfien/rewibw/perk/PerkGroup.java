@@ -2,15 +2,14 @@ package dev.marfien.rewibw.perk;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.shared.InventoryUtil;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import dev.marfien.rewibw.shared.gui.NoOpGuiItem;
 import dev.marfien.rewibw.shared.gui.StaticNoOpGuiItem;
-import dev.marfien.rewibw.shop.ShopCategory;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -22,7 +21,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.NumberConversions;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -93,13 +91,13 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
             int row = i + 1;
 
             if (perkGroup != this) {
-                contents[row * 9 + 0] = perkGroup;
                 contents[row * 9 + 1] = PANE_INACTIVE;
+                contents[row * 9] = perkGroup;
                 continue;
             }
 
             contents[row * 9 + 1] = PANE_ACTIVE;
-            contents[row * 9 + 0] = (NoOpGuiItem) player -> {
+            contents[row * 9] = (NoOpGuiItem) player -> {
                 ItemStack displayItem = perkGroup.getDisplayItemFor(player).clone();
                 ItemMeta meta = displayItem.getItemMeta();
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -125,43 +123,12 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
 
                 int col = 3 + collumn;
                 int slot = row * 9 + col;
-                contents[slot] = new NoOpGuiItem() {
-                    @Override
-                    public ItemStack getDisplayItemFor(Player player) {
-                        ItemStack displayItem = perk.getDisplayItem().clone();
-
-                        getPerk(player).ifPresent(selectedPerk -> {
-                            if (selectedPerk == perk) {
-                                ItemBuilder.of(displayItem)
-                                        .setLore(" ", "§a§lAusgewählt")
-                                        .addItemFlags(ItemFlag.HIDE_ENCHANTS)
-                                        .addEnchantment(Enchantment.DURABILITY, 1);
-                            }
-                        });
-                        return displayItem;
-                    }
-
-                    @Override
-                    public void onClick(GuiInventory inventory, InventoryClickEvent click) {
-                        Player clicker = (Player) click.getWhoClicked();
-                        PerkGroup.this.setPerk(clicker, (P) perk);
-                        clicker.closeInventory();
-                        clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(ChatColor.stripColor(perk.getName())));
-                    }
-                };
+                contents[slot] = new PerkSelectGuiItem((P) perk);
             }
         }
 
         // reset button
-        contents[4*9 + 8] = new StaticNoOpGuiItem(ItemBuilder.of(Material.BARRIER).setDisplayName("§cZurücksetzen").asItemStack()) {
-            @Override
-            public void onClick(GuiInventory inventory, InventoryClickEvent click) {
-                Player player = (Player) click.getWhoClicked();
-                PerkGroup.this.unsetPerk(player);
-                player.sendMessage(RewiBWPlugin.PREFIX + Message.RESET_PERK);
-                player.closeInventory();
-            }
-        };
+        contents[4*9 + 8] = new ResetPerkGuiItem();
 
         this.inventory = new GuiInventory(contents, ChatColor.GOLD + "Perks");
     }
@@ -169,4 +136,52 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     public void openGui(Player player) {
         this.inventory.openTo(player);
     }
+
+    @RequiredArgsConstructor
+    public class PerkSelectGuiItem implements GuiItem {
+
+        private final P perk;
+
+        @Override
+        public ItemStack getDisplayItemFor(Player player) {
+            ItemStack displayItem = this.perk.getDisplayItem().clone();
+
+            getPerk(player).ifPresent(selectedPerk -> {
+                if (selectedPerk == this.perk) {
+                    ItemBuilder.of(displayItem)
+                            .setLore(" ", "§a§lAusgewählt")
+                            .addItemFlags(ItemFlag.HIDE_ENCHANTS)
+                            .addEnchantment(Enchantment.DURABILITY, 1);
+                }
+            });
+            return displayItem;
+        }
+
+        @Override
+        public void onClick(GuiInventory inventory, InventoryClickEvent click) {
+            Player clicker = (Player) click.getWhoClicked();
+            PerkGroup.this.setPerk(clicker, this.perk);
+            clicker.closeInventory();
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(ChatColor.stripColor(this.perk.getName())));
+        }
+    }
+
+    private class ResetPerkGuiItem implements GuiItem {
+
+        private final ItemStack displayItem = ItemBuilder.of(Material.BARRIER).setDisplayName("§cZurücksetzen").asItemStack();
+
+        @Override
+        public ItemStack getDisplayItemFor(Player player) {
+            return this.displayItem;
+        }
+
+        @Override
+        public void onClick(GuiInventory inventory, InventoryClickEvent click) {
+            Player player = (Player) click.getWhoClicked();
+            PerkGroup.this.unsetPerk(player);
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.RESET_PERK);
+            player.closeInventory();
+        }
+    }
+
 }
