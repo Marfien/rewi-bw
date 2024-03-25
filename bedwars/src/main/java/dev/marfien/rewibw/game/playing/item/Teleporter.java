@@ -194,9 +194,7 @@ public class Teleporter extends UsableItemInfo {
             effect.iterations = 1;
             effect.wholeCircle = true;
             effect.enableRotation = false;
-            effect.setLocation(
-                    this.clicker.getLocation()
-                            .add(0, 2.2, 0)
+            effect.setLocation(location.add(0, 2.2, 0)
             );
             effect.start();
             for (Player player : this.clicker.getWorld().getPlayers()) {

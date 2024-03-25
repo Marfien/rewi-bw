@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.util.NumberConversions;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -99,16 +100,18 @@ public abstract class AbstractFakeEntity implements FakeEntity {
 
     private void updateLookAtPlayer(Player player) {
         if (!this.lookAtPlayer) return;
-        Location location = player.getLocation();
+        EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
 
-        if (player.getWorld() != this.getWorld() || this.location.distanceSquared(location) > 25) {
+        double dX = entityPlayer.locX - this.location.getX();
+        double dY = entityPlayer.locY - this.location.getY();
+        double dZ = entityPlayer.locZ - this.location.getZ();
+
+        if (player.getWorld() != this.getWorld()
+                || NumberConversions.square(dX) + NumberConversions.square(dY) + NumberConversions.square(dZ) > 25) {
             return;
         }
 
         // TODO: Implement Entity Eye height
-        double dX = location.getX() - this.location.getX();
-        double dY = location.getY() - this.location.getY();
-        double dZ = location.getZ() - this.location.getZ();
         double dXZ = Math.sqrt(dX * dX + dZ * dZ);
         double newYaw = Math.acos(dX / dXZ) * 180.0 / Math.PI;
         if (dZ < 0.0) {

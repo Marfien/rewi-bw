@@ -51,7 +51,7 @@ public class TeamJoiner implements Listener {
             return;
         }
 
-        if (TeamManager.tryJoinTeam(event.getPlayer(), this.team)) {
+        if (TeamManager.tryJoinTeam(player, this.team)) {
             player.playSound(player.getLocation(), Sound.PISTON_EXTEND, 0.7F, 1.0F);
             player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_JOINED.format(this.team.getColor().getName()));
         } else {

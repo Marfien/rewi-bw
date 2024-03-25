@@ -70,16 +70,21 @@ public class Parachute extends UsableItemInfo {
 
         for (Player player : activeParachutes.keySet()) {
             EntityPlayer nmsPlayer = ((CraftPlayer) player).getHandle();
-            Vector direction = player.getLocation().getDirection();
-            float walkingSpeed = player.getWalkSpeed();
 
-            if (!nmsPlayer.onGround && nmsPlayer.motY < 0.0) {
-                nmsPlayer.motY *= 0.8;
-                nmsPlayer.motX = direction.getX() * walkingSpeed * 2;
-                nmsPlayer.motZ = direction.getZ() * walkingSpeed * 2;
-                nmsPlayer.velocityChanged = true;
-                nmsPlayer.fallDistance = 0f;
-            }
+            if (nmsPlayer.onGround || nmsPlayer.motY >= 0.0) continue;
+
+            float walkingSpeed = player.getWalkSpeed();
+            double rotX = nmsPlayer.yaw;
+            double rotY = nmsPlayer.pitch;
+            double xz = Math.cos(Math.toRadians(rotY));
+            double directionX = -xz * Math.sin(Math.toRadians(rotX));
+            double directionZ = xz * Math.cos(Math.toRadians(rotX));
+
+            nmsPlayer.motY *= 0.8;
+            nmsPlayer.motX = directionX * walkingSpeed * 2;
+            nmsPlayer.motZ = directionZ * walkingSpeed * 2;
+            nmsPlayer.velocityChanged = true;
+            nmsPlayer.fallDistance = 0f;
         }
     }
 
