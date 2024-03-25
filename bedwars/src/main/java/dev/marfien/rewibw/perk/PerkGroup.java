@@ -103,7 +103,8 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
                 ItemStack displayItem = perkGroup.getDisplayItemFor(player).clone();
                 ItemMeta meta = displayItem.getItemMeta();
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                displayItem.setItemMeta(meta);                displayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                displayItem.setItemMeta(meta);
+                displayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
                 return displayItem;
             };
         }
