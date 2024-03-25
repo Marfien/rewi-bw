@@ -50,6 +50,18 @@ public class LocationRemover extends SessionItem {
             player.sendMessage("§cRemoved " + (shopsSize - shops.size()) + " shop(s).");
         }
 
+        session.getTeams().forEach((color, info) -> {
+            if (isSameBlock(info.getSpawn(), location)) {
+                info.setSpawn(null);
+                player.sendMessage("§cRemoved spawn of team " + color.getDisplayName() + "§c.");
+            }
+            if (isSameBlock(info.getBed(), location)) {
+                info.setBed(null);
+                info.setDirection(null);
+                player.sendMessage("§cRemoved bed of team " + color.getDisplayName() + "§c.");
+            }
+        });
+
         SetupToolPlugin.effects.removeIf(effect -> {
             if (isSameBlock(effect.getLocation(), location)) {
                 effect.cancel();
@@ -58,8 +70,6 @@ public class LocationRemover extends SessionItem {
                 return false;
             }
         });
-
-        // TODO remove location from team info
     }
 
     private static boolean isSameBlock(Location location1, Location location2) {

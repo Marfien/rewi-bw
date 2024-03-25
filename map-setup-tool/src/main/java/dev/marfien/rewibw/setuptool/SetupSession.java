@@ -66,6 +66,7 @@ public class SetupSession {
     }
 
     @Setter
+    @Getter
     public static class TeamInfo {
 
         private Location spawn;
