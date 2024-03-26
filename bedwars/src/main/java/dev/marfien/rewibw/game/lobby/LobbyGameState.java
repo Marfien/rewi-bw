@@ -12,7 +12,7 @@ import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.util.CpsTester;
-import dev.marfien.rewibw.util.FileUtils;
+import dev.marfien.rewibw.shared.FileUtils;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameWorld;

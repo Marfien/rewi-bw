@@ -1,6 +1,6 @@
 package dev.marfien.rewibw.world;
 
-import dev.marfien.rewibw.util.FileUtils;
+import dev.marfien.rewibw.shared.FileUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 

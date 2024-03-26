@@ -17,7 +17,6 @@ services:
     image: marfiens/rewibw-setup-tool:latest
     volumes:
       - ./data:/data
-      - ./data/import/://
     ports:
       - 25566:25565
     environment:

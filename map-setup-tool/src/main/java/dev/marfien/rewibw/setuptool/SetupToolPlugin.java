@@ -11,15 +11,20 @@ import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 public class SetupToolPlugin extends JavaPlugin {
+
+    public static Path IMPORT_PATH;
 
     @Getter
     private static EffectManager effectManager;
@@ -38,6 +43,13 @@ public class SetupToolPlugin extends JavaPlugin {
 
     public static void setSession(Player player, SetupSession session) {
         sessions.put(player, session);
+    }
+
+    @Override
+    public void onLoad() {
+        super.saveDefaultConfig();
+        FileConfiguration configuration = super.getConfig();
+        IMPORT_PATH = Paths.get(configuration.getString("import-path"));
     }
 
     @Override

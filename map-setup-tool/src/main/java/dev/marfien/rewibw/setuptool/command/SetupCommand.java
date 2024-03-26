@@ -3,8 +3,10 @@ package dev.marfien.rewibw.setuptool.command;
 import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import dev.marfien.rewibw.setuptool.item.*;
+import dev.marfien.rewibw.shared.FileUtils;
 import dev.marfien.rewibw.shared.world.EmptyChunkGenerator;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.WorldCreator;
@@ -14,6 +16,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class SetupCommand implements CommandExecutor {
@@ -57,6 +60,13 @@ public class SetupCommand implements CommandExecutor {
                 .generateStructures(false)
                 .type(org.bukkit.WorldType.FLAT)
                 .generator(new EmptyChunkGenerator());
+
+        try {
+            FileUtils.copyFolder(SetupToolPlugin.IMPORT_PATH.resolve(mapName), Bukkit.getWorldContainer().toPath().resolve(mapName));
+        } catch (IOException e) {
+            commandSender.sendMessage("§cFailed to copy map files: " + e.getMessage());
+            return true;
+        }
 
         Player player = (Player) commandSender;
         SetupToolPlugin.setSession(player, new SetupSession(worldCreator.createWorld(), displayName, material + ":" + data));
