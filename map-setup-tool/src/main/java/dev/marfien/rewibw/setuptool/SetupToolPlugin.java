@@ -29,17 +29,7 @@ public class SetupToolPlugin extends JavaPlugin {
     private static final UsableItemManager itemManager = new UsableItemManager();
 
     public SetupToolPlugin() {
-        itemManager.putHandler(BronzeSpawnerAdder.ITEM, new BronzeSpawnerAdder());
-        itemManager.putHandler(SilverSpawnerAdder.ITEM, new SilverSpawnerAdder());
-        itemManager.putHandler(GoldSpawnerAdder.ITEM, new GoldSpawnerAdder());
-        itemManager.putHandler(LocationRemover.ITEM, new LocationRemover());
-        itemManager.putHandler(ShopAdder.ITEM, new ShopAdder());
-        itemManager.putHandler(SpecSpawnSetter.ITEM, new SpecSpawnSetter());
-        itemManager.putHandler(TeamAdder.ITEM, new TeamAdder());
-        for (TeamColor value : TeamColor.values()) {
-            itemManager.putHandler(TeamSpawnAdder.getItemFor(value), new TeamSpawnAdder(value));
-            itemManager.putHandler(TeamBedSetter.getItemFor(value), new TeamBedSetter(value));
-        }
+        GuiInventory.setPlugin(this);
     }
 
     public static SetupSession getSession(Player player) {
@@ -52,11 +42,22 @@ public class SetupToolPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        itemManager.putHandler(BronzeSpawnerAdder.ITEM, new BronzeSpawnerAdder());
+        itemManager.putHandler(SilverSpawnerAdder.ITEM, new SilverSpawnerAdder());
+        itemManager.putHandler(GoldSpawnerAdder.ITEM, new GoldSpawnerAdder());
+        itemManager.putHandler(LocationRemover.ITEM, new LocationRemover());
+        itemManager.putHandler(ShopAdder.ITEM, new ShopAdder());
+        itemManager.putHandler(SpecSpawnSetter.ITEM, new SpecSpawnSetter());
+        itemManager.putHandler(TeamAdder.ITEM, new TeamAdder());
+        for (TeamColor value : TeamColor.values()) {
+            itemManager.putHandler(TeamSpawnAdder.getItemFor(value), new TeamSpawnAdder(value));
+            itemManager.putHandler(TeamBedSetter.getItemFor(value), new TeamBedSetter(value));
+        }
+
         super.getCommand("setup").setExecutor(new SetupCommand());
         super.getCommand("save").setExecutor(new SaveCommand());
         effectManager = new EffectManager(this);
         itemManager.register(this);
-        GuiInventory.setPlugin(this);
 
         Bukkit.getPluginManager().registerEvents(new WorldNoOpListener(), this);
     }
