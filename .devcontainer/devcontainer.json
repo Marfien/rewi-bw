@@ -1,0 +1,7 @@
+{
+  name: "RewiBW",
+  build: {
+    dockerfile: "Dockerfile",
+  },
+  forwardPorts: [25565],
+}
