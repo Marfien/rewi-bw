@@ -8,5 +8,4 @@ RUN java -jar BuildTools.jar --rev 1.8.8
 
 FROM eclipse-temurin:8-jdk
 
-RUN apt update && apt -y install git && apt clean
 COPY --from=spigot-maven-builder /root/.m2/repository/ /root/.m2/repository/
