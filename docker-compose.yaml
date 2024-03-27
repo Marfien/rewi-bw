@@ -1,7 +1,5 @@
 services:
   rewi-bw-server:
-    platform: linux/x86_64
-    network_mode: bridge
     image: marfiens/rewibw-server:latest
     volumes:
       - ./data:/data
@@ -18,7 +16,7 @@ services:
     volumes:
       - ./data:/data
     ports:
-      - 25566:25565
+      - 25565:25565
     environment:
       EULA: true
       AIKAR_FLAGS: true
