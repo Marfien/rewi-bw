@@ -6,6 +6,6 @@ RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastS
 # Build Spigot 1.8.8
 RUN java -jar BuildTools.jar --rev 1.8.8
 
-FROM eclipse-temurin:8-jdk
+FROM ubuntu:24.04
 
 COPY --from=spigot-maven-builder /root/.m2/repository/ /root/.m2/repository/
