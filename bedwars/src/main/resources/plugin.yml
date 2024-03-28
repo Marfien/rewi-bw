@@ -1,6 +1,6 @@
 api-version: 1.8.8
 author: Marfien
-name: RewiBW
+name: rewi-bw
 version: 1.0.0
 main: dev.marfien.rewibw.RewiBWPlugin
 depend:

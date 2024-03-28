@@ -3,7 +3,7 @@ services:
     image: marfiens/rewibw-server:latest
     volumes:
       - ./data:/data
-      - ./data/RewiBW/:/server/plugins/RewiBW/
+      - ./data/plugin-config/:/server/plugins/rewi-bw/
     ports:
       - 25565:25565
     environment:
