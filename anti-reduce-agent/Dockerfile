@@ -7,12 +7,13 @@ WORKDIR /build
 COPY --from=project-dir gradle/ gradle/
 COPY --from=project-dir gradlew settings.gradle.kts build.gradle.kts ./
 
-RUN ./gradlew --no-daemon
+ENV GRALDE_USER_HOME=/home/grade/cache
+RUN ./gradlew
 
 # Copy plugin source
 COPY . anti-reduce-agent/
 # build shadow jar
-RUN ./gradlew anti-reduce-agent:shadowJar --no-daemon
+RUN ./gradlew anti-reduce-agent:shadowJar
 
 FROM server-base
 

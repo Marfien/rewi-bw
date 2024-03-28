@@ -7,14 +7,15 @@ WORKDIR /build
 COPY --from=project-dir gradle/ gradle/
 COPY --from=project-dir gradlew settings.gradle.kts build.gradle.kts ./
 
-RUN ./gradlew --no-daemon
+ENV GRALDE_USER_HOME=/home/grade/cache
+RUN ./gradlew
 
 # Copy plugin source
 COPY . map-setup-tool/
 COPY --from=project-dir shared shared/
 
 # build shadow jar
-RUN ./gradlew map-setup-tool:shadowJar --no-daemon
+RUN ./gradlew map-setup-tool:shadowJar
 
 FROM server-base
 

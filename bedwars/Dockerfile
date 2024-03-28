@@ -15,17 +15,22 @@ WORKDIR /build
 COPY --from=project-dir gradle/ gradle/
 COPY --from=project-dir gradlew settings.gradle.kts build.gradle.kts ./
 
-RUN ./gradlew --no-daemon
+ENV GRALDE_USER_HOME=/home/grade/cache
+RUN ./gradlew
 
 COPY --from=spigot-builder /root/.m2/repository/org/spigotmc/ /root/.m2/repository/org/spigotmc/
 
 # Copy plugin source
-COPY --from=project-dir fakeentities fakeentities/
-COPY --from=project-dir shared shared/
-COPY . bedwars/
 
 # build shadow jar
-RUN ./gradlew bedwars:shadowJar --no-daemon
+COPY --from=project-dir fakeentities fakeentities/
+RUN ./gradlew fakeentities:jar --parallel
+
+COPY --from=project-dir shared shared/
+RUN ./gradlew shared:jar --parallel
+
+COPY . bedwars/
+RUN ./gradlew bedwars:shadowJar --parallel
 
 FROM anti-reduce-server
 
