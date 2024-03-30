@@ -8,8 +8,10 @@ services:
       - ./data/plugin-config/:/server/plugins/rewi-bw/
     ports:
       - 25565:25565
+      - 5005:5005
     environment:
       EULA: true
+      DEBUG: true
       AIKAR_FLAGS: true
       ANTI_REDUCE: true
   rewi-bw-setup-tool:
@@ -18,6 +20,8 @@ services:
       - ./data:/data
     ports:
       - 25565:25565
+      - 5005:5005
     environment:
       EULA: true
+      DEBUG: true
       AIKAR_FLAGS: true

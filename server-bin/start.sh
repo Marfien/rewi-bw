@@ -20,5 +20,9 @@ if [ "$ANTI_REDUCE" = 'true' ]; then
   COMMAND="$COMMAND -javaagent:agent.jar"
 fi
 
+if [ "$DEBUG" = 'true' ]; then
+  COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+fi
+
 echo "Starting server with ${MEMORY}MB of RAM"
 eval "$COMMAND -jar spigot.jar nogui"
