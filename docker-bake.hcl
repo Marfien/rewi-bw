@@ -10,7 +10,7 @@ group "default" {
   targets = ["rewibw-server", "rewibw-setup-tool"]
 }
 
-target "server-base" {
+target "paper-base" {
   context = "server-bin/"
   tags = [createTag("paper-base")]
 }
@@ -18,7 +18,7 @@ target "server-base" {
 target "anti-reduce-server" {
   context = "anti-reduce-agent/"
   contexts = {
-    "server-base" = "target:server-base"
+    "server-base" = "target:paper-base"
     "project-dir" = "./"
   }
   tags = [createTag("paper-anti-reduce")]
@@ -36,7 +36,7 @@ target "rewibw-server" {
 target "rewibw-setup-tool" {
   context = "map-setup-tool/"
   contexts = {
-    "server-base" = "target:server-base"
+    "server-base" = "target:paper-base"
     "project-dir" = "./"
   }
   tags = [createTag("rewibw-setup-tool")]
