@@ -21,7 +21,7 @@ if [ "$ANTI_REDUCE" = 'true' ]; then
 fi
 
 if [ "$DEBUG" = 'true' ]; then
-  COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005"
+  COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 fi
 
 echo "Starting server with ${MEMORY}MB of RAM"
