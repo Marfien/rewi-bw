@@ -78,6 +78,7 @@ public class ShopItem implements Shoppable {
         }
 
         for (int i = 0; i < contents.length; i++) {
+            if (totalAmount <= 0) break;
             if (contents[i] != null) continue;
 
             int amount = Math.min(totalAmount, maxStackSize);
