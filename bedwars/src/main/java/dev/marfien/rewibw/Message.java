@@ -83,6 +83,7 @@ public class Message {
     public static final Message DEATH_TITLE_KILLED = system("Du wurdest getötet");
     public static final Message RESET_PERK = system("Dein Perk wurde zurückgesetzt.");
     public static final Message RESCUE_PLATFORM_ON_GROUND = bad("Du stehst auf dem Boden.");
+    public static final Message SHOP_NOT_ENOUGH_SPACE = bad("Du hast nicht genug Platz in deinem Inventar.");
 
     private final String message;
 

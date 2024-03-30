@@ -1,5 +1,7 @@
 package dev.marfien.rewibw.shared;
 
+import org.bukkit.inventory.ItemStack;
+
 public class InventoryUtil {
 
     public static int rowsNeeded(int itemCount) {
@@ -39,4 +41,11 @@ public class InventoryUtil {
         return indexes;
     }
 
+    public static int firstEmptySlot(ItemStack[] inventoryContents) {
+        for (int i = 0; i < inventoryContents.length; i++) {
+            if (inventoryContents[i] == null) return i;
+        }
+
+        return -1;
+    }
 }

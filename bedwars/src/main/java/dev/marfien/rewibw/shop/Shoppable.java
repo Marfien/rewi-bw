@@ -21,8 +21,8 @@ public interface Shoppable extends ShopButton {
         }
 
         @Override
-        public void giveToPlayer(Player player, int multiplier, int slot) {
-
+        public boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot) {
+            return true;
         }
 
         @Override
@@ -42,7 +42,7 @@ public interface Shoppable extends ShopButton {
 
     ShopPrice getPrice();
 
-    void giveToPlayer(Player player, int multiplier, int slot);
+    boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot);
 
     int getShiftClickMultiplier();
 
@@ -116,10 +116,14 @@ public interface Shoppable extends ShopButton {
             inventoryContents[lastSlot] = itemInLastSlot;
         }
 
-        playerInventory.setContents(inventoryContents);
+        if (this.giveToPlayer(clicker, inventoryContents, multiplier, event.getHotbarButton())) {
+            playerInventory.setContents(inventoryContents);
+            clicker.playSound(clicker.getLocation(), Sound.ITEM_PICKUP, 1, 1);
+            return;
+        }
 
-        clicker.playSound(clicker.getLocation(), Sound.ITEM_PICKUP, 1, 1);
-        this.giveToPlayer(clicker, multiplier, event.getHotbarButton());
+        clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_SPACE);
+        clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
     }
 
 }

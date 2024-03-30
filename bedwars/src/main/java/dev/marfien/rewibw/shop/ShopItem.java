@@ -1,6 +1,8 @@
 package dev.marfien.rewibw.shop;
 
+import com.mysql.jdbc.ServerPreparedStatement;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.shared.InventoryUtil;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -52,59 +54,76 @@ public class ShopItem implements Shoppable {
     }
 
     @Override
-    public void giveToPlayer(Player player, int multiplier, int slot) {
-        Inventory inventory = player.getInventory();
+    public boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot) {
+        if (slot != -1) {
+            return moveToSlot(player, contents, slot);
+        }
 
         ItemStack item = this.itemStack.apply(player);
         int maxStackSize = item.getMaxStackSize();
         int totalAmount = item.getAmount() * multiplier;
-        int fullStacks = totalAmount / maxStackSize;
-        int rest = totalAmount % maxStackSize;
 
-        item.setAmount(maxStackSize);
-        ItemStack[] stacks = new ItemStack[fullStacks + (rest == 0 ? 0 : 1)];
+        for (ItemStack current : contents) {
+            if (!item.isSimilar(current)) continue;
 
-        if (stacks.length == 0) return;
+            int currentAmount = current.getAmount();
 
-        Arrays.fill(stacks, item.clone());
-
-        if (rest != 0) {
-            item.setAmount(rest);
-            stacks[stacks.length - 1] = item;
-        }
-
-
-        if (slot != -1) {
-            ItemStack inSlot = inventory.getItem(slot);
-            if (item.isSimilar(inSlot)) {
-                int restPlusExisting = inSlot.getAmount() + rest;
-
-                if (restPlusExisting <= item.getMaxStackSize()) {
-                    inSlot.setAmount(restPlusExisting);
-                    // The last one is not needed anymore
-                    stacks = Arrays.copyOf(stacks, stacks.length - 1);
-                } else {
-                    int dif = restPlusExisting - item.getMaxStackSize();
-                    inSlot.setAmount(item.getMaxStackSize());
-                    stacks[stacks.length - 1].setAmount(dif);
-                }
-
-            } else {
-                inventory.setItem(slot, stacks[0]);
-                if (inSlot == null) {
-                    stacks = Arrays.copyOfRange(stacks, 1, stacks.length);
-                } else {
-                    stacks[0] = inSlot;
-                }
+            if (currentAmount + totalAmount <= maxStackSize) {
+                current.setAmount(currentAmount + totalAmount);
+                return true;
             }
+
+            totalAmount -= maxStackSize - currentAmount;
+            current.setAmount(maxStackSize);
         }
 
-        Map<Integer, ItemStack> overflow = inventory.addItem(stacks);
-        // Drop all items that don"t fit in
-        Location location = player.getLocation().add(0, 0.5, 0);
-        for (ItemStack value : overflow.values()) {
-            Item droppedItem = player.getWorld().dropItem(location, value);
-            droppedItem.setVelocity(RewiBWPlugin.ZERO_VECTOR);
+        for (int i = 0; i < contents.length; i++) {
+            if (contents[i] != null) continue;
+
+            int amount = Math.min(totalAmount, maxStackSize);
+
+            ItemStack clone = item.clone();
+            clone.setAmount(amount);
+            contents[i] = clone;
+            totalAmount -= amount;
         }
+
+        return totalAmount <= 0;
     }
+
+    private boolean moveToSlot(Player player, ItemStack[] contents, int slot) {
+        ItemStack item = this.itemStack.apply(player);
+
+        ItemStack inSlot = contents[slot];
+        if (!item.isSimilar(inSlot)) {
+            int firstEmpty = InventoryUtil.firstEmptySlot(contents);
+            if (firstEmpty == -1) {
+                return false;
+            }
+
+            ItemStack old = contents[slot];
+            contents[slot] = item;
+            contents[firstEmpty] = old;
+            return true;
+        }
+
+        int maxStackSize = item.getMaxStackSize();
+        int totalAmount = item.getAmount() + inSlot.getAmount();
+        if (totalAmount <= maxStackSize) {
+            inSlot.setAmount(totalAmount);
+            return true;
+        }
+
+        int firstEmpty = InventoryUtil.firstEmptySlot(contents);
+        if (firstEmpty == -1) {
+            return false;
+        }
+
+        inSlot.setAmount(maxStackSize);
+
+        item.setAmount(totalAmount - maxStackSize);
+        contents[firstEmpty] = item;
+        return true;
+    }
+
 }
