@@ -81,19 +81,23 @@ public interface Shoppable extends ShopButton {
         int resourcesFound = 0;
         int multiplier = 0;
 
-        int index = 0;
-        int[] usedSlots = new int[slots.size()];
-        int lastSlotIndex = -1;
+        int lastSlot = -1;
+        ItemStack itemInLastSlot = null;
+
+        outerLoop:
         for (int[] slotAndAmount : slots) {
+            int slot = slotAndAmount[0];
             resourcesFound += slotAndAmount[1];
-            usedSlots[index] = slotAndAmount[0];
-            lastSlotIndex = index++;
+
+            lastSlot = slot;
+            itemInLastSlot = inventoryContents[slot];
+            inventoryContents[slot] = null;
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();
                 multiplier++;
 
-                if (multiplier >= maxMultiplier) break;
+                if (multiplier >= maxMultiplier) break outerLoop;
             }
 
             if (multiplier >= maxMultiplier) break;
@@ -105,19 +109,11 @@ public interface Shoppable extends ShopButton {
             return;
         }
 
-        System.out.println("last slot: " + lastSlotIndex);
-        System.out.println("Array: " + Arrays.toString(usedSlots));
-
         // Clear the slots and set the last one to the rest of it
         int rest = resourcesFound;
-        for (int i = 0; i < usedSlots.length; i++) {
-            int slot = usedSlots[i];
-
-            if (rest > 0 && i == lastSlotIndex) {
-                inventoryContents[slot].setAmount(rest);
-            } else {
-                inventoryContents[slot] = null;
-            }
+        if (rest > 0) {
+            itemInLastSlot.setAmount(rest);
+            inventoryContents[lastSlot] = itemInLastSlot;
         }
 
         playerInventory.setContents(inventoryContents);

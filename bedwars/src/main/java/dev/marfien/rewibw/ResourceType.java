@@ -16,7 +16,6 @@ import org.bukkit.scheduler.BukkitTask;
 import java.util.Collection;
 
 @Getter
-@AllArgsConstructor
 public enum ResourceType {
 
     BRONZE(ChatColor.RED, "Bronze", Material.CLAY_BRICK, null, 12),
@@ -28,6 +27,18 @@ public enum ResourceType {
     private final Material material;
     private final Color effectColor;
     private final int spawnInterval;
+    private final ItemStack itemStack;
+
+    ResourceType(ChatColor chatColor, String translation, Material material, Color effectColor, int spawnInterval) {
+        this.chatColor = chatColor;
+        this.translation = translation;
+        this.material = material;
+        this.effectColor = effectColor;
+        this.spawnInterval = spawnInterval;
+        this.itemStack = ItemBuilder.of(this.material)
+                .setDisplayName(this.getDisplayName())
+                .asItemStack();
+    }
 
     public ShopPrice withAmount(int amount) {
         return new ShopPrice(this, amount);
@@ -38,14 +49,10 @@ public enum ResourceType {
     }
 
     public BukkitTask startSpawning(Collection<Location> locations) {
-        ItemStack item = ItemBuilder.of(this.material)
-                .setDisplayName(this.getDisplayName())
-                .asItemStack();
-
         return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
             for (Location location : locations) {
                 location.getWorld()
-                        .dropItem(location, item.clone())
+                        .dropItem(location, this.itemStack.clone())
                         .setVelocity(RewiBWPlugin.ZERO_VECTOR);
                 if (this.effectColor == null) continue;
                 Effect effect = createEffect(this.effectColor);
