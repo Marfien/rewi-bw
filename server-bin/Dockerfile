@@ -9,6 +9,8 @@ RUN java -jar spigot.jar || true
 FROM eclipse-temurin:8-jdk-alpine
 
 EXPOSE 25565
+EXPOSE 5005
+EXPOSE 9010
 WORKDIR /server
 ARG ONLINE_MODE=true
 

@@ -24,5 +24,9 @@ if [ "$DEBUG" = 'true' ]; then
   COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
 fi
 
+if [ "$PROFILING" = 'true' ]; then
+  COMMAND="$COMMAND -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=9010 -Dcom.sun.management.jmxremote.local.only=false -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false"
+fi
+
 echo "Starting server with ${MEMORY}MB of RAM"
 eval "$COMMAND -jar spigot.jar nogui"

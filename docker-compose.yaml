@@ -9,6 +9,7 @@ services:
     ports:
       - 25565:25565
       - 5005:5005
+      - 9010:9010
     environment:
       EULA: true
       DEBUG: true
@@ -21,6 +22,7 @@ services:
     ports:
       - 25565:25565
       - 5005:5005
+      - 9010:9010
     environment:
       EULA: true
       DEBUG: true
