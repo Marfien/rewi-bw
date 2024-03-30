@@ -9,6 +9,9 @@ on:
     tags:
       - '*'
 
+env:
+  TAG: ${{ github.ref_name }}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,8 +23,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-      - name: Set TAG variable
-        run: echo ::set-env name=TAG::$(echo $GITHUB_REF | cut -d '/' -f 3)
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
         with:
