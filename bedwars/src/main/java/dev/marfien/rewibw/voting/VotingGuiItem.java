@@ -45,7 +45,6 @@ public class VotingGuiItem implements GuiItem {
         } else {
             player.sendMessage(RewiBWPlugin.PREFIX + Message.VOTE_CAST.format(this.map.getDisplayName()));
         }
-        player.playSound(player.getLocation(), Sound.CLICK, 1.0F, 1.0F);
         player.closeInventory();
     }
 }

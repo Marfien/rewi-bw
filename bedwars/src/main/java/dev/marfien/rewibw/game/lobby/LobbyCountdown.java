@@ -58,9 +58,9 @@ public class LobbyCountdown extends AbstractCountdown {
 
     @Override
     public void onSecond(int second) {
+        float exp = 0.99F * second / INIT_SECONDS;
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setLevel(second);
-            float exp = 0.99F * second / INIT_SECONDS;
             player.setExp(exp);
         }
 
