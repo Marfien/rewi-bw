@@ -1,6 +1,7 @@
 services:
   rewi-bw-server:
-    image: marfiens/rewibw-server:latest
+    image: marfiens/rewibw-server:main
+    platform: linux/amd64
     volumes:
       - ./data:/data
       - ./data/plugin-config/:/server/plugins/rewi-bw/
@@ -11,7 +12,7 @@ services:
       AIKAR_FLAGS: true
       ANTI_REDUCE: true
   rewi-bw-setup-tool:
-    image: marfiens/rewibw-setup-tool:latest
+    image: marfiens/rewibw-setup-tool:main
     volumes:
       - ./data:/data
     ports:

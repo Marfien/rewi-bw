@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 
@@ -81,11 +82,10 @@ public interface Shoppable extends ShopButton {
         int multiplier = 0;
 
         int index = 0;
-        int[][] usedSlots = new int[slots.size()][2];
+        int[] usedSlots = new int[slots.size()];
         for (int[] slotAndAmount : slots) {
             resourcesFound += slotAndAmount[1];
-            usedSlots[index] = slotAndAmount;
-            index++;
+            usedSlots[index++] = slotAndAmount[0];
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();
@@ -103,16 +103,17 @@ public interface Shoppable extends ShopButton {
             return;
         }
 
-        int lastSlot = usedSlots[usedSlots.length - 1][0];
+        int lastSlot = usedSlots[usedSlots.length - 1];
+        System.out.println("last slot: " + lastSlot);
+        System.out.println("Array: " + Arrays.toString(usedSlots));
 
         // Clear the slots and set the last one to the rest of it
         int rest = resourcesFound;
-        for (int[] slotAndAmount : usedSlots) {
-            int inventorySlot = slotAndAmount[0];
-            if (rest > 0 && inventorySlot == lastSlot) {
-                inventoryContents[inventorySlot].setAmount(rest);
+        for (int slot : usedSlots) {
+            if (rest > 0 && slot == lastSlot) {
+                inventoryContents[slot].setAmount(rest);
             } else {
-                inventoryContents[inventorySlot] = null;
+                inventoryContents[slot] = null;
             }
         }
 

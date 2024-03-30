@@ -1,5 +1,7 @@
 package dev.marfien.rewibw.game.playing.item;
 
+import dev.marfien.rewibw.Message;
+import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.listener.MapProtectionListener;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
@@ -9,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.NumberConversions;
@@ -43,6 +46,11 @@ public class RescuePlatform extends UsableItemInfo {
         if (team == null) return false;
 
         Location center = clicker.getLocation();
+
+        if (center.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+            clicker.sendMessage(RewiBWPlugin.PREFIX + Message.RESCUE_PLATFORM_ON_GROUND);
+            return false;
+        }
 
         World world = center.getWorld();
         for (Vector vector : platformOffset) {

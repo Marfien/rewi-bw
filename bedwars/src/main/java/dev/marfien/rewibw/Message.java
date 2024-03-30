@@ -82,6 +82,7 @@ public class Message {
     public static final Message DEATH_TITLE = system("Du bist gestorben");
     public static final Message DEATH_TITLE_KILLED = system("Du wurdest getötet");
     public static final Message RESET_PERK = system("Dein Perk wurde zurückgesetzt.");
+    public static final Message RESCUE_PLATFORM_ON_GROUND = bad("Du stehst auf dem Boden.");
 
     private final String message;
 
