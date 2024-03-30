@@ -83,9 +83,11 @@ public interface Shoppable extends ShopButton {
 
         int index = 0;
         int[] usedSlots = new int[slots.size()];
+        int lastSlot = -1;
         for (int[] slotAndAmount : slots) {
             resourcesFound += slotAndAmount[1];
-            usedSlots[index++] = slotAndAmount[0];
+            usedSlots[index] = slotAndAmount[0];
+            lastSlot = index++;
 
             while (resourcesFound >= price.getAmount()) {
                 resourcesFound -= price.getAmount();
@@ -103,7 +105,6 @@ public interface Shoppable extends ShopButton {
             return;
         }
 
-        int lastSlot = usedSlots[usedSlots.length - 1];
         System.out.println("last slot: " + lastSlot);
         System.out.println("Array: " + Arrays.toString(usedSlots));
 
