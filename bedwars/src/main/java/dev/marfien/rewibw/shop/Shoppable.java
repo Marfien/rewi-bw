@@ -56,7 +56,7 @@ public interface Shoppable extends ShopButton {
                 ? this.getShiftClickMultiplier()
                 : 1;
 
-        ItemStack[] inventoryContents = playerInventory.getContents();
+        ItemStack[] inventoryContents = playerInventory.getContents().clone();
 
         List<int[]> slots = new ArrayList<>(inventoryContents.length / 2);
 
@@ -112,6 +112,7 @@ public interface Shoppable extends ShopButton {
         // Clear the slots and set the last one to the rest of it
         int rest = resourcesFound;
         if (rest > 0) {
+            itemInLastSlot = itemInLastSlot.clone();
             itemInLastSlot.setAmount(rest);
             inventoryContents[lastSlot] = itemInLastSlot;
         }

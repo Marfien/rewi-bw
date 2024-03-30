@@ -2,6 +2,7 @@ services:
   rewi-bw-server:
     image: marfiens/rewibw-server:main
     platform: linux/amd64
+    pull_policy: always
     volumes:
       - ./data:/data
       - ./data/plugin-config/:/server/plugins/rewi-bw/
