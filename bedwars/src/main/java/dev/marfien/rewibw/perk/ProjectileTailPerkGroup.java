@@ -3,6 +3,7 @@ package dev.marfien.rewibw.perk;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -38,16 +39,19 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
 
         @EventHandler
         private void onBowShoot(ProjectileLaunchEvent event) {
-            ProjectileSource shooter = event.getEntity().getShooter();
+            Projectile projectile = event.getEntity();
+            if (!(projectile instanceof Arrow)) return;
+
+            ProjectileSource shooter = projectile.getShooter();
             if (!(shooter instanceof Player)) return;
             Player player = (Player) shooter;
 
             DataPerk<ParticleEffect> data = getOrDefault(player);
+            if (data == null) return;
             ParticleEffect effect = data.getData();
 
             if (effect == null) return;
 
-            Projectile projectile = event.getEntity();
             this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 1));
         }
 

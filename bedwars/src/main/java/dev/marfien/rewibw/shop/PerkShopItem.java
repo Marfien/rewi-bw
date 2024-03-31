@@ -14,7 +14,6 @@ public class PerkShopItem extends ShopItem {
         this.perkGroup = perkGroup;
         this.base = base;
         perkGroup.getDefaultPerk().transformItem(base);
-        super.addPriceToLore(base);
     }
 
     @Override
@@ -26,6 +25,8 @@ public class PerkShopItem extends ShopItem {
 
     @Override
     public ItemStack getDisplayItemFor(Player player) {
-        return this.base;
+        ItemStack stack = this.base.clone();
+        super.addPriceToLore(stack);
+        return stack;
     }
 }

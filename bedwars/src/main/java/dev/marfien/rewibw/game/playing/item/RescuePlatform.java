@@ -47,7 +47,7 @@ public class RescuePlatform extends UsableItemInfo {
 
         Location center = clicker.getLocation();
 
-        if (center.getBlock().getRelative(BlockFace.DOWN).getType() == Material.AIR) {
+        if (center.getBlock().getRelative(BlockFace.DOWN).getType() != Material.AIR) {
             clicker.sendMessage(RewiBWPlugin.PREFIX + Message.RESCUE_PLATFORM_ON_GROUND);
             return false;
         }
