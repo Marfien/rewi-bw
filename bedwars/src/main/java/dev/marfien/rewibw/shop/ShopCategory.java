@@ -1,10 +1,10 @@
 package dev.marfien.rewibw.shop;
 
+import dev.marfien.rewibw.shared.InventoryUtil;
+import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import dev.marfien.rewibw.shared.gui.NoOpGuiItem;
-import dev.marfien.rewibw.shared.InventoryUtil;
-import dev.marfien.rewibw.shared.ItemBuilder;
 import lombok.Getter;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -2,7 +2,6 @@ package dev.marfien.rewibw.perk;
 
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.RewiBWPlugin;
-import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;

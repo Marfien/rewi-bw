@@ -90,10 +90,12 @@ public class ItemBuilder {
         return this.setLore(lore.split("\n"));
     }
 
-    public ItemBuilder addLoreLine(String line) {
+    public ItemBuilder addLoreLines(String... lines) {
         return this.useItemMeta(meta -> {
             List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-            lore.add(line);
+            for (String line : lines) {
+                lore.add(line);
+            }
             meta.setLore(lore);
         });
     }

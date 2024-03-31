@@ -2,9 +2,9 @@ package dev.marfien.rewibw.voting;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
-import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.world.GameMapInfo;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.ChatColor;
@@ -27,7 +27,7 @@ public class VotingGuiItem implements GuiItem {
                 .setLore("§f" + MapVoting.getVotes(this.map) + " Votes");
 
         if (map.getBuilder() != null) {
-            builder.addLoreLine("§8von " + map.getBuilder());
+            builder.addLoreLines("§8von " + map.getBuilder());
         }
 
         return builder.asItemStack();

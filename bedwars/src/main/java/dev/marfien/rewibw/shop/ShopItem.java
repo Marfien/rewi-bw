@@ -1,57 +1,23 @@
 package dev.marfien.rewibw.shop;
 
-import com.mysql.jdbc.ServerPreparedStatement;
-import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.InventoryUtil;
 import dev.marfien.rewibw.shared.ItemBuilder;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.bukkit.Location;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Arrays;
-import java.util.Map;
-import java.util.function.Function;
-
 @Getter
-@AllArgsConstructor
-public class ShopItem implements Shoppable {
+public abstract class ShopItem implements Shoppable {
 
     private final ShopPrice price;
-
-    private final Function<Player, ItemStack> displayItem;
-
-    private final Function<Player, ItemStack> itemStack;
-
     private final int shiftClickMultiplier;
 
-    public ShopItem(ShopPrice price, ItemStack itemStack, int shiftClickMultiplier) {
-        this(price, itemStack, itemStack, shiftClickMultiplier);
+    public ShopItem(ShopPrice price, int shiftClickMultiplier) {
+        this.price = price;
+        this.shiftClickMultiplier = shiftClickMultiplier;
     }
 
-    public ShopItem(ShopPrice price, ItemStack displayItem, ItemStack itemStack, int shiftClickMultiplier) {
-        this(price, ignored -> displayItem.clone(), ignored -> itemStack.clone(), shiftClickMultiplier);
-    }
-
-    public ShopItem(ShopPrice price, Function<Player, ItemStack> itemStack, int shiftClickMultiplier) {
-        this(price, itemStack, itemStack, shiftClickMultiplier);
-    }
-
-    @Override
-    public ItemStack getDisplayItemFor(Player player) {
-        ItemStack item = this.displayItem.apply(player);
-
-        if (item == null) return null;
-        if (!item.hasItemMeta()) return item;
-
-        return ItemBuilder.of(this.displayItem.apply(player))
-                .addLoreLine("")
-                .addLoreLine(" " + this.price.toColoredString())
-                .asItemStack();
-    }
+    public abstract ItemStack createItem(Player player);
 
     @Override
     public boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot) {
@@ -59,7 +25,7 @@ public class ShopItem implements Shoppable {
             return moveToSlot(player, contents, slot);
         }
 
-        ItemStack item = this.itemStack.apply(player);
+        ItemStack item = this.createItem(player);
         int maxStackSize = item.getMaxStackSize();
         int totalAmount = item.getAmount() * multiplier;
 
@@ -93,7 +59,7 @@ public class ShopItem implements Shoppable {
     }
 
     private boolean moveToSlot(Player player, ItemStack[] contents, int slot) {
-        ItemStack item = this.itemStack.apply(player);
+        ItemStack item = this.createItem(player);
 
         ItemStack inSlot = contents[slot];
         if (!item.isSimilar(inSlot)) {
@@ -125,6 +91,11 @@ public class ShopItem implements Shoppable {
         item.setAmount(totalAmount - maxStackSize);
         contents[firstEmpty] = item;
         return true;
+    }
+
+    void addPriceToLore(ItemStack itemStack) {
+        ItemBuilder.of(itemStack)
+                .addLoreLines(" ", " " + price.toColoredString());
     }
 
 }

@@ -7,7 +7,6 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.end.EndGameState;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
-import dev.marfien.rewibw.perk.DataPerk;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
