@@ -261,12 +261,14 @@ public class GameWorld {
 
     public List<Location> getLocationList(String path, List<Location> defaultValue) {
         List<?> list = this.getList(path);
+        if (list == null) return defaultValue;
+
         List<Location> result = new ArrayList<>(list.size());
-        if (list == null || list.isEmpty()) return defaultValue;
+        if (list.isEmpty()) return defaultValue;
 
         for (Object o : list) {
             if (!(o instanceof Map)) continue;
-            Map<String, Object> map = (Map<String, Object>) o;
+            Map map = (Map) o;
 
             if (!map.containsKey("x") || !map.containsKey("y") || !map.containsKey("z")) continue;
 

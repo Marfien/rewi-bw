@@ -6,6 +6,8 @@ import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.world.GameMapInfo;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -14,6 +16,8 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class MapVoting {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private static final Map<Player, GameMapInfo> votes = new HashMap<>();
     private static final Map<GameMapInfo, Integer> voteCount = new HashMap<>();

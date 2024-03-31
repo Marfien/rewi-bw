@@ -9,6 +9,8 @@ import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameMapInfo;
 import dev.marfien.rewibw.world.MapPool;
 import org.apache.commons.lang.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ForceMapCommand implements CommandExecutor, TabExecutor {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {

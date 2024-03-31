@@ -115,8 +115,8 @@ public class Teleporter extends UsableItemInfo {
             Location from = event.getFrom();
             Location to = event.getTo();
 
-            Integer lauchHeight = launchedPlayers.get(player);
-            if (lauchHeight != null && to.getY() > lauchHeight + 150) {
+            Integer launchHeight = launchedPlayers.get(player);
+            if (launchHeight != null && to.getY() > launchHeight + 150) {
                 GameTeam team = TeamManager.getTeam(player);
                 if (team == null) return;
                 player.teleport(team.getSpawn());

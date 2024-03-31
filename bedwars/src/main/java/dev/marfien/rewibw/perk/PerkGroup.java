@@ -10,6 +10,8 @@ import dev.marfien.rewibw.shared.gui.StaticNoOpGuiItem;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -27,6 +29,8 @@ import java.util.Optional;
 
 @Getter
 public abstract class PerkGroup<P extends Perk> implements GuiItem {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private static final GuiItem PANE = new StaticNoOpGuiItem(ItemBuilder.of(Material.STAINED_GLASS_PANE).setDisplayName("§7").setDamage((short) 7).asItemStack());
     private static final GuiItem PANE_ACTIVE = new StaticNoOpGuiItem(ItemBuilder.of(Material.STAINED_GLASS_PANE).setDisplayName("§7").setDamage((short) 13).asItemStack());
@@ -49,10 +53,12 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     }
 
     public void setPerk(Player player, P perk) {
+        LOGGER.debug("Setting perk {} for player {}", perk.getName(), player.getName());
         this.selectedPerks.put(player, perk);
     }
 
     public void unsetPerk(Player player) {
+        LOGGER.trace("Unsetting perk for player {}", player.getName());
         this.selectedPerks.remove(player);
     }
 

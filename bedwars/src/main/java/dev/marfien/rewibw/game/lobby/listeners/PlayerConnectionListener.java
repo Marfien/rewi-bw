@@ -19,7 +19,7 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 public class PlayerConnectionListener implements Listener {
 
-    private static ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
+    private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
 
     static {
         LOBBY_CONTENTS[4] = Items.PERKS_ITEM;

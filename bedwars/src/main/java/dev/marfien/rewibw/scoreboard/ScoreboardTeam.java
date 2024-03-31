@@ -120,7 +120,7 @@ public class ScoreboardTeam {
     }
 
     public boolean hasEntry(String s) {
-        return false;
+        return this.entries.contains(s);
     }
 
     public void apply(Player player, Team team) {

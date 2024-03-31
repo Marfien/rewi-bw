@@ -11,6 +11,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -95,7 +96,9 @@ public class TeamChest implements Listener {
 
     @EventHandler
     private void onClose(InventoryCloseEvent event) {
-        if (this.viewers.remove(event.getPlayer())) {
+        HumanEntity player = event.getPlayer();
+        if (!(player instanceof Player)) return;
+        if (this.viewers.remove(player)) {
             this.updateViewerCount();
         }
     }

@@ -69,6 +69,7 @@ public class LobbyCountdown extends AbstractCountdown {
                             try {
                                 return MapPool.requestMap(MapVoting.getOrChooseWinner());
                             } catch (IOException e) {
+                                // TODO better error handling
                                 e.printStackTrace();
                                 System.exit(1);
                                 return null;

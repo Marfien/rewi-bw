@@ -19,6 +19,8 @@ import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
@@ -33,7 +35,10 @@ import java.util.stream.Collectors;
 @Getter
 public class RewiBWPlugin extends JavaPlugin {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public static final String PREFIX = "§8[§3BedWars§8] §r";
+
     private static RewiBWPlugin instance;
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
 
@@ -69,12 +74,15 @@ public class RewiBWPlugin extends JavaPlugin {
     public void onLoad() {
         super.saveDefaultConfig();
         FileConfiguration config = super.getConfig();
+
         teams = config.getStringList("teams.colors")
                 .stream()
                 .map(String::toUpperCase)
                 .map(TeamColor::valueOf)
                 .collect(Collectors.toSet());
         playersPerTeam = config.getInt("teams.players");
+        LOGGER.info("Loaded " + teams.size() + " teams with " + playersPerTeam + " players each: " + teams.stream().map(Enum::name).collect(Collectors.joining(", ")) + ".");
+
         effectManager = new EffectManager(this);
 
         instance = this;
@@ -84,7 +92,8 @@ public class RewiBWPlugin extends JavaPlugin {
     @SneakyThrows(IOException.class)
     public void onEnable() {
         FileConfiguration config = super.getConfig();
-        this.getLogger().info("Loading Maps...");
+
+        LOGGER.info("Loading maps from " + config.getString("maps.path"));
         MapPool.loadMaps(Paths.get(config.getString("maps.path")));
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
