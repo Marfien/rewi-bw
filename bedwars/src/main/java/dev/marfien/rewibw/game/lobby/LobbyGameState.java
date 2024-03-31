@@ -18,6 +18,7 @@ import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.GameWorld;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
@@ -60,6 +61,7 @@ public class LobbyGameState extends GameState {
 
     @Override
     public void onStart() {
+        Bukkit.unloadWorld("world", false);
         this.itemManager.register(RewiBWPlugin.getInstance());
         this.countdown.startIdle();
         this.world.load();
