@@ -101,9 +101,6 @@ public class PlayerDeathListener implements Listener {
             Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
         }
 
-        // TODO dev π
-        if (true) return;
-
         GameTeam winner = null;
         Collection<GameTeam> teams = TeamManager.getTeams();
         boolean singleTeamLeft = true;
