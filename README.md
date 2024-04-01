@@ -47,7 +47,7 @@ teams:
         yaw: 0.0
 ```
 
-### maps/<map name>/config.yaml
+### maps/\<map name/>/config.yaml
 ```yaml
 spawn: # Spectator spawn
   x: -72.5
