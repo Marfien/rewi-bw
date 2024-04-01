@@ -6,7 +6,6 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.voting.MapVoting;
-import dev.marfien.rewibw.world.GameMapInfo;
 import dev.marfien.rewibw.world.MapPool;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;

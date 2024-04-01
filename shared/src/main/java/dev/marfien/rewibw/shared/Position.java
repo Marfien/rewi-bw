@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.util;
+package dev.marfien.rewibw.shared;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,10 +9,12 @@ import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
+import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ConfigSerializable
 public class Position extends Vector {
 
     private float yaw;

@@ -7,7 +7,6 @@ import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamChest;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.world.GameMap;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;

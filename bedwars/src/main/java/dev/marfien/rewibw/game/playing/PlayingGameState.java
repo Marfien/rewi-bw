@@ -14,7 +14,6 @@ import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.Strings;
-import dev.marfien.rewibw.world.GameMap;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -108,7 +107,7 @@ public class PlayingGameState extends GameState {
     }
 
     private static void buildScoreboard() {
-        int playersPerTeam = RewiBWPlugin.getPlayersPerTeam();
+        int playersPerTeam = RewiBWPlugin.getConfig().getTeams().getPlayersPerTeam();
         sidebarObjective = CustomScoreboardManager.registerObjective("sidebar", "dummy");
         sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebarObjective.setDisplayName("§3BedWars §7- §b60:00");

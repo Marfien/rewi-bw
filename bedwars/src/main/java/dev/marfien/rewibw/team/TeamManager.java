@@ -5,13 +5,15 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
-import dev.marfien.rewibw.world.GameWorld;
+import dev.marfien.rewibw.shared.config.LobbyConfig;
+import dev.marfien.rewibw.shared.config.PluginConfig;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -36,27 +38,30 @@ public class TeamManager {
     @Setter
     private static boolean isIngame = false;
 
-    public static Collection<Listener> init(GameWorld lobby) {
+    public static Collection<Listener> init(LobbyWorld lobby) {
         Bukkit.getPluginManager().registerEvents(new TeamListener(), RewiBWPlugin.getInstance());
 
         return initTeams(lobby);
     }
 
-    private static Collection<Listener> initTeams(GameWorld lobby) {
-        Collection<Listener> listeners = new ArrayList<>();
+    private static Collection<Listener> initTeams(LobbyWorld lobby) {
+        Set<Listener> listeners = new HashSet<>();
+        PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getConfig().getTeams();
+        Map<TeamColor, LobbyConfig.LobbyTeamConfig> teams = lobby.getConfig().getTeams();
 
-        for (TeamColor teamColor : RewiBWPlugin.getTeams()) {
-            String key = teamColor.name().toLowerCase();
-            Location teamJoiner = lobby.getLocation("teams." + key + ".joiner");
-            List<Location> displayLocations = lobby.getLocationList("teams." + key + ".displays");
+        for (TeamColor teamColor : teamConfig.getVariants()) {
+            LobbyConfig.LobbyTeamConfig lobbyTeamConfig = teams.get(teamColor);
+            Position[] displayLocations = lobbyTeamConfig.getDisplays();
 
-            if (displayLocations.size() < RewiBWPlugin.getPlayersPerTeam())
+            if (displayLocations.length < teamConfig.getPlayersPerTeam())
                 throw new IllegalArgumentException("The memberDisplay section needs to be at least the size of players per team");
 
-            GameTeam team = new GameTeam(teamColor, displayLocations.toArray(new Location[0]));
-            listeners.add(new TeamJoiner(teamJoiner, team));
-            teams.add(team);
-            RewiBWPlugin.getInstance().getLogger().log(Level.INFO, "Registered team " + teamColor.name() + " with " + displayLocations.size() + " display locations");
+            GameTeam team = new GameTeam(teamColor, lobby.getWorld(), displayLocations);
+
+            listeners.add(new TeamJoiner(lobbyTeamConfig.getJoiner().toLocation(lobby.getWorld()), team));
+
+            TeamManager.teams.add(team);
+            RewiBWPlugin.getInstance().getLogger().log(Level.INFO, "Registered team " + teamColor.name() + " with " + displayLocations.length + " display locations");
         }
 
         return listeners;

@@ -7,8 +7,7 @@ spigot-api = { group = "org.spigotmc", name = "spigot-api", version.ref = "spigo
 effectlib = { group = "com.github.Slikey", name = "EffectLib", version = "5.10-SNAPSHOT" }
 noteblockapi = { group = "com.github.koca2000", name = "NoteBlockAPI", version = "1.6.2" }
 javassist = { group = "org.javassist", name = "javassist", version = "3.27.0-GA" }
-# Cannot be used in subproject scope
-lombok = { group = "org.projectlombok", name = "lombok", version = "1.18.30" }
+configurate = { group = "org.spongepowered", name = "configurate-yaml", version = "4.1.2" }
 
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

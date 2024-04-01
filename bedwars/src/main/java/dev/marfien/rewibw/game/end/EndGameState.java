@@ -1,16 +1,15 @@
 package dev.marfien.rewibw.game.end;
 
-import com.xxmicloxx.NoteBlockAPI.songplayer.RadioSongPlayer;
-import com.xxmicloxx.NoteBlockAPI.utils.NBSDecoder;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
+import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.team.GameTeam;
-import dev.marfien.rewibw.world.GameWorld;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
@@ -24,7 +23,7 @@ import org.bukkit.inventory.meta.FireworkMeta;
 @RequiredArgsConstructor
 public class EndGameState extends GameState {
 
-    private static final GameWorld lobby = LobbyGameState.getInstance().getWorld();
+    private static final LobbyWorld lobby = LobbyGameState.getInstance().getWorld();
 
     //private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
     private final EndCountdown countdown = new EndCountdown(this);
@@ -32,15 +31,16 @@ public class EndGameState extends GameState {
 
     @Getter
     private final Listener[] listeners = new Listener[]{
-            new LobbyWorldListener(lobby.getSpawn()),
-            new PlayerListener(),
+            new LobbyWorldListener(),
+            new PlayerListener(lobby.asLocation(LobbyConfig::getSpawn)),
             new ChatFormatListener()
     };
 
     @Override
     public void onStart() {
+        Location spawn = lobby.asLocation(LobbyConfig::getSpawn);
         for (Player player : Bukkit.getOnlinePlayers()) {
-            player.teleport(lobby.getSpawn());
+            player.teleport(spawn);
             PlayerManager.showSpectators(player);
             //this.songPlayer.addPlayer(player);
         }
@@ -49,7 +49,7 @@ public class EndGameState extends GameState {
 //        this.songPlayer.setPlaying(true);
 
         this.countdown.start();
-        if (winner == null) {
+        if (this.winner == null) {
             Message.broadcast(" ");
             Message.broadcast(Message.NO_WINNER.toString());
             Message.broadcast(" ");
@@ -57,10 +57,10 @@ public class EndGameState extends GameState {
         }
 
         Message.broadcast(" ");
-        Message.broadcast(Message.BROADCAST_WINNER.format(winner.getColor().getDisplayName()));
+        Message.broadcast(Message.BROADCAST_WINNER.format(this.winner.getColor().getDisplayName()));
         Message.broadcast(" ");
 
-        Location location = lobby.getLocation("teams." + winner.getColor().name().toLowerCase() + ".joiner");
+        Location location = lobby.asLocation(config -> config.getTeams().get(this.winner.getColor()).getJoiner());
         Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
             //this.songPlayer.setPlaying(false);
             Firework firework = lobby.getWorld().spawn(location, Firework.class);
@@ -70,7 +70,7 @@ public class EndGameState extends GameState {
                     FireworkEffect.builder()
                             .with(FireworkEffect.Type.BURST)
                             .withTrail()
-                            .withColor(winner.getColor().getDyeColor().getColor())
+                            .withColor(this.winner.getColor().getDyeColor().getColor())
                             .build()
             );
             firework.setFireworkMeta(meta);

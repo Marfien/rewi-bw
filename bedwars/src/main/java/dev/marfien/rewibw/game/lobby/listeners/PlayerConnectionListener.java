@@ -4,6 +4,7 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import org.bukkit.Bukkit;
@@ -15,10 +16,10 @@ import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
-import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 public class PlayerConnectionListener implements Listener {
 
+    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getConfig().getTeams();
     private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
 
     static {
@@ -28,7 +29,7 @@ public class PlayerConnectionListener implements Listener {
 
     @EventHandler
     private void onLogin(AsyncPlayerPreLoginEvent event) {
-        if (Bukkit.getOnlinePlayers().size() >= RewiBWPlugin.getMaxPlayers()) {
+        if (Bukkit.getOnlinePlayers().size() >= this.teamConfig.getMaxPlayers()) {
             event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_FULL, "§cDer Server ist bereits voll.");
         }
     }
@@ -41,7 +42,7 @@ public class PlayerConnectionListener implements Listener {
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
 
-        if (Bukkit.getOnlinePlayers().size() >= RewiBWPlugin.getMinPlayers() && !countdown.isRunning()) {
+        if (Bukkit.getOnlinePlayers().size() >= this.teamConfig.getMinPlayers() && !countdown.isRunning()) {
             countdown.start();
         }
 
@@ -58,16 +59,11 @@ public class PlayerConnectionListener implements Listener {
 
         LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
         int players = Bukkit.getOnlinePlayers().size() - 1;
-        if (players < RewiBWPlugin.getMinPlayers() && countdown.isRunning()) {
+        if (players < this.teamConfig.getMinPlayers() && countdown.isRunning()) {
             countdown.stop();
             countdown.startIdle();
             MapVoting.reset();
         }
-    }
-
-    @EventHandler
-    private void onSpawn(PlayerSpawnLocationEvent event) {
-        event.setSpawnLocation(LobbyGameState.getInstance().getWorld().getSpawn());
     }
 
 }

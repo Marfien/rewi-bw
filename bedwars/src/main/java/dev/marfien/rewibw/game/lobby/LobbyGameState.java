@@ -7,7 +7,8 @@ import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
 import dev.marfien.rewibw.perk.PerkManager;
-import dev.marfien.rewibw.shared.FileUtils;
+import dev.marfien.rewibw.shared.Position;
+import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
@@ -15,48 +16,43 @@ import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.CpsTester;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
-import dev.marfien.rewibw.world.GameWorld;
-import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.nio.file.Path;
+import java.util.Collection;
 
 @Getter
 public class LobbyGameState extends GameState {
 
-    private static final String LOBBY_WORLD_NAME = "lobby";
-
     @Getter
     private static LobbyGameState instance;
 
-    private final GameWorld world;
+    private final LobbyWorld world;
     private final UsableItemManager itemManager = new UsableItemManager();
     private final LobbyCountdown countdown = new LobbyCountdown();
 
-    private final ArrayList<Listener> listeners = new ArrayList<>();
+    private final Listener[] listeners;
+    private Collection<Listener> extra;
 
-    public LobbyGameState(String lobbyPath) throws IOException {
+    public LobbyGameState(Path lobbyPath) throws IOException {
         if (instance != null) throw new IllegalStateException("LobbyGameState already exists");
 
-        FileUtils.copyFolder(Paths.get(lobbyPath), MapPool.getBukkitWorldContainer().resolve(LOBBY_WORLD_NAME));
-        this.world = new GameWorld(LOBBY_WORLD_NAME);
+        this.world = LobbyWorld.setupLobby(lobbyPath);
         this.world.load();
 
-        this.listeners.add(new PlayerListener());
-        this.listeners.add(new LobbyWorldListener(this.world.getSpawn()));
-        this.listeners.add(new PlayerConnectionListener());
+        this.listeners = new Listener[]{
+                new PlayerListener(this.world.asLocation(LobbyConfig::getSpawn)),
+                new LobbyWorldListener(),
+                new PlayerConnectionListener()
+        };
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));
         this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> PerkManager.openGui(event.getPlayer())));
         instance = this;
-    }
-
-    public Listener[] getListeners() {
-        return this.listeners.toArray(new Listener[0]);
     }
 
     @Override
@@ -65,15 +61,28 @@ public class LobbyGameState extends GameState {
         this.itemManager.register(RewiBWPlugin.getInstance());
         this.countdown.startIdle();
         this.world.load();
-        FakeEntityManager.spawn(new CpsTester(this.world.getLocation("cps")));
-        this.listeners.addAll(TeamManager.init(this.world));
+
+        // TODO find a better way of handling this
+        this.extra = TeamManager.init(this.world);
+
         PerkManager.init(RewiBWPlugin.getInstance());
+
+        Position position = this.world.getConfig().getCpsTester();
+        if (position == null) return;
+
+        FakeEntityManager.spawn(new CpsTester(position.toLocation(this.world.getWorld())));
     }
 
     @Override
     public void onStop() {
         this.itemManager.shutdown();
         TeamManager.assignTeams();
+
+        if (this.extra != null) {
+            for (Listener listener : this.extra) {
+                HandlerList.unregisterAll(listener);
+            }
+        }
     }
 
 }

@@ -1,9 +1,9 @@
 package dev.marfien.rewibw.voting;
 
 import dev.marfien.rewibw.Message;
+import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.world.GameMapInfo;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +33,8 @@ public class MapVoting {
     @Getter
     private static boolean running = false;
     
-    public static void init(int[] votableSlots) {
-        MapVoting.votableSlots = votableSlots;
+    public static void init(PluginConfig.VoteConfig config) {
+        votableSlots = config.getInventorySlots();
         mapCollection = new ArrayList<>(MapPool.getMaps());
         votables = new GameMapInfo[Math.min(votableSlots.length, mapCollection.size())];
         

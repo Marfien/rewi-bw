@@ -27,12 +27,12 @@ public class LobbyCountdown extends AbstractCountdown {
     }
 
     public void startIdle() {
-        this.idleTask = new BukkitRunnable() {
-            @Override
-            public void run() {
-                    Message.broadcast(RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(RewiBWPlugin.getMinPlayers() - Bukkit.getOnlinePlayers().size()));
-            }
-        }.runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 0, 20 * 30);
+        this.idleTask = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () ->
+                Message.broadcast(
+                        RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(
+                                RewiBWPlugin.getConfig().getTeams().getMinPlayers() - Bukkit.getOnlinePlayers().size()
+                        )
+                ), 0, 20 * 30);
     }
 
     public void stopIdle() {

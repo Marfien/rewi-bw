@@ -11,4 +11,5 @@ dependencies {
         exclude(group = "net.md-5", module = "bungeecord-chat")
     }
     api(libs.effectlib)
+    api(libs.configurate)
 }

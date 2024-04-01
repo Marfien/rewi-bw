@@ -16,7 +16,7 @@ public class MapPool {
     @Getter
     private static final Path bukkitWorldContainer = Bukkit.getWorldContainer().toPath();
     private static final Map<String, GameMapInfo> maps = new ConcurrentHashMap<>();
-    private static final Map<String, GameMap> requestedMaps = new ConcurrentHashMap<>();
+    private static final Map<String, MapWorld> requestedMaps = new ConcurrentHashMap<>();
 
     public static void loadMaps(Path baseDir, DuplicatePolicy policy) throws IOException {
         Files.list(baseDir)
@@ -52,17 +52,17 @@ public class MapPool {
         }
     }
 
-    public static GameMap requestMap(GameMapInfo info) throws IOException {
-        GameMap map = requestedMaps.get(info.getName());
+    public static MapWorld requestMap(GameMapInfo info) throws IOException {
+        MapWorld map = requestedMaps.get(info.getName());
         if (map != null) return map;
 
         FileUtils.copyFolder(info.getPath(), bukkitWorldContainer.resolve(info.getName()));
-        map = new GameMap(info.getName(), info);
+        map = new MapWorld(info.getName(), info);
         requestedMaps.put(info.getName(), map);
         return map;
     }
 
-    public static GameMap requestMap(String name) throws IOException {
+    public static MapWorld requestMap(String name) throws IOException {
         GameMapInfo info = maps.get(name);
         if (info == null) return null;
 

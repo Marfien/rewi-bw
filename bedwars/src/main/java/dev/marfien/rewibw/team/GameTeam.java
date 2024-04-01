@@ -1,17 +1,16 @@
 package dev.marfien.rewibw.team;
 
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.inventory.Inventory;
@@ -43,7 +42,7 @@ public class GameTeam {
     private Location spawn;
     private TeamBed bed;
 
-    public GameTeam(TeamColor color, Location... displayLocations) {
+    public GameTeam(TeamColor color, World lobby, Position... displayLocations) {
         this.color = color;
         this.playerScoreboardTeam = CustomScoreboardManager.registerTeam("team_" + color.name());
         this.playerScoreboardTeam.setPrefix(ignored -> color.getChatColor().toString());
@@ -61,7 +60,7 @@ public class GameTeam {
 
         this.memberDisplays = new TeamMemberDisplay[displayLocations.length];
         for (int i = 0; i < displayLocations.length; i++) {
-            this.memberDisplays[i] = new TeamMemberDisplay(this, displayLocations[i]);
+            this.memberDisplays[i] = new TeamMemberDisplay(this, displayLocations[i].toLocation(lobby));
         }
     }
 
@@ -139,7 +138,7 @@ public class GameTeam {
     }
 
     public boolean isFull() {
-        return this.members.size() >= RewiBWPlugin.getPlayersPerTeam();
+        return this.members.size() >= RewiBWPlugin.getConfig().getTeams().getPlayersPerTeam();
     }
 
     public boolean isMember(Player player) {

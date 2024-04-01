@@ -2,7 +2,9 @@ package dev.marfien.rewibw.game.lobby.listeners;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -11,13 +13,22 @@ import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
+import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
+@RequiredArgsConstructor
 public class PlayerListener implements Listener {
+
+    private final Location spawn;
+
+    @EventHandler
+    private void onPlayerSpawn(PlayerSpawnLocationEvent event) {
+        event.setSpawnLocation(this.spawn);
+    }
 
     @EventHandler
     private void onMoveBelowY(PlayerMoveEvent event) {
         if (event.getTo().getY() < 0) {
-            event.getPlayer().teleport(LobbyGameState.getInstance().getWorld().getSpawn());
+            event.getPlayer().teleport(this.spawn);
         }
     }
 

@@ -10,6 +10,7 @@ import dev.marfien.rewibw.listener.PlayerConnectionListener;
 import dev.marfien.rewibw.listener.WorldListener;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
@@ -24,8 +25,11 @@ import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
 
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -43,20 +47,9 @@ public class RewiBWPlugin extends JavaPlugin {
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
 
     @Getter
-    private static Collection<TeamColor> teams;
-    @Getter
-    private static int playersPerTeam;
-
-    @Getter
     private static EffectManager effectManager;
-
-    public static int getMaxPlayers() {
-        return teams.size() * playersPerTeam;
-    }
-
-    public static int getMinPlayers() {
-        return getMaxPlayers() / 2;
-    }
+    @Getter
+    private static PluginConfig config;
 
     public static RewiBWPlugin getInstance() {
         if (instance == null)
@@ -66,43 +59,36 @@ public class RewiBWPlugin extends JavaPlugin {
 
     private final UsableItemManager globalItemManager = new UsableItemManager();
 
-    public RewiBWPlugin() {
-        this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
-    }
-
     @Override
     public void onLoad() {
-        super.saveDefaultConfig();
-        FileConfiguration config = super.getConfig();
-
-        teams = config.getStringList("teams.colors")
-                .stream()
-                .map(String::toUpperCase)
-                .map(TeamColor::valueOf)
-                .collect(Collectors.toSet());
-        playersPerTeam = config.getInt("teams.players");
-        LOGGER.info("Loaded " + teams.size() + " teams with " + playersPerTeam + " players each: " + teams.stream().map(Enum::name).collect(Collectors.joining(", ")) + ".");
+        super.saveResource("config.yaml", false);
+        try {
+            config = PluginConfig.loader(this).load().get(PluginConfig.class);
+            LOGGER.info("Successfully loaded plugin configuration");
+        } catch (ConfigurateException e) {
+            LOGGER.error("Could not load configuration file", e);
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
 
         effectManager = new EffectManager(this);
-
         instance = this;
+
+        this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
     }
 
     @Override
     @SneakyThrows(IOException.class)
     public void onEnable() {
-        FileConfiguration config = super.getConfig();
-
-        LOGGER.info("Loading maps from " + config.getString("maps.path"));
-        MapPool.loadMaps(Paths.get(config.getString("maps.path")));
+        MapPool.loadMaps(config.getMapPool());
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
-        GameStateManager.setActiveGameState(new LobbyGameState(config.getString("maps.lobby")));
+        GameStateManager.setActiveGameState(new LobbyGameState(config.getLobbyMap()));
         FakeEntityManager.init(this);
         GuiInventory.setPlugin(this);
         CustomScoreboardManager.init();
-        MapVoting.init(config.getIntegerList("voting.votable-slots").stream().mapToInt(i -> i).toArray());
+        MapVoting.init(config.getVoting());
         this.globalItemManager.register(this);
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
