@@ -1,8 +1,10 @@
 package dev.marfien.rewibw.world;
 
 import dev.marfien.rewibw.shared.FileUtils;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,14 +17,14 @@ public class MapPool {
 
     @Getter
     private static final Path bukkitWorldContainer = Bukkit.getWorldContainer().toPath();
-    private static final Map<String, GameMapInfo> maps = new ConcurrentHashMap<>();
+    private static final Map<String, MapConfig> maps = new ConcurrentHashMap<>();
     private static final Map<String, MapWorld> requestedMaps = new ConcurrentHashMap<>();
 
     public static void loadMaps(Path baseDir, DuplicatePolicy policy) throws IOException {
         Files.list(baseDir)
                 .parallel()
                 .filter(Files::isDirectory)
-                .filter(path -> Files.exists(path.resolve(GameWorld.CONFIG_FILE)))
+                .filter(path -> Files.exists(path.resolve("config.yaml")))
                 .forEach(path -> loadMap(path, policy));
     }
 
@@ -31,24 +33,30 @@ public class MapPool {
     }
 
     public static void loadMap(Path path, DuplicatePolicy policy) {
-        GameMapInfo info = GameMapInfo.fromConfig(path);
+        String name = path.getFileName().toString();
+        try {
+            MapConfig config = MapConfig.loader(path).load().get(MapConfig.class);
 
-        if (!maps.containsKey(info.getName())) {
-            maps.put(info.getName(), info);
-            return;
-        }
+            if (!maps.containsKey(name)) {
+                maps.put(name, config);
+                return;
+            }
 
-        switch (policy) {
-            case THROW_EXCEPTION:
-                throw new IllegalArgumentException("Map with name " + info.getName() + " already exists");
-            case WARN:
-                System.err.println("Map with name " + info.getName() + " already exists");
-                break;
-            case REPLACE:
-                maps.put(info.getName(), info);
-                break;
-            case IGNORE:
-                break;
+            switch (policy) {
+                case THROW_EXCEPTION:
+                    throw new IllegalArgumentException("Map with name " + name + " already exists");
+                case WARN:
+                    // TODO logging
+                    System.err.println("Map with name " + name + " already exists");
+                    break;
+                case REPLACE:
+                    maps.put(name, config);
+                    break;
+                case IGNORE:
+                    break;
+            }
+        } catch (ConfigurateException e) {
+            System.err.println("Could not load map '" + name + "': " + e.getMessage());
         }
     }
 
