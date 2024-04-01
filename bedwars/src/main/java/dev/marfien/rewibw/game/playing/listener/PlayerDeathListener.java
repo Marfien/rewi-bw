@@ -79,7 +79,7 @@ public class PlayerDeathListener implements Listener {
     private void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
 
-        if (TeamManager.hasTeam(player)) return;
+        if (!TeamManager.hasTeam(player)) return;
 
         Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
         removeFromGame(player);
@@ -100,6 +100,9 @@ public class PlayerDeathListener implements Listener {
         if (team.size() == 0) {
             Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
         }
+
+        // TODO dev π
+        if (true) return;
 
         GameTeam winner = null;
         Collection<GameTeam> teams = TeamManager.getTeams();

@@ -9,10 +9,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.*;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
 public class SpectatorListener implements Listener {
@@ -80,6 +77,18 @@ public class SpectatorListener implements Listener {
     private void onInventoryClick(InventoryClickEvent event) {
         if (!PlayerManager.isSpectator((Player) event.getWhoClicked())) return;
 
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onItemPickUp(PlayerPickupItemEvent event) {
+        if (!PlayerManager.isSpectator(event.getPlayer())) return;
+
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onDrop(PlayerDropItemEvent event) {
         event.setCancelled(true);
     }
 
