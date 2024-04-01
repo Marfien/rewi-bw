@@ -52,6 +52,9 @@ public class TeamBed implements Listener {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), PerkManager.BED_DESTROY_SOUND_PERK_GROUP.getOrDefault(player).getData(), 1F, 0.8F);
         }
+        for (Player member : this.team.getMembers()) {
+            member.sendTitle("§6Dein Bett", "§6wurde zerstört");
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)

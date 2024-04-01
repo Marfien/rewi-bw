@@ -13,7 +13,7 @@ public abstract class Perk {
     public Perk(String name, ItemStack displayItem) {
         this.name = name;
         this.displayItem = ItemBuilder.of(displayItem)
-                .setLore(" ", "§e§lGekauft")
+                .setLore(" ", "§eGekauft")
                 .asItemStack();
     }
 
