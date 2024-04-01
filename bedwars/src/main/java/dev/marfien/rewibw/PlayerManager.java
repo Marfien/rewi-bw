@@ -1,5 +1,6 @@
 package dev.marfien.rewibw;
 
+import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.util.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -36,11 +37,14 @@ public class PlayerManager {
         SPECTATORS.add(player);
         resetPlayerStatus(player);
         player.setAllowFlight(true);
-        player.setFlying(true);
+        player.setCompassTarget(PlayingGameState.getMap().getSpawn());
+
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other == player) continue;
             other.hidePlayer(player);
         }
+
+        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> player.setFlying(true), 10);
 
         Inventory inventory = player.getInventory();
         inventory.setItem(0, Items.SPECTATOR_COMPASS);

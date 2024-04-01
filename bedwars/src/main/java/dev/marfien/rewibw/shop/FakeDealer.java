@@ -2,6 +2,7 @@ package dev.marfien.rewibw.shop;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.Property;
+import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.fakeentities.FakePlayer;
 import dev.marfien.rewibw.fakeentities.MobEquipment;
 import org.bukkit.Location;
@@ -25,6 +26,7 @@ public class FakeDealer extends FakePlayer {
 
     @Override
     public void onInteract(Player player) {
+        if (PlayerManager.isSpectator(player)) return;
         Shop.open(player);
     }
 }
