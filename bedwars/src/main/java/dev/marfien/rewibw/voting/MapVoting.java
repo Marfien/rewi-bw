@@ -9,12 +9,9 @@ import dev.marfien.rewibw.world.MapPool;
 import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.IOException;
 import java.nio.file.Path;

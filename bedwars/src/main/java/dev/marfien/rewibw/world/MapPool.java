@@ -4,7 +4,6 @@ import dev.marfien.rewibw.shared.FileUtils;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.IOException;
 import java.nio.file.Files;

@@ -9,7 +9,6 @@ import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.listener.PlayerConnectionListener;
 import dev.marfien.rewibw.listener.WorldListener;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
-import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
@@ -23,18 +22,12 @@ import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.ConfigurationNode;
 
 import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.stream.Collectors;
 
 @Getter
 public class RewiBWPlugin extends JavaPlugin {
@@ -49,7 +42,7 @@ public class RewiBWPlugin extends JavaPlugin {
     @Getter
     private static EffectManager effectManager;
     @Getter
-    private static PluginConfig config;
+    private static PluginConfig pluginConfig;
 
     public static RewiBWPlugin getInstance() {
         if (instance == null)
@@ -63,7 +56,7 @@ public class RewiBWPlugin extends JavaPlugin {
     public void onLoad() {
         super.saveResource("config.yaml", false);
         try {
-            config = PluginConfig.loader(this).load().get(PluginConfig.class);
+            pluginConfig = PluginConfig.loader(this).load().get(PluginConfig.class);
             LOGGER.info("Successfully loaded plugin configuration");
         } catch (ConfigurateException e) {
             LOGGER.error("Could not load configuration file", e);
@@ -80,15 +73,15 @@ public class RewiBWPlugin extends JavaPlugin {
     @Override
     @SneakyThrows(IOException.class)
     public void onEnable() {
-        MapPool.loadMaps(config.getMapPool());
+        MapPool.loadMaps(pluginConfig.getMapPool());
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
-        GameStateManager.setActiveGameState(new LobbyGameState(config.getLobbyMap()));
+        GameStateManager.setActiveGameState(new LobbyGameState(pluginConfig.getLobbyMap()));
         FakeEntityManager.init(this);
         GuiInventory.setPlugin(this);
         CustomScoreboardManager.init();
-        MapVoting.init(config.getVoting());
+        MapVoting.init(pluginConfig.getVoting());
         this.globalItemManager.register(this);
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());

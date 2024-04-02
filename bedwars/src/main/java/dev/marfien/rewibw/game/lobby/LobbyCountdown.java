@@ -6,16 +6,11 @@ import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.voting.MapVoting;
-import dev.marfien.rewibw.world.MapPool;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.io.IOException;
-import java.util.concurrent.CompletableFuture;
 
 public class LobbyCountdown extends AbstractCountdown {
 
@@ -31,7 +26,7 @@ public class LobbyCountdown extends AbstractCountdown {
         this.idleTask = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () ->
                 Message.broadcast(
                         RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(
-                                RewiBWPlugin.getConfig().getTeams().getMinPlayers() - Bukkit.getOnlinePlayers().size()
+                                RewiBWPlugin.getPluginConfig().getTeams().getMinPlayers() - Bukkit.getOnlinePlayers().size()
                         )
                 ), 0, 20 * 30);
     }

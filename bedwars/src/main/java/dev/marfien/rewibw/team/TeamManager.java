@@ -46,7 +46,7 @@ public class TeamManager {
 
     private static Collection<Listener> initTeams(LobbyWorld lobby) {
         Set<Listener> listeners = new HashSet<>();
-        PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getConfig().getTeams();
+        PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
         Map<TeamColor, LobbyConfig.LobbyTeamConfig> teams = lobby.getConfig().getTeams();
 
         for (TeamColor teamColor : teamConfig.getVariants()) {

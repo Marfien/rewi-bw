@@ -1,7 +1,6 @@
 package dev.marfien.rewibw.team;
 
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
@@ -138,7 +137,7 @@ public class GameTeam {
     }
 
     public boolean isFull() {
-        return this.members.size() >= RewiBWPlugin.getConfig().getTeams().getPlayersPerTeam();
+        return this.members.size() >= RewiBWPlugin.getPluginConfig().getTeams().getPlayersPerTeam();
     }
 
     public boolean isMember(Player player) {

@@ -1,6 +1,5 @@
 package dev.marfien.rewibw;
 
-import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.util.Items;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

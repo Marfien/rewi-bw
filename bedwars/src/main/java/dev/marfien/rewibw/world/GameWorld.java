@@ -1,17 +1,13 @@
 package dev.marfien.rewibw.world;
 
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.GameWorldConfig;
 import dev.marfien.rewibw.shared.config.WorldConfig;
-import dev.marfien.rewibw.shared.world.GameWorldGenerator;
-import dev.marfien.rewibw.shared.Position;
 import lombok.Getter;
-import org.bukkit.*;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.util.Vector;
+import org.bukkit.Location;
+import org.bukkit.World;
+import org.bukkit.WorldCreator;
 
-import java.util.*;
 import java.util.function.Function;
 
 @Getter

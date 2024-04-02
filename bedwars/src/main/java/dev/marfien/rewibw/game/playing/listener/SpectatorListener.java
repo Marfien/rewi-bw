@@ -3,7 +3,6 @@ package dev.marfien.rewibw.game.playing.listener;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.game.playing.PlayingGameState;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;

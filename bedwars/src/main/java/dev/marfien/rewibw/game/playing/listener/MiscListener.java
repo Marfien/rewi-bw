@@ -23,7 +23,7 @@ public class MiscListener implements Listener {
         String format = player.getDisplayName() + "§8 » §f%2$s";
         String message = event.getMessage();
 
-        if (message.charAt(0) == '@' || RewiBWPlugin.getPlayersPerTeam() == 1) {
+        if (message.charAt(0) == '@' || RewiBWPlugin.getPluginConfig().getTeams().getPlayersPerTeam() == 1) {
             format = "§6[§lGLOBAL] §r" + format;
             event.setMessage(message.substring(1));
             event.setFormat(format);

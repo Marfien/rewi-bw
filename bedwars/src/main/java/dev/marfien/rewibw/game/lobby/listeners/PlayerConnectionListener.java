@@ -19,7 +19,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerConnectionListener implements Listener {
 
-    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getConfig().getTeams();
+    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
     private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
 
     static {

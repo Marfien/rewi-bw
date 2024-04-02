@@ -2,7 +2,6 @@ package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamChest;

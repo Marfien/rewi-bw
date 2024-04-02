@@ -13,8 +13,6 @@ import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.Collection;
-
 @Getter
 public enum ResourceType {
 
