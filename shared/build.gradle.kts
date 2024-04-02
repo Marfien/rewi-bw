@@ -1,3 +1,4 @@
+
 plugins {
     id("java-library")
 }
@@ -7,7 +8,7 @@ version = parent!!.version
 
 dependencies {
     // Obtainable via BuildTools
-    api(libs.spigot.api) {
+    compileOnly(libs.spigot.api) {
         exclude(group = "net.md-5", module = "bungeecord-chat")
     }
     api(libs.effectlib)

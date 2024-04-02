@@ -1,3 +1,5 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     alias(libs.plugins.shadow)
 }
@@ -12,4 +14,8 @@ dependencies {
     implementation(project(":shared"))
     implementation(project(":fakeentities"))
     compileOnly(libs.noteblockapi)
+}
+
+tasks.withType<ShadowJar> {
+    relocate("org.yaml.snakeyaml", "shadow.org.yaml.snakeyaml")
 }

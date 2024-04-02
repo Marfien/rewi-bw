@@ -6,5 +6,5 @@ group = parent!!.group
 version = parent!!.version
 
 dependencies {
-    api(libs.spigot)
+    compileOnly(libs.spigot)
 }
