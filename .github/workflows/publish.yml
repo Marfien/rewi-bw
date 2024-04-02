@@ -36,6 +36,7 @@ jobs:
           ONLINE_MODE: ${{ matrix.online_mode }}
         with:
           push: true
+          pull: true
           set: |
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
