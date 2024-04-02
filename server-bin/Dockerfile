@@ -6,7 +6,7 @@ RUN wget -O spigot.jar https://api.papermc.io/v2/projects/paper/versions/1.8.8/b
 # Will fail because of missing eula.txt
 RUN java -jar spigot.jar || true
 
-FROM eclipse-temurin:8-jdk-alpine
+FROM eclipse-temurin:8-jre-alpine
 
 EXPOSE 25565
 EXPOSE 5005
