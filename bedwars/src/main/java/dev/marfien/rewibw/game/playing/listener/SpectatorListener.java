@@ -4,6 +4,8 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import lombok.RequiredArgsConstructor;
+import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -16,7 +18,10 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
+@RequiredArgsConstructor
 public class SpectatorListener implements Listener {
+
+    private final Location spectatorSpawn;
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
@@ -28,7 +33,14 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
-        event.setSpawnLocation(PlayingGameState.getMap().getSpawn());
+        event.setSpawnLocation(this.spectatorSpawn);
+    }
+
+    @EventHandler
+    private void onSpawn(PlayerRespawnEvent event) {
+        if (!PlayerManager.isSpectator(event.getPlayer())) return;
+
+        event.setRespawnLocation(this.spectatorSpawn);
     }
 
     @EventHandler

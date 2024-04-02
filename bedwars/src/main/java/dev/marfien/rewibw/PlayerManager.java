@@ -37,7 +37,6 @@ public class PlayerManager {
         SPECTATORS.add(player);
         resetPlayerStatus(player);
         player.setAllowFlight(true);
-        player.setCompassTarget(PlayingGameState.getMap().getSpawn());
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other == player) continue;

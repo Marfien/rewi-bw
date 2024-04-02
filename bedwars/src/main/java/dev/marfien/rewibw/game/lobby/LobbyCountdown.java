@@ -7,6 +7,7 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -55,6 +56,7 @@ public class LobbyCountdown extends AbstractCountdown {
     @Override
     public void onStop() { }
 
+    @SneakyThrows
     @Override
     public void onSecond(int second) {
         float exp = 0.99F * second / INIT_SECONDS;
@@ -65,17 +67,7 @@ public class LobbyCountdown extends AbstractCountdown {
 
         switch (second) {
             case 10:
-                CompletableFuture.supplyAsync(() -> {
-                            try {
-                                return MapPool.requestMap(MapVoting.getOrChooseWinner());
-                            } catch (IOException e) {
-                                // TODO better error handling
-                                e.printStackTrace();
-                                System.exit(1);
-                                return null;
-                            }
-                        })
-                        .thenAccept(PlayingGameState::setMap);
+                MapVoting.getOrChooseWinner();
             case 60:
             case 30:
             case 5:
@@ -85,7 +77,7 @@ public class LobbyCountdown extends AbstractCountdown {
                 }
                 break;
             case 0:
-                GameStateManager.setActiveGameState(PlayingGameState.getInstance());
+                GameStateManager.setActiveGameState(new PlayingGameState(MapVoting.getWinner()));
                 break;
         }
     }

@@ -3,10 +3,12 @@ package dev.marfien.rewibw.game.playing.listener;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamChest;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -19,7 +21,10 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
 import org.bukkit.inventory.ItemStack;
 
+@RequiredArgsConstructor
 public class BlockListener implements Listener {
+
+    private final MapConfig.BorderSnapshot border;
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
     private void adjustBlockDrop(ItemSpawnEvent event) {
@@ -63,11 +68,10 @@ public class BlockListener implements Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     private void onPlaceOutOfMap(BlockPlaceEvent event) {
-        GameMap map = PlayingGameState.getMap();
         Block block = event.getBlockPlaced();
 
-        if (block.getX() <= map.getBorderUpperX() && block.getX() >= map.getBorderLowerX()
-                && block.getZ() <= map.getBorderUpperZ() && block.getZ() >= map.getBorderLowerZ()) {
+        if (block.getX() <= this.border.getUpperX() && block.getX() >= this.border.getLowerX()
+                && block.getZ() <= this.border.getUpperZ() && block.getZ() >= this.border.getLowerZ()) {
             return;
         }
         event.setCancelled(true);

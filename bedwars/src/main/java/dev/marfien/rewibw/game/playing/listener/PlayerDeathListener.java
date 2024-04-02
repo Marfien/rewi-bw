@@ -146,11 +146,9 @@ public class PlayerDeathListener implements Listener {
 
         GameTeam team = TeamManager.getTeam(player);
 
-        event.setRespawnLocation(
-                team != null
-                        ? team.getSpawn()
-                        : PlayingGameState.getMap().getSpawn()
-        );
+        if (team == null) return;
+
+        event.setRespawnLocation(team.getSpawn());
     }
 
 }

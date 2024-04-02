@@ -28,7 +28,7 @@ public class GameWorld<T extends GameWorldConfig> {
         this.config = config;
     }
 
-    public void load() {
+    public World load() {
         WorldConfig worldConfig = this.config.getWorld();
 
         this.world = WorldCreator.name(this.name)
@@ -43,6 +43,8 @@ public class GameWorld<T extends GameWorldConfig> {
         if (worldConfig.getInitTime() != null) {
             this.world.setTime(worldConfig.getInitTime());
         }
+
+        return this.world;
     }
 
     public Location asLocation(Function<T, Position> positionFunction) {

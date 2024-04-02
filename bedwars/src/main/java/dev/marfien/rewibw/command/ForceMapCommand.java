@@ -7,6 +7,7 @@ import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
+import dev.marfien.rewibw.world.MapWorld;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +16,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,16 +45,21 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
         }
 
         String mapName = args[0];
-        GameMapInfo mapInfo = MapPool.getMapInfo(mapName);
 
-        if (mapInfo == null) {
+        if (!MapPool.contains(mapName)) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.UNKNOWN_MAP.format(mapName));
-            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.AVAILABLE_MAPS.format(MapPool.getMaps().stream().map(GameMapInfo::getName).reduce((s1, s2) -> s1 + ", " + s2).orElse("§c-")));
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.AVAILABLE_MAPS.format(String.join(", ", MapPool.getMapNames())));
             return true;
         }
 
-        MapVoting.setWinner(mapInfo);
-        commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.MAP_CHANGED.format(mapInfo.getDisplayName()));
+        try {
+            MapWorld mapWorld = MapPool.requestMap(mapName);
+            MapVoting.setWinner(mapWorld);
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.MAP_CHANGED.format(mapWorld.getConfig().getMap().getDisplayName()));
+        } catch (IOException e) {
+            commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cAn error occurred while loading the map: §4" + e.getMessage());
+            LOGGER.error("Error while loading map: " + mapName, e);
+        }
         return true;
     }
 

@@ -17,7 +17,7 @@ public class MapPool {
 
     @Getter
     private static final Path bukkitWorldContainer = Bukkit.getWorldContainer().toPath();
-    private static final Map<String, MapConfig> maps = new ConcurrentHashMap<>();
+    private static final Map<String, Path> maps = new ConcurrentHashMap<>();
     private static final Map<String, MapWorld> requestedMaps = new ConcurrentHashMap<>();
 
     public static void loadMaps(Path baseDir, DuplicatePolicy policy) throws IOException {
@@ -34,58 +34,52 @@ public class MapPool {
 
     public static void loadMap(Path path, DuplicatePolicy policy) {
         String name = path.getFileName().toString();
-        try {
-            MapConfig config = MapConfig.loader(path).load().get(MapConfig.class);
+        if (!maps.containsKey(name)) {
+            maps.put(name, path);
+            return;
+        }
 
-            if (!maps.containsKey(name)) {
-                maps.put(name, config);
-                return;
-            }
-
-            switch (policy) {
-                case THROW_EXCEPTION:
-                    throw new IllegalArgumentException("Map with name " + name + " already exists");
-                case WARN:
-                    // TODO logging
-                    System.err.println("Map with name " + name + " already exists");
-                    break;
-                case REPLACE:
-                    maps.put(name, config);
-                    break;
-                case IGNORE:
-                    break;
-            }
-        } catch (ConfigurateException e) {
-            System.err.println("Could not load map '" + name + "': " + e.getMessage());
+        switch (policy) {
+            case THROW_EXCEPTION:
+                throw new IllegalArgumentException("Map with name " + name + " already exists");
+            case WARN:
+                // TODO logging
+                System.err.println("Map with name " + name + " already exists");
+                break;
+            case REPLACE:
+                maps.put(name, path);
+                break;
+            case IGNORE:
+                break;
         }
     }
 
-    public static MapWorld requestMap(GameMapInfo info) throws IOException {
-        MapWorld map = requestedMaps.get(info.getName());
+    public static MapWorld requestMap(String name) throws IOException {
+        MapWorld map = requestedMaps.get(name);
         if (map != null) return map;
 
-        FileUtils.copyFolder(info.getPath(), bukkitWorldContainer.resolve(info.getName()));
-        map = new MapWorld(info.getName(), info);
-        requestedMaps.put(info.getName(), map);
+        Path sourcePath = maps.get(name);
+        if (sourcePath == null)  {
+            throw new IllegalArgumentException("Map with name '" + name + "' is unknown");
+        }
+        Path targetPath = bukkitWorldContainer.resolve(name);
+
+        FileUtils.copyFolder(sourcePath, targetPath);
+        map = new MapWorld(name, MapConfig.loader(targetPath).load().get(MapConfig.class));
+        requestedMaps.put(name, map);
+
         return map;
-    }
-
-    public static MapWorld requestMap(String name) throws IOException {
-        GameMapInfo info = maps.get(name);
-        if (info == null) return null;
-
-        return requestMap(info);
-    }
-
-    public static Collection<GameMapInfo> getMaps() {
-        return maps.values();
     }
 
     public static Collection<String> getMapNames() {
         return maps.keySet();
     }
 
-    public static GameMapInfo getMapInfo(String name) {
+    public static boolean contains(String name) {
+        return maps.containsKey(name);
+    }
+
+    public static Path getSourcePath(String name) {
         return maps.get(name);
     }
 

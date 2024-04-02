@@ -6,6 +6,7 @@ import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.HelixEffect;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shop.ShopPrice;
 import lombok.Getter;
 import org.bukkit.*;
@@ -47,11 +48,12 @@ public enum ResourceType {
         return this.chatColor + this.translation;
     }
 
-    public BukkitTask startSpawning(Collection<Location> locations) {
+    public BukkitTask startSpawning(World world, Position... locations) {
         return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
-            for (Location location : locations) {
-                location.getWorld()
-                        .dropItem(location, this.itemStack.clone())
+            for (Position position : locations) {
+                Location location = position.toLocation(world);
+
+                world.dropItem(location, this.itemStack.clone())
                         .setVelocity(RewiBWPlugin.ZERO_VECTOR);
                 if (this.effectColor == null) continue;
                 Effect effect = createEffect(this.effectColor);

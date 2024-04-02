@@ -25,6 +25,9 @@ public class MapConfig extends GameWorldConfig {
     }
 
     @Required
+    private MapInfo map;
+
+    @Required
     private Position spectatorSpawn;
 
     private Position[] shops = new Position[0];
@@ -42,7 +45,7 @@ public class MapConfig extends GameWorldConfig {
         private String displayName;
         private String builder;
 
-        private BorderInfo border;
+        private BorderConfig border;
 
         public ItemStack getIcon() {
             String[] iconString = this.icon.split(":");
@@ -56,12 +59,21 @@ public class MapConfig extends GameWorldConfig {
 
     @Data
     @ConfigSerializable
-    public static class BorderInfo {
+    public static class BorderConfig {
 
         private int x1;
         private int x2;
         private int z1;
         private int z2;
+
+        public BorderSnapshot getSnapshot() {
+            return new BorderSnapshot(
+                    Math.min(this.x1, this.x2),
+                    Math.max(this.x1, this.x2),
+                    Math.min(this.z1, this.z2),
+                    Math.max(this.z1, this.z2)
+            );
+        }
 
     }
 
@@ -76,8 +88,19 @@ public class MapConfig extends GameWorldConfig {
     }
 
     @Data
+    public static class BorderSnapshot {
+
+        private final int lowerX;
+        private final int upperX;
+
+        private final int lowerZ;
+        private final int upperZ;
+
+    }
+
+    @Data
     @ConfigSerializable
-    private class MapTeamConfig {
+    public static class MapTeamConfig {
 
         private Position spawn;
         private TeamBedConfig bed;
@@ -86,7 +109,7 @@ public class MapConfig extends GameWorldConfig {
 
     @Data
     @ConfigSerializable
-    private class TeamBedConfig {
+    public static class TeamBedConfig {
 
         private Position bed;
         private BlockFace direction;

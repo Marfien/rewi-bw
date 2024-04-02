@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.game.playing;
 
 import dev.marfien.rewibw.PlayerManager;
+import dev.marfien.rewibw.ResourceType;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.playing.item.*;
@@ -8,15 +9,18 @@ import dev.marfien.rewibw.game.playing.listener.*;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.Strings;
+import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
@@ -28,11 +32,7 @@ import java.util.Collection;
 public class PlayingGameState extends GameState {
 
     @Getter
-    private static final PlayingGameState instance = new PlayingGameState();
-
-    @Getter
-    @Setter
-    private static GameMap map;
+    private final MapWorld map;
 
     @Getter
     private static ScoreboardObjective sidebarObjective;
@@ -45,25 +45,28 @@ public class PlayingGameState extends GameState {
 
     private BukkitTask borderTask;
 
-    private final Listener[] listeners = new Listener[]{
-            new MapProtectionListener(),
-            new WebListener(),
-            new PlayerDeathListener(),
-            new MiscListener(),
-            new TeamSpawnProtectListener(),
-            new SpectatorListener(),
-            new BlockListener(),
-            new Parachute.ParachuteListener(),
-            new Teleporter.TeleporterListener(),
-            new SpectatorCompass.SpectatorCompassListener()
-    };
+    private final Listener[] listeners;
 
-    private PlayingGameState() {
+    public PlayingGameState(MapWorld map) {
+        this.map = map;
         this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
         this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
         this.itemManager.putHandler(Items.MOBILE_SHOP, new MobileShop());
         this.itemManager.putHandler(Items.PARACHUTE, new Parachute());
         this.itemManager.putHandler(Items.TELEPORTER, new Teleporter());
+
+        this.listeners = new Listener[]{
+                new MapProtectionListener(),
+                new WebListener(),
+                new PlayerDeathListener(),
+                new MiscListener(),
+                new TeamSpawnProtectListener(),
+                new SpectatorListener(map.asLocation(MapConfig::getSpectatorSpawn)),
+                new BlockListener(map.getConfig().getMap().getBorder().getSnapshot()),
+                new Parachute.ParachuteListener(),
+                new Teleporter.TeleporterListener(),
+                new SpectatorCompass.SpectatorCompassListener()
+        };
     }
 
     @Override
@@ -73,8 +76,8 @@ public class PlayingGameState extends GameState {
 
     @Override
     public void onStart() {
-        map.load();
-        borderTask = new BorderTask().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 10, 7);
+        World world = map.load();
+        borderTask = new BorderTask(map).runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 10, 7);
         TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
@@ -88,7 +91,10 @@ public class PlayingGameState extends GameState {
         TeamManager.broadcastTeams();
 
         // Start resource spawner
-        map.getSpawnerLocations().forEach((type, locations) -> this.spawnerTasks.add(type.startSpawning(locations)));
+        MapConfig.SpawnerConfig spawnerConfig = map.getConfig().getSpawner();
+        this.spawnerTasks.add(ResourceType.BRONZE.startSpawning(world, spawnerConfig.getBronze()));
+        this.spawnerTasks.add(ResourceType.SILVER.startSpawning(world, spawnerConfig.getSilver()));
+        this.spawnerTasks.add(ResourceType.GOLD.startSpawning(world, spawnerConfig.getGold()));
 
 
         buildScoreboard();
