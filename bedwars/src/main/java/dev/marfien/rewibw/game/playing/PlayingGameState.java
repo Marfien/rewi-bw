@@ -13,6 +13,7 @@ import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
+import dev.marfien.rewibw.team.TeamBed;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.Strings;
@@ -75,8 +76,8 @@ public class PlayingGameState extends GameState {
 
     @Override
     public void onStart() {
-        World world = map.load();
-        borderTask = new BorderTask(map).runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 10, 7);
+        World world = this.map.load();
+        borderTask = new BorderTask(this.map).runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 10, 7);
         TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
@@ -85,16 +86,17 @@ public class PlayingGameState extends GameState {
                 member.teleport(spawn);
                 PlayerManager.resetPlayerStatus(member);
             }
+
+            team.setBed(new TeamBed(team, this.map.getWorld(), this.map.getConfig().getTeams().get(team.getColor()).getBed()));
         }
 
         TeamManager.broadcastTeams();
 
         // Start resource spawner
-        MapConfig.SpawnerConfig spawnerConfig = map.getConfig().getSpawner();
+        MapConfig.SpawnerConfig spawnerConfig = this.map.getConfig().getSpawner();
         this.spawnerTasks.add(ResourceType.BRONZE.startSpawning(world, spawnerConfig.getBronze()));
         this.spawnerTasks.add(ResourceType.SILVER.startSpawning(world, spawnerConfig.getSilver()));
         this.spawnerTasks.add(ResourceType.GOLD.startSpawning(world, spawnerConfig.getGold()));
-
 
         buildScoreboard();
         SpectatorCompass.refreshInventory();

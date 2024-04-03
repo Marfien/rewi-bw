@@ -4,9 +4,11 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.perk.PerkManager;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
@@ -25,10 +27,10 @@ public class TeamBed implements Listener {
 
     private boolean alive = true;
 
-    public TeamBed(GameTeam team, Location bedLocation, BlockFace bedDirection) {
+    public TeamBed(GameTeam team, World world, MapConfig.TeamBedConfig config) {
         this.team = team;
-        this.firstBedBlock = bedLocation.getBlock();
-        this.secondBedBlock = this.firstBedBlock.getRelative(bedDirection);
+        this.firstBedBlock = world.getBlockAt(config.getX(), config.getY(), config.getZ());
+        this.secondBedBlock = this.firstBedBlock.getRelative(config.getDirection());
     }
 
     @EventHandler(priority = EventPriority.HIGH)

@@ -7,7 +7,7 @@ world:
   generator: empty
 map:
   icon: brown_mushroom
-  displayName: "Mushroom"
+  display-name: "Mushroom"
   border:
     x1: 132
     x2: -76

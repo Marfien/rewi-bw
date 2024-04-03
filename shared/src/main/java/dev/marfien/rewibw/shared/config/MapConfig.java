@@ -122,10 +122,11 @@ public class MapConfig extends GameWorldConfig {
     public static class TeamBedConfig {
 
         @Required
-        private Position bed;
-
-        @Required
         private BlockFace direction;
+
+        private int x;
+        private int y;
+        private int z;
 
     }
 
