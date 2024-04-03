@@ -2,12 +2,15 @@ name: Publish on Docker Hub
 run-name: Publish version ${{ github.ref_name }}
 
 on:
+  create:
+    tags:
+      - '*'
   push:
+    tags:
+      - "*"
     branches:
       - main
       - develop
-    tags:
-      - '*'
 
 env:
   TAG: ${{ github.ref_name }}
