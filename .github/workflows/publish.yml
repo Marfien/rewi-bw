@@ -1,10 +1,11 @@
 name: Build and Publish
-run-name: Build '${{ github.ref_name }}' for Commit ${{ github.event.head_commit.message }}
+run-name: Publish '${{ github.ref_name }}' for Commit ${{ github.event.head_commit.message }}
 
 on:
   push:
-    tags:
-      - "*"
+    tags-ignore:
+      - '[0-9]+.[0-9]+.[0-9]+'
+      - '[0-9]+.[0-9]+.[0-9]+-*'
     branches:
       - main
       - develop
@@ -45,8 +46,6 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    # Only run on main branch or tags
-    if: github.ref_type == 'tag' || (github.ref_type == 'branch' && contains('main develop', github.ref_name))
     strategy:
       matrix:
         online_mode: [true, false]
