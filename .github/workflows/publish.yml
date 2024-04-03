@@ -35,7 +35,7 @@ jobs:
           wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
           java -jar BuildTools.jar --rev 1.8.8
       - name: Build with Gradle
-        run: ./gradle clean shadowJar --no-daemon --parallel
+        run: ./gradlew clean shadowJar --no-daemon --parallel
       - name: Upload build artifact
         uses: actions/upload-artifact@v2
         with:
