@@ -49,7 +49,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        online_mode: [true, false]
+        online_mode: ['true', 'false']
     env:
       ONLINE_MODE: ${{ matrix.online_mode }}
       TAGS: |
@@ -80,7 +80,7 @@ jobs:
         with:
           images: marfiens/rewibw-server
           tags: ${{ env.TAGS }}
-          flavor: suffix=${{ matrix.online_mode == false && '-offline' }},onlatest=true
+          flavor: suffix=${{ matrix.online_mode == 'false' && '-offline' || '' }},onlatest=true
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
         uses: docker/metadata-action@v5
@@ -94,8 +94,8 @@ jobs:
         with:
           files: |
             ./docker-bake.hcl
-            ${{ steps.meta-server.outputs.bake-target }}
-            ${{ steps.meta-setup-tool.outputs.bake-target }}
+            ${{ steps.meta-server.outputs.bake-file }}
+            ${{ steps.meta-setup-tool.outputs.bake-file }}
           push: true
           pull: true
           set: |
