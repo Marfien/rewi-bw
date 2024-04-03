@@ -24,7 +24,7 @@ jobs:
         uses: bewuethr/release-tracker-action@v1
         env:
           # GitHub token to enable pushing tags
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_WRITE_TOKEN }}
         with:
           update-latest: true
           update-minor: true
