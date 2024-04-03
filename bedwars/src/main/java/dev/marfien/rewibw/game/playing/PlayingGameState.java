@@ -81,13 +81,12 @@ public class PlayingGameState extends GameState {
         TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
+            team.init(this.map);
             Location spawn = team.getSpawn();
             for (Player member : team.getMembers()) {
                 member.teleport(spawn);
                 PlayerManager.resetPlayerStatus(member);
             }
-
-            team.setBed(new TeamBed(team, this.map.getWorld(), this.map.getConfig().getTeams().get(team.getColor()).getBed()));
         }
 
         TeamManager.broadcastTeams();

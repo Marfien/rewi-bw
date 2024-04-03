@@ -39,7 +39,7 @@ public class VotingGuiItem implements GuiItem {
     @Override
     public ItemStack getDisplayItemFor(Player player) {
         return ItemBuilder.of(this.displayItem.clone())
-                .addLoreLines("§f" + MapVoting.getVotes(this.mapName) + " Votes")
+                .addLoreLines("", "§f" + MapVoting.getVotes(this.mapName) + " Votes")
                 .asItemStack();
     }
 

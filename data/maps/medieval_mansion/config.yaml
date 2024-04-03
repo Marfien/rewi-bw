@@ -7,7 +7,7 @@ world:
   generator: empty
 map:
   icon: log_2:1
-  displayName: "Medieval Mansion"
+  display-name: "Medieval Mansion"
   border:
     x1: 21
     x2: -167

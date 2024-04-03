@@ -27,10 +27,10 @@ public class TeamBed implements Listener {
 
     private boolean alive = true;
 
-    public TeamBed(GameTeam team, World world, MapConfig.TeamBedConfig config) {
+    public TeamBed(GameTeam team, Block block, BlockFace direction) {
         this.team = team;
-        this.firstBedBlock = world.getBlockAt(config.getX(), config.getY(), config.getZ());
-        this.secondBedBlock = this.firstBedBlock.getRelative(config.getDirection());
+        this.firstBedBlock = block;
+        this.secondBedBlock = this.firstBedBlock.getRelative(direction);
     }
 
     @EventHandler(priority = EventPriority.HIGH)

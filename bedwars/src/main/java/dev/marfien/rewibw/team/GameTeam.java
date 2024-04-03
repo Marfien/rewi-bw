@@ -7,6 +7,8 @@ import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.MapConfig;
+import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.*;
@@ -77,6 +79,14 @@ public class GameTeam {
 
     public ItemStack getHelmet() {
         return this.armor[3];
+    }
+
+    public void init(MapWorld mapWorld) {
+        World world = mapWorld.getWorld();
+        MapConfig.MapTeamConfig config = mapWorld.getConfig().getTeams().get(this.color);
+        this.spawn = config.getSpawn().toLocation(world);
+        MapConfig.TeamBedConfig bedConfig = config.getBed();
+        this.setBed(new TeamBed(this, world.getBlockAt(bedConfig.getX(), bedConfig.getY(), bedConfig.getZ()), bedConfig.getDirection()));
     }
 
     public void setBed(TeamBed bed) {
