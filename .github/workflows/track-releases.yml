@@ -1,4 +1,5 @@
 name: Update release tags
+run-name: Update release tags for ${{ github.ref_name }}
 
 # Only run when new semver tag is pushed
 on:
