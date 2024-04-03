@@ -7,5 +7,5 @@ teams:
     - yellow
 voting:
   inventory-slots: [1, 4, 7]
-lobby-map: /data/maps/
-map-pool: /data/lobby/
+lobby-map: /data/lobby/
+map-pool: /data/maps/

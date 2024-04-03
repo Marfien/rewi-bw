@@ -2,6 +2,11 @@
 ### Disclaimer
 This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This plugin is not affiliated with Rewinside.tv in any way. This plugin is not intended to be used for commercial.
 
+### Run locally
+```bash
+docker compose run rewi-bw-server --rm
+```
+
 ## Configuration
 ### plugins/rewi-bw/config.yml
 ```yaml

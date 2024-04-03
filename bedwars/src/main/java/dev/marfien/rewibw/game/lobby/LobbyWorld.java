@@ -17,6 +17,7 @@ public class LobbyWorld extends GameWorld<LobbyConfig> {
     public static LobbyWorld setupLobby(Path lobbyPath) throws IOException {
         Path lobbyWorldFolder = MapPool.getBukkitWorldContainer().resolve("lobby");
         FileUtils.copyFolder(lobbyPath, lobbyWorldFolder);
+        System.out.println("Copied lobby world to " + lobbyWorldFolder);
         LobbyConfig config = LobbyConfig.loader(lobbyWorldFolder).load().require(LobbyConfig.class);
         // TODO why is config null
         String name = lobbyWorldFolder.getFileName().toString();
