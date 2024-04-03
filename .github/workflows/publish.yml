@@ -80,7 +80,7 @@ jobs:
         with:
           images: marfiens/rewibw-server
           tags: ${{ env.TAGS }}
-          flavor: ${{ matrix.online_mode == 'true' && '' || '-offline' }}
+          flavor: suffix=${{ matrix.online_mode && '' || '-offline' }},onlatest=true
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
         uses: docker/metadata-action@v5

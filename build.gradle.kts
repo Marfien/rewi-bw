@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
     id("java")
     alias(libs.plugins.shadow)
@@ -34,5 +36,12 @@ subprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = "UTF-8"
+    }
+
+    tasks.processResources {
+        // Replace all {version} tokens in resources
+        filter<ReplaceTokens>(mapOf("tokens" to mapOf(
+            "version" to version
+        )))
     }
 }
