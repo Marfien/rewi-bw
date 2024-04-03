@@ -20,6 +20,7 @@ public abstract class GameState {
             for (Listener listener : getListeners()) {
                 Bukkit.getPluginManager().registerEvents(listener, RewiBWPlugin.getInstance());
             }
+            System.gc();
         });
     }
 
