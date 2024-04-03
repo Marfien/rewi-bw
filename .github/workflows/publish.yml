@@ -84,7 +84,7 @@ jobs:
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
         uses: docker/metadata-action@v5
-        id: meta-server
+        id: meta-setup-tool
         with:
           images: marfiens/rewibw-setup-tool
           tags: ${{ env.TAGS }}
