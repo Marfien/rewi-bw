@@ -2,17 +2,12 @@ variable "ONLINE_MODE" {
   default = "true"
 }
 
-variable "TAG" {
-  default = "latest"
-}
-
 group "default" {
   targets = ["rewibw-server", "rewibw-setup-tool"]
 }
 
 target "paper-base" {
   context = "server-bin/"
-  tags = [createTag("paper-base")]
 }
 
 target "anti-reduce-server" {
@@ -21,28 +16,26 @@ target "anti-reduce-server" {
     "server-base" = "target:paper-base"
     "project-dir" = "./"
   }
-  tags = [createTag("paper-anti-reduce")]
 }
 
+target "docker-metadata-action-server" {}
+
 target "rewibw-server" {
+  inherits = ["docker-metadata-action-server"]
   context = "bedwars/"
   contexts = {
     "anti-reduce-server" = "target:anti-reduce-server"
     "project-dir" = "./"
   }
-  tags = [createTag("rewibw-server")]
 }
 
+target "docker-metadata-action-setup-tool" {}
+
 target "rewibw-setup-tool" {
+  inherits = ["docker-metadata-action-setup-tool"]
   context = "map-setup-tool/"
   contexts = {
     "server-base" = "target:paper-base"
     "project-dir" = "./"
   }
-  tags = [createTag("rewibw-setup-tool")]
-}
-
-function "createTag" {
-  params = [image_name]
-  result = equal("true", ONLINE_MODE) ? "docker.io/marfiens/${image_name}:${TAG}" : "docker.io/marfiens/${image_name}:${TAG}-offline"
 }
