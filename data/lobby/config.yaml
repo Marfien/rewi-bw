@@ -4,7 +4,7 @@ spawn:
   z: 2.5
   pitch: 0.0
   yaw: 180.0
-cps:
+cps-tester:
   x: 14.5
   y: 64.0
   z: 2.5

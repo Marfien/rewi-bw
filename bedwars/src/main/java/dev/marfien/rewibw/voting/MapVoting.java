@@ -102,7 +102,7 @@ public class MapVoting {
         if (winner != null) return winner;
 
         String mapName = chooseWinner();
-        winner = MapPool.requestMap(mapName);
+        setWinner(MapPool.requestMap(mapName));
 
         return winner;
     }

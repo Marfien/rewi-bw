@@ -26,10 +26,14 @@ public class VotingGuiItem implements GuiItem {
         this.slot = slot;
         this.mapName = name;
         this.displayName = mapInfo.getDisplayName();
-        this.displayItem = ItemBuilder.of(mapInfo.getIcon())
-                .setDisplayName(ChatColor.GRAY + this.displayName)
-                .setLore("§8von " + mapInfo.getBuilder())
-                .asItemStack();
+        ItemBuilder displayIconBuilder = ItemBuilder.of(mapInfo.getIcon())
+                .setDisplayName(ChatColor.GRAY + this.displayName);
+
+        if (mapInfo.getBuilder() != null) {
+                displayIconBuilder.setLore("§8von " + mapInfo.getBuilder());
+        }
+
+        this.displayItem = displayIconBuilder.asItemStack();
     }
 
     @Override

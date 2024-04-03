@@ -41,10 +41,13 @@ public class MapConfig extends GameWorldConfig {
     @ConfigSerializable
     public static class MapInfo {
 
+        @Required
         private String icon;
+        @Required
         private String displayName;
         private String builder;
 
+        @Required
         private BorderConfig border;
 
         public ItemStack getIcon() {
@@ -61,9 +64,13 @@ public class MapConfig extends GameWorldConfig {
     @ConfigSerializable
     public static class BorderConfig {
 
+        @Required
         private int x1;
+        @Required
         private int x2;
+        @Required
         private int z1;
+        @Required
         private int z2;
 
         public BorderSnapshot getSnapshot() {
@@ -102,7 +109,10 @@ public class MapConfig extends GameWorldConfig {
     @ConfigSerializable
     public static class MapTeamConfig {
 
+        @Required
         private Position spawn;
+
+        @Required
         private TeamBedConfig bed;
 
     }
@@ -111,7 +121,10 @@ public class MapConfig extends GameWorldConfig {
     @ConfigSerializable
     public static class TeamBedConfig {
 
+        @Required
         private Position bed;
+
+        @Required
         private BlockFace direction;
 
     }
