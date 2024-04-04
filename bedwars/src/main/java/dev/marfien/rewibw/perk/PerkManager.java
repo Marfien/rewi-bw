@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.perk;
 
 import de.slikey.effectlib.util.ParticleEffect;
+import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.bukkit.DyeColor;
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.plugin.Plugin;
+
+import java.util.logging.Level;
 
 public class PerkManager {
 
@@ -93,7 +96,7 @@ public class PerkManager {
         for (PerkGroup<?> perkGroup : PERK_GROUPS) {
             perkGroup.init(plugin, PERK_GROUPS);
         }
-        LogManager.getLogger().info("PerkManager initialized with %s perk groups", PERK_GROUPS.length);
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "PerkManager initialized with {0} perk groups", PERK_GROUPS.length);
     }
 
     public static void openGui(Player player) {

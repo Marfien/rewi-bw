@@ -11,6 +11,7 @@ import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -148,6 +149,14 @@ public class PlayerDeathListener implements Listener {
         if (team == null) return;
 
         event.setRespawnLocation(team.getSpawn());
+        for (Player other : Bukkit.getOnlinePlayers()) {
+            if (other == player) continue;
+        }
+        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), () -> {
+            for (Player other : Bukkit.getOnlinePlayers()) {
+                other.showPlayer(player);
+            }
+        }, 20L);
     }
 
 }

@@ -62,7 +62,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     private void onUnload(WorldUnloadEvent event) {
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Unloading world %s", event.getWorld().getName());
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Unloading world {0}", event.getWorld().getName());
     }
 
     @EventHandler

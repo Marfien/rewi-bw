@@ -55,12 +55,12 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     }
 
     public void setPerk(Player player, P perk) {
-        LOGGER.debug("Perk set to %s for %s in %s", perk.getName(), player.getName(), this.key);
+        LOGGER.debug("Perk set to {0} for {1} in {2}", perk.getName(), player.getName(), this.key);
         this.selectedPerks.put(player, perk);
     }
 
     public void unsetPerk(Player player) {
-        LOGGER.trace("Unsetting perk for player %s", player.getName());
+        LOGGER.trace("Unsetting perk for player {0}", player.getName());
         this.selectedPerks.remove(player);
     }
 
