@@ -7,12 +7,14 @@ import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
@@ -28,6 +30,21 @@ public class SpectatorListener implements Listener {
         Player player = event.getPlayer();
         PlayerManager.setSpectator(player);
         PlayerManager.hideSpectators(player);
+    }
+
+    @EventHandler
+    private void onExp(PlayerExpChangeEvent event) {
+        if (!PlayerManager.isSpectator(event.getPlayer())) return;
+
+        event.setAmount(0);
+    }
+
+    @EventHandler
+    private void onHunger(FoodLevelChangeEvent event) {
+        if (event.getEntityType() != EntityType.PLAYER) return;
+        if (!PlayerManager.isSpectator((Player) event.getEntity())) return;
+
+        event.setCancelled(true);
     }
 
     @EventHandler
@@ -104,6 +121,7 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onDrop(PlayerDropItemEvent event) {
+        if (!PlayerManager.isSpectator(event.getPlayer())) return;
         event.setCancelled(true);
     }
 

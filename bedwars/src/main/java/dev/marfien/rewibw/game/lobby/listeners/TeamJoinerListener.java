@@ -18,10 +18,11 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class TeamJoinerListener implements Listener {
 
-    private Map<ArmorStand, GameTeam> joiners = new HashMap<>();
+    private Map<Integer, GameTeam> joiners = new HashMap<>();
 
     public void addJoiner(Location location, GameTeam team) {
         TeamColor color = team.getColor();
@@ -38,7 +39,8 @@ public class TeamJoinerListener implements Listener {
         armorStand.setBasePlate(false);
         armorStand.setArms(false);
 
-        this.joiners.put(armorStand, team);
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Added team joiner for team %s (%s)", new Object[]{team.getColor(), armorStand});
+        this.joiners.put(armorStand.getEntityId(), team);
     }
 
     public void clearJoiners() {
@@ -50,7 +52,7 @@ public class TeamJoinerListener implements Listener {
         Entity rightClicked = event.getRightClicked();
         if (rightClicked.getType() != EntityType.ARMOR_STAND) return;
 
-        GameTeam team = this.joiners.get(rightClicked);
+        GameTeam team = this.joiners.get(rightClicked.getEntityId());
         if (team == null) return;
 
         event.setCancelled(true);

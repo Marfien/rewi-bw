@@ -3,14 +3,17 @@ package dev.marfien.rewibw.game.playing;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.ResourceType;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.playing.item.*;
 import dev.marfien.rewibw.game.playing.listener.*;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
+import dev.marfien.rewibw.shop.FakeDealer;
 import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
@@ -25,9 +28,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scoreboard.DisplaySlot;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 public class PlayingGameState extends GameState {
 
     @Getter
@@ -41,7 +41,6 @@ public class PlayingGameState extends GameState {
     @Getter
     private final IngameCountdown countdown = new IngameCountdown();
     private final UsableItemManager itemManager = new UsableItemManager();
-    private final Collection<BukkitTask> spawnerTasks = new ArrayList<>();
 
     private BukkitTask borderTask;
 
@@ -89,13 +88,6 @@ public class PlayingGameState extends GameState {
         }
 
         TeamManager.broadcastTeams();
-
-        // Start resource spawner
-        MapConfig.SpawnerConfig spawnerConfig = this.map.getConfig().getSpawner();
-        this.spawnerTasks.add(ResourceType.BRONZE.startSpawning(world, spawnerConfig.getBronze()));
-        this.spawnerTasks.add(ResourceType.SILVER.startSpawning(world, spawnerConfig.getSilver()));
-        this.spawnerTasks.add(ResourceType.GOLD.startSpawning(world, spawnerConfig.getGold()));
-
         buildScoreboard();
         SpectatorCompass.refreshInventory();
         this.itemManager.register(RewiBWPlugin.getInstance());
@@ -106,8 +98,8 @@ public class PlayingGameState extends GameState {
     public void onStop() {
         this.countdown.stop();
         this.itemManager.shutdown();
-        this.spawnerTasks.forEach(BukkitTask::cancel);
         this.borderTask.cancel();
+        this.map.unload();
     }
 
     private static void buildScoreboard() {

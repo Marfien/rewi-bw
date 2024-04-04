@@ -109,9 +109,9 @@ spawner:
 teams:
   purple:
     bed:
-      x: -150.0
-      y: 82.0
-      z: 0.0
+      x: -150
+      y: 82
+      z: 0
       direction: north
     spawn:
       x: -144.5
@@ -120,9 +120,9 @@ teams:
       yaw: -90.0
   green:
     bed:
-      x: -66.0
-      y: 82.0
-      z: 70.0
+      x: -66
+      y: 82
+      z: 70
       direction: west
     spawn:
       x: -72.5
@@ -131,9 +131,9 @@ teams:
       yaw: 180.0
   yellow:
     bed:
-      x: 4.0
-      y: 82.0
-      z: -14.0
+      x: 4
+      y: 82
+      z: -14
       direction: south
     spawn:
       x: -0.5
@@ -142,9 +142,9 @@ teams:
       yaw: 90.0
   red:
     bed:
-      x: -80.0
-      y: 82.0
-      z: -84.0
+      x: -80
+      y: 82
+      z: -84
       direction: east
     spawn:
       x: -72.5

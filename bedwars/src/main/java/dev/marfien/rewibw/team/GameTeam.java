@@ -21,6 +21,7 @@ import org.bukkit.inventory.meta.LeatherArmorMeta;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Level;
 
 @Setter
 @Getter
@@ -94,6 +95,7 @@ public class GameTeam {
             HandlerList.unregisterAll(this.bed);
         }
         this.bed = bed;
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Set bed for team {} at {}", new Object[]{this.color, bed.getFirstBedBlock()});
         this.displayScoreboardTeam.setPrefix(player -> (this.bed.isAlive() ? ChatColor.RED : ChatColor.GRAY) + "❤ ");
         Bukkit.getPluginManager().registerEvents(bed, RewiBWPlugin.getInstance());
     }
