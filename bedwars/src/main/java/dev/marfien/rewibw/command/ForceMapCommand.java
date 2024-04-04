@@ -9,8 +9,6 @@ import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import dev.marfien.rewibw.world.MapWorld;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

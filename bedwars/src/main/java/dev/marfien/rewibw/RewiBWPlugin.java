@@ -36,6 +36,7 @@ public class RewiBWPlugin extends JavaPlugin {
     public static final String PREFIX = "§8[§3BedWars§8] §r";
 
     private static RewiBWPlugin instance;
+    { instance = this; }
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
 
     @Getter
@@ -68,7 +69,6 @@ public class RewiBWPlugin extends JavaPlugin {
         }
 
         effectManager = new EffectManager(this);
-        instance = this;
 
         this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
     }

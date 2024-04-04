@@ -13,7 +13,6 @@ import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
-import dev.marfien.rewibw.team.TeamBed;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.Strings;

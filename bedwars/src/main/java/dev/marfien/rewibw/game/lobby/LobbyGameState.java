@@ -19,12 +19,10 @@ import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Collection;
 
 @Getter
 public class LobbyGameState extends GameState {
@@ -37,7 +35,7 @@ public class LobbyGameState extends GameState {
     private final LobbyCountdown countdown = new LobbyCountdown();
 
     private final Listener[] listeners;
-    private TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
+    private final TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
     public LobbyGameState(Path lobbyPath) throws IOException {
         if (instance != null) throw new IllegalStateException("LobbyGameState already exists");

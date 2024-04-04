@@ -7,13 +7,10 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
-import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.shared.config.PluginConfig;
-import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
-import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 public class TeamManager {
