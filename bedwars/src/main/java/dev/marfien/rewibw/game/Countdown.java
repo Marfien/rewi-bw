@@ -9,5 +9,6 @@ public interface Countdown {
     boolean isRunning();
 
     int getSeconds();
+    void setSeconds(int seconds);
 
 }

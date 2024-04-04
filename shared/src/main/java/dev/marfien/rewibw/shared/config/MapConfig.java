@@ -25,7 +25,7 @@ public class MapConfig extends GameWorldConfig {
     }
 
     @Required
-    private MapInfo map;
+    private MapInfoConfig map;
 
     @Required
     private Position spectatorSpawn;
@@ -39,7 +39,7 @@ public class MapConfig extends GameWorldConfig {
 
     @Data
     @ConfigSerializable
-    public static class MapInfo {
+    public static class MapInfoConfig {
 
         @Required
         private String icon;

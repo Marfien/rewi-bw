@@ -100,7 +100,7 @@ public class TeamManager {
 
         team.addMember(player);
 
-        if (GameStateManager.getActiveGameState() == LobbyGameState.getInstance()) {
+        if (GameStateManager.getActiveGameState() instanceof LobbyGameState) {
             player.getInventory().setArmorContents(Arrays.copyOf(team.getArmor(), 3));
         }
     }

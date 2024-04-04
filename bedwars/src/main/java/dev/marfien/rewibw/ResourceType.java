@@ -46,12 +46,15 @@ public enum ResourceType {
         return this.chatColor + this.translation;
     }
 
-    public BukkitTask startSpawning(World world, Position... locations) {
-        return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
-            for (Position position : locations) {
-                Location location = position.toLocation(world);
+    public BukkitTask startSpawning(World world, Position... positions) {
+        Location[] locations = new Location[positions.length];
+        for (int i = 0; i < positions.length; i++) {
+            locations[i] = positions[i].toLocation(world);
+        }
 
-                world.dropItem(location, this.itemStack.clone())
+        return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
+            for (Location location : locations) {
+                world.dropItem(location, this.itemStack)
                         .setVelocity(RewiBWPlugin.ZERO_VECTOR);
                 if (this.effectColor == null) continue;
                 Effect effect = createEffect(this.effectColor);

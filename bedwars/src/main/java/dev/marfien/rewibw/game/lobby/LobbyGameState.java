@@ -1,6 +1,9 @@
 package dev.marfien.rewibw.game.lobby;
 
+import com.google.common.collect.Maps;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.command.ForceMapCommand;
+import dev.marfien.rewibw.command.StartCommand;
 import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
@@ -19,10 +22,13 @@ import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public class LobbyGameState extends GameState {
@@ -46,7 +52,7 @@ public class LobbyGameState extends GameState {
         this.listeners = new Listener[]{
                 new PlayerListener(this.world.asLocation(LobbyConfig::getSpawn)),
                 new LobbyWorldListener(),
-                new PlayerConnectionListener(),
+                new PlayerConnectionListener(this.countdown),
                 this.teamJoinerListener
         };
 
@@ -68,6 +74,9 @@ public class LobbyGameState extends GameState {
 
         Position position = this.world.getConfig().getCpsTester();
         if (position == null) return;
+
+        Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
+        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand());
 
         FakeEntityManager.spawn(new CpsTester(position.toLocation(this.world.getWorld())));
     }

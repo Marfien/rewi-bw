@@ -2,27 +2,32 @@ package dev.marfien.rewibw.command;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.Countdown;
+import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+@RequiredArgsConstructor
 public class StartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String label, String[] args) {
-        if (GameStateManager.getActiveGameState() != LobbyGameState.getInstance()) {
+        GameState currentGameState = GameStateManager.getActiveGameState();
+        if (!(currentGameState instanceof LobbyGameState)) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_ALREADY_RUNNING);
             return true;
         }
 
-        LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
+        Countdown countdown = currentGameState.getCountdown();
 
         if (!countdown.isRunning()) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.COUNTDOWN_STARTED);
-            LobbyGameState.getInstance().getCountdown().start();
+            countdown.start();
             return true;
         }
 

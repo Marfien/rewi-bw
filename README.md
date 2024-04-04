@@ -26,18 +26,20 @@ maps:
 
 ### lobby/config.yaml
 ```yaml
+world:
+  generator: empty # Map generator (currently only empty is supported)
+  environment: normal # Map environment (normal, nether, the_end)
+  init-time: 0 # Time of day when the map is loaded
+  difficulty: normal # Map difficulty (peaceful, easy, normal, hard)
 spawn: # Spawn location
   x: 16.5
   y: 64.0
   z: 2.5
-  pitch: 0.0
   yaw: 180.0
 cps-tester: # Where the cps tester is located
   x: 14.5
   y: 64.0
   z: 2.5
-  pitch: 0.0
-  yaw: 0.0
 teams:
   <team color>:
     joiner: # The ArmorStand to join the team
@@ -54,13 +56,12 @@ teams:
 
 ### maps/\<map name/>/config.yaml
 ```yaml
+world: # Same as lobby config
 spectator-pawn:
   x: -72.5
   y: 120.0
   z: -6.5
   pitch: 90.0
-world:
-  generator: empty # Map generator (currently only empty is supported)
 map:
   icon: log_2:1 # icon in format <id>[:<data>]
   display-name: "Medieval Mansion" # display name

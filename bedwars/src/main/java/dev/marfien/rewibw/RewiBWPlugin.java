@@ -100,4 +100,5 @@ public class RewiBWPlugin extends JavaPlugin {
             player.kickPlayer("§cDer Server wird neu gestartet");
         }
     }
+
 }

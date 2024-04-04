@@ -22,7 +22,7 @@ public class VotingGuiItem implements GuiItem {
     private final String displayName;
     private final String mapName;
 
-    public VotingGuiItem(int slot, String name, MapConfig.MapInfo mapInfo) {
+    public VotingGuiItem(int slot, String name, MapConfig.MapInfoConfig mapInfo) {
         this.slot = slot;
         this.mapName = name;
         this.displayName = mapInfo.getDisplayName();

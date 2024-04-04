@@ -85,16 +85,18 @@ public class Message {
     public static final Message RESCUE_PLATFORM_ON_GROUND = bad("Du stehst auf dem Boden.");
     public static final Message SHOP_NOT_ENOUGH_SPACE = bad("Du hast nicht genug Platz in deinem Inventar.");
     public static final Message SPECTATOR_TARGET = of("Du bist nun in der Sicht von §a%s§r.", ChatColor.AQUA);
+    public static final Message GAME_NOT_STARTED_YET = bad("Das Spiel hat noch nicht begonnen.");
+    public static final Message MAP_NAME = system("Die Map heißt §a%s§r §8(§a%s§8)§r.");
 
-    private final String message;
+    private final String string;
 
     @Override
     public String toString() {
-        return this.message;
+        return this.string;
     }
 
     public String format(Object... args) {
-        return String.format(this.message, args);
+        return String.format(this.string, args);
     }
 
     public static Message good(String message) {

@@ -2,8 +2,9 @@ package dev.marfien.rewibw.command;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.Countdown;
+import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.GameStateManager;
-import dev.marfien.rewibw.game.lobby.LobbyCountdown;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
@@ -24,12 +25,13 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (GameStateManager.getActiveGameState() != LobbyGameState.getInstance()) {
+        GameState currentGameState = GameStateManager.getActiveGameState();
+        if (!(currentGameState instanceof LobbyGameState)) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_ALREADY_RUNNING);
             return true;
         }
 
-        LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
+        Countdown countdown = currentGameState.getCountdown();
 
         if (countdown.isRunning() && countdown.getSeconds() <= 10) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.FORCEMAP_COMMAND_TOO_LATE);

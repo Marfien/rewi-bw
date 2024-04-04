@@ -7,6 +7,7 @@ import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,10 +18,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 
+@RequiredArgsConstructor
 public class PlayerConnectionListener implements Listener {
 
-    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
     private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
+
+    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+    private final LobbyCountdown countdown;
 
     static {
         LOBBY_CONTENTS[4] = Items.PERKS_ITEM;
@@ -40,10 +44,8 @@ public class PlayerConnectionListener implements Listener {
         player.getInventory().setContents(LOBBY_CONTENTS);
         event.setJoinMessage(Message.LOBBY_JOIN.format(ChatColor.GRAY + player.getDisplayName(), Bukkit.getOnlinePlayers().size()));
 
-        LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
-
-        if (Bukkit.getOnlinePlayers().size() >= this.teamConfig.getMinPlayers() && !countdown.isRunning()) {
-            countdown.start();
+        if (Bukkit.getOnlinePlayers().size() >= this.teamConfig.getMinPlayers() && !this.countdown.isRunning()) {
+            this.countdown.start();
         }
 
         if (MapVoting.isRunning()) {
@@ -57,11 +59,10 @@ public class PlayerConnectionListener implements Listener {
         MapVoting.removeVote(player);
         event.setQuitMessage(Message.LOBBY_LEAVE.format(ChatColor.GRAY + player.getDisplayName()));
 
-        LobbyCountdown countdown = LobbyGameState.getInstance().getCountdown();
         int players = Bukkit.getOnlinePlayers().size() - 1;
-        if (players < this.teamConfig.getMinPlayers() && countdown.isRunning()) {
-            countdown.stop();
-            countdown.startIdle();
+        if (players < this.teamConfig.getMinPlayers() && this.countdown.isRunning()) {
+            this.countdown.stop();
+            this.countdown.startIdle();
             MapVoting.reset();
         }
     }

@@ -38,6 +38,7 @@ public class PlayingGameState extends GameState {
     @Getter
     private static ScoreboardTeam killsTeam;
 
+    @Getter
     private final IngameCountdown countdown = new IngameCountdown();
     private final UsableItemManager itemManager = new UsableItemManager();
     private final Collection<BukkitTask> spawnerTasks = new ArrayList<>();
@@ -115,7 +116,7 @@ public class PlayingGameState extends GameState {
         sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebarObjective.setDisplayName("§3BedWars §7- §b60:00");
         sidebarObjective.setScore("§6marfien.dev", playersPerTeam + 6);
-        sidebarObjective.setScore("§e§lGameID: §r" + Strings.generateGameId(), playersPerTeam + 5);
+        sidebarObjective.setScore("§7GameID: §r" + Strings.generateGameId(), playersPerTeam + 5);
         sidebarObjective.setScore("§0", playersPerTeam + 4);
         sidebarObjective.setScore("§6Kills", playersPerTeam + 3);
         killsTeam = CustomScoreboardManager.registerTeam("stat_kills");
