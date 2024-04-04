@@ -79,12 +79,6 @@ public class LobbyGameState extends GameState {
     public void onStop() {
         this.itemManager.shutdown();
         TeamManager.assignTeams();
-
-        if (this.extra != null) {
-            for (Listener listener : this.extra) {
-                HandlerList.unregisterAll(listener);
-            }
-        }
     }
 
 }
