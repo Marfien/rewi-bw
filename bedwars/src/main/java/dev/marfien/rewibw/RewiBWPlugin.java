@@ -76,14 +76,15 @@ public class RewiBWPlugin extends JavaPlugin {
     @Override
     @SneakyThrows(IOException.class)
     public void onEnable() {
+        FakeEntityManager.init(this);
+        GuiInventory.setPlugin(this);
+
         MapPool.loadMaps(pluginConfig.getMapPool());
         LobbyGameState lobbyGameState = new LobbyGameState(pluginConfig.getLobbyMap(), pluginConfig.getVoting());
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
         GameStateManager.setActiveGameState(lobbyGameState);
-        FakeEntityManager.init(this);
-        GuiInventory.setPlugin(this);
         CustomScoreboardManager.init();
         TeamManager.init();
         this.globalItemManager.register(this);
