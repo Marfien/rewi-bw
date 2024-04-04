@@ -4,6 +4,7 @@ import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.GameWorldConfig;
 import dev.marfien.rewibw.shared.config.WorldConfig;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -41,6 +42,11 @@ public class GameWorld<T extends GameWorldConfig> {
         }
 
         return this.world;
+    }
+
+    public void unload() {
+        if (this.world == null) return;
+        Bukkit.unloadWorld(this.world, false);
     }
 
     public Location asLocation(Function<T, Position> positionFunction) {

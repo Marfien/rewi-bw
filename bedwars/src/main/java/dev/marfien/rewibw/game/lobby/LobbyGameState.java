@@ -29,9 +29,6 @@ import java.nio.file.Path;
 @Getter
 public class LobbyGameState extends GameState {
 
-    @Getter
-    private static LobbyGameState instance;
-
     private final LobbyWorld world;
     private final MapVoting mapVoting;
     private final UsableItemManager itemManager = new UsableItemManager();
@@ -41,7 +38,6 @@ public class LobbyGameState extends GameState {
     private final TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
     public LobbyGameState(Path lobbyPath, PluginConfig.VoteConfig voteConfig) throws IOException {
-        if (instance != null) throw new IllegalStateException("LobbyGameState already exists");
         this.mapVoting = new MapVoting(voteConfig);
         this.countdown = new LobbyCountdown(this.mapVoting);
 
@@ -57,8 +53,6 @@ public class LobbyGameState extends GameState {
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> this.mapVoting.openGui(event.getPlayer())));
         this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> PerkManager.openGui(event.getPlayer())));
-
-        instance = this;
     }
 
     @Override
@@ -86,6 +80,8 @@ public class LobbyGameState extends GameState {
         this.itemManager.shutdown();
         TeamManager.assignTeams();
         this.mapVoting.destroyGui();
+        // TODO move this into PlayingGameState#onStart
+        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), this.world::unload, 20);
         for (PerkGroup<?> perkGroup : PerkManager.getPerkGroups()) {
             perkGroup.destroyGui();
         }
