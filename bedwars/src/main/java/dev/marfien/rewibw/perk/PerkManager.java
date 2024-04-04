@@ -93,7 +93,7 @@ public class PerkManager {
         for (PerkGroup<?> perkGroup : PERK_GROUPS) {
             perkGroup.init(plugin, PERK_GROUPS);
         }
-        LogManager.getLogger().info("PerkManager initialized with {} perk groups", PERK_GROUPS.length);
+        LogManager.getLogger().info("PerkManager initialized with %s perk groups", PERK_GROUPS.length);
     }
 
     public static void openGui(Player player) {

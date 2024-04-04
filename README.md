@@ -4,7 +4,7 @@ This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This
 
 ### Run locally
 ```bash
-docker compose run rewi-bw-server --rm --service-ports
+docker compose run --rm --service-ports rewi-bw-server
 ```
 
 ## Configuration

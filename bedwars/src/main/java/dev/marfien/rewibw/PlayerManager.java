@@ -48,7 +48,7 @@ public class PlayerManager {
         Inventory inventory = player.getInventory();
         inventory.setItem(0, Items.SPECTATOR_COMPASS);
         inventory.setItem(8, Items.QUIT_ITEM);
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Player {} is now a spectator.", player.getName());
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Player %s is now a spectator.", player.getName());
     }
 
     public static void removeSpectator(Player player) {

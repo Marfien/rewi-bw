@@ -25,12 +25,12 @@ public abstract class AbstractCountdown implements Countdown {
             throw new IllegalStateException("Cannot start running countdown");
         }
 
-        LOGGER.log(Level.INFO, "Starting countdown {} with {} seconds", new Object[]{this.getClass(), this.initSeconds});
+        LOGGER.log(Level.INFO, "Starting countdown %s with %s seconds", new Object[]{this.getClass(), this.initSeconds});
         this.onStart();
 
         this.seconds = this.initSeconds;
         this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
-            LOGGER.log(Level.FINEST, "Countdown {} running with {} seconds", new Object[]{this.getClass(), this.seconds});
+            LOGGER.log(Level.FINEST, "Countdown %s running with %s seconds", new Object[]{this.getClass(), this.seconds});
             this.onSecond(this.seconds);
 
             if (this.seconds == 0) {
@@ -52,7 +52,7 @@ public abstract class AbstractCountdown implements Countdown {
 
     public void setSeconds(int seconds) {
         this.seconds = seconds;
-        LOGGER.log(Level.INFO, "Setting countdown {} to {} seconds", new Object[]{this.getClass(), seconds});
+        LOGGER.log(Level.INFO, "Setting countdown %s to %s seconds", new Object[]{this.getClass(), seconds});
     }
 
     public boolean isRunning() {
