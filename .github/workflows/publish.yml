@@ -47,11 +47,7 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        online_mode: ['true', 'false']
     env:
-      ONLINE_MODE: ${{ matrix.online_mode }}
       TAGS: |
         type=ref,event=branch
         type=ref,event=tag
@@ -80,7 +76,6 @@ jobs:
         with:
           images: marfiens/rewibw-server
           tags: ${{ env.TAGS }}
-          flavor: suffix=${{ matrix.online_mode == 'false' && '-offline' || '' }},onlatest=true
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
         uses: docker/metadata-action@v5

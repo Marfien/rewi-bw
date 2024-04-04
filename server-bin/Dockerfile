@@ -10,9 +10,6 @@ RUN wget -O spigot.jar https://api.papermc.io/v2/projects/paper/versions/1.8.8/b
 # Precreate patched jars to speed up server startup
 RUN java -Dpaperclip.patchonly=true -jar spigot.jar
 
-ARG ONLINE_MODE=true
-
 COPY . .
-RUN echo "online-mode=${ONLINE_MODE}" >> server.properties
 
 ENTRYPOINT ["/bin/sh", "start.sh"]

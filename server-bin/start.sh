@@ -11,6 +11,10 @@ if [ -z "$MEMORY" ]; then
   MEMORY="1024"
 fi
 
+if [ -z "$ONLINE_MODE" ]; then
+  echo "online-mode=$ONLINE_MODE" >> server.properties
+fi
+
 COMMAND="java -Xmx${MEMORY}M -Xms${MEMORY}M"
 
 if [ "$AIKARS_FLAGS" = 'true' ]; then
