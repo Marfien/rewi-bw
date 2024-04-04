@@ -52,7 +52,7 @@ public class MapVoting {
             voteCount.put(mapName, 0);
 
             Path sourcePath = MapPool.getSourcePath(mapName);
-            MapConfig config = MapConfig.loader(sourcePath).load().get(MapConfig.class);
+            MapConfig config = MapConfig.loader(sourcePath).load().require(MapConfig.class);
 
             if (config == null) throw new IOException("Map Config could not be loaded for map " + mapName);
 

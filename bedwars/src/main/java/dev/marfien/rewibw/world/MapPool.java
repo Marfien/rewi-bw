@@ -64,7 +64,7 @@ public class MapPool {
         Path targetPath = bukkitWorldContainer.resolve(name);
 
         FileUtils.copyFolder(sourcePath, targetPath);
-        map = new MapWorld(name, MapConfig.loader(targetPath).load().get(MapConfig.class));
+        map = new MapWorld(name, MapConfig.loader(targetPath).load().require(MapConfig.class));
         requestedMaps.put(name, map);
 
         return map;

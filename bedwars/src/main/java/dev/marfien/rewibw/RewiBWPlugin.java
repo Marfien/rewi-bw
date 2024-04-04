@@ -14,13 +14,12 @@ import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
+import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.voting.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,11 +27,11 @@ import org.bukkit.util.Vector;
 import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 public class RewiBWPlugin extends JavaPlugin {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     public static final String PREFIX = "§8[§3BedWars§8] §r";
 
@@ -43,6 +42,10 @@ public class RewiBWPlugin extends JavaPlugin {
     private static EffectManager effectManager;
     @Getter
     private static PluginConfig pluginConfig;
+
+    public static Logger getPluginLogger() {
+        return instance.getLogger();
+    }
 
     public static RewiBWPlugin getInstance() {
         if (instance == null)
@@ -56,10 +59,10 @@ public class RewiBWPlugin extends JavaPlugin {
     public void onLoad() {
         super.saveResource("config.yaml", false);
         try {
-            pluginConfig = PluginConfig.loader(this).load().get(PluginConfig.class);
-            LOGGER.info("Successfully loaded plugin configuration");
+            pluginConfig = PluginConfig.loader(this).load().require(PluginConfig.class);
+            super.getLogger().info("Successfully loaded plugin configuration");
         } catch (ConfigurateException e) {
-            LOGGER.error("Could not load configuration file", e);
+            super.getLogger().log(Level.SEVERE, "Could not load configuration file", e);
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
@@ -82,6 +85,7 @@ public class RewiBWPlugin extends JavaPlugin {
         GuiInventory.setPlugin(this);
         CustomScoreboardManager.init();
         MapVoting.init(pluginConfig.getVoting());
+        TeamManager.init();
         this.globalItemManager.register(this);
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());

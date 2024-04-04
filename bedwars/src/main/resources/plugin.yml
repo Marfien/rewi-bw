@@ -2,6 +2,7 @@ api-version: 1.8.8
 author: Marfien
 name: rewi-bw
 version: @version@
+prefix: RewiBW
 main: dev.marfien.rewibw.RewiBWPlugin
 depend:
   - NoteBlockAPI

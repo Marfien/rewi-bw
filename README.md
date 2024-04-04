@@ -4,7 +4,7 @@ This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This
 
 ### Run locally
 ```bash
-docker compose run rewi-bw-server --rm
+docker compose run rewi-bw-server --rm --service-ports
 ```
 
 ## Configuration
@@ -32,7 +32,7 @@ spawn: # Spawn location
   z: 2.5
   pitch: 0.0
   yaw: 180.0
-cps: # Where the cps tester is located
+cps-tester: # Where the cps tester is located
   x: 14.5
   y: 64.0
   z: 2.5
@@ -54,7 +54,7 @@ teams:
 
 ### maps/\<map name/>/config.yaml
 ```yaml
-spawn: # Spectator spawn
+spectator-pawn:
   x: -72.5
   y: 120.0
   z: -6.5
@@ -63,7 +63,7 @@ world:
   generator: empty # Map generator (currently only empty is supported)
 map:
   icon: log_2:1 # icon in format <id>[:<data>]
-  displayName: "Medieval Mansion" # display name
+  display-name: "Medieval Mansion" # display name
   border: # The border of the map
     x1: 21
     x2: -167
@@ -90,9 +90,9 @@ spawner:
 teams:
   <team color>:
     bed: # bed position and direction
-      x: -150.0
-      y: 82.0
-      z: 0.0
+      x: -150 # These need to be integers
+      y: 82
+      z: 0
       direction: north
     spawn: # The team spawn location
       x: -144.5

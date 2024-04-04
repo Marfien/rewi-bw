@@ -1,22 +1,24 @@
 package dev.marfien.rewibw.game;
 
 import dev.marfien.rewibw.RewiBWPlugin;
+import jdk.jpackage.internal.Log;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitTask;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Getter
 @RequiredArgsConstructor
 public abstract class AbstractCountdown implements Countdown {
 
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
 
     private final int initSeconds;
-    @Setter
     private int seconds = -1;
 
     private BukkitTask task;
@@ -26,23 +28,20 @@ public abstract class AbstractCountdown implements Countdown {
             throw new IllegalStateException("Cannot start running countdown");
         }
 
-        LOGGER.info("Starting countdown " + this.getClass() + "with " + this.initSeconds + " seconds");
+        LOGGER.log(Level.INFO, "Starting countdown {} with {} seconds", new Object[]{this.getClass(), this.initSeconds});
         this.onStart();
 
         this.seconds = this.initSeconds;
-        this.task = new BukkitRunnable() {
-            @Override
-            public void run() {
-                LOGGER.debug("Countdown " + AbstractCountdown.this.getClass() + " running with " + seconds + " seconds");
-                onSecond(seconds);
+        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
+            LOGGER.log(Level.FINEST, "Countdown {} running with {} seconds", new Object[]{this.getClass(), this.seconds});
+            this.onSecond(this.seconds);
 
-                if (seconds == 0) {
-                    stop();
-                }
-
-                seconds--;
+            if (this.seconds == 0) {
+                stop();
             }
-        }.runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 0, 20);
+
+            this.seconds--;
+        }, 0, 20);
     }
 
     public final void stop() {
@@ -52,6 +51,11 @@ public abstract class AbstractCountdown implements Countdown {
         this.task = null;
         this.onStop();
         LOGGER.info("Stopping countdown " + this.getClass());
+    }
+
+    public void setSeconds(int seconds) {
+        this.seconds = seconds;
+        LOGGER.log(Level.INFO, "Setting countdown {} to {} seconds", new Object[]{this.getClass(), seconds});
     }
 
     public boolean isRunning() {

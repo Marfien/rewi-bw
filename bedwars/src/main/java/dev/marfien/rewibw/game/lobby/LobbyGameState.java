@@ -6,6 +6,7 @@ import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
+import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
@@ -36,7 +37,7 @@ public class LobbyGameState extends GameState {
     private final LobbyCountdown countdown = new LobbyCountdown();
 
     private final Listener[] listeners;
-    private Collection<Listener> extra;
+    private TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
     public LobbyGameState(Path lobbyPath) throws IOException {
         if (instance != null) throw new IllegalStateException("LobbyGameState already exists");
@@ -47,7 +48,8 @@ public class LobbyGameState extends GameState {
         this.listeners = new Listener[]{
                 new PlayerListener(this.world.asLocation(LobbyConfig::getSpawn)),
                 new LobbyWorldListener(),
-                new PlayerConnectionListener()
+                new PlayerConnectionListener(),
+                this.teamJoinerListener
         };
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));
@@ -63,7 +65,7 @@ public class LobbyGameState extends GameState {
         this.world.load();
 
         // TODO find a better way of handling this
-        this.extra = TeamManager.init(this.world);
+        TeamManager.initTeams(this.world, this.teamJoinerListener);
 
         PerkManager.init(RewiBWPlugin.getInstance());
 

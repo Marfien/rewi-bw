@@ -6,6 +6,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.game.lobby.LobbyWorld;
+import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
@@ -26,6 +27,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 
 public class TeamManager {
@@ -34,20 +36,13 @@ public class TeamManager {
 
     private static final Map<Player, GameTeam> playerTeamMap = new HashMap<>();
 
-    @Getter
-    @Setter
-    private static boolean isIngame = false;
-
-    public static Collection<Listener> init(LobbyWorld lobby) {
+    public static void init() {
         Bukkit.getPluginManager().registerEvents(new TeamListener(), RewiBWPlugin.getInstance());
-
-        return initTeams(lobby);
     }
 
-    private static Collection<Listener> initTeams(LobbyWorld lobby) {
-        Set<Listener> listeners = new HashSet<>();
+    public static void initTeams(LobbyWorld world, TeamJoinerListener teamJoinerListener) {
         PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
-        Map<TeamColor, LobbyConfig.LobbyTeamConfig> teams = lobby.getConfig().getTeams();
+        Map<TeamColor, LobbyConfig.LobbyTeamConfig> teams = world.getConfig().getTeams();
 
         for (TeamColor teamColor : teamConfig.getVariants()) {
             LobbyConfig.LobbyTeamConfig lobbyTeamConfig = teams.get(teamColor);
@@ -56,15 +51,13 @@ public class TeamManager {
             if (displayLocations.length < teamConfig.getPlayersPerTeam())
                 throw new IllegalArgumentException("The memberDisplay section needs to be at least the size of players per team");
 
-            GameTeam team = new GameTeam(teamColor, lobby.getWorld(), displayLocations);
+            GameTeam team = new GameTeam(teamColor, world.getWorld(), displayLocations);
 
-            listeners.add(new TeamJoiner(lobbyTeamConfig.getJoiner().toLocation(lobby.getWorld()), team));
+            teamJoinerListener.addJoiner(lobbyTeamConfig.getJoiner().toLocation(world.getWorld()), team);
 
             TeamManager.teams.add(team);
             RewiBWPlugin.getInstance().getLogger().log(Level.INFO, "Registered team " + teamColor.name() + " with " + displayLocations.length + " display locations");
         }
-
-        return listeners;
     }
 
     public static void assignTeams() {
@@ -113,10 +106,6 @@ public class TeamManager {
 
         if (GameStateManager.getActiveGameState() == LobbyGameState.getInstance()) {
             player.getInventory().setArmorContents(Arrays.copyOf(team.getArmor(), 3));
-        }
-
-        if (isIngame) {
-            SpectatorCompass.refreshInventory();
         }
     }
 

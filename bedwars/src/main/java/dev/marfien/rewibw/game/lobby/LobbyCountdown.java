@@ -12,8 +12,11 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.logging.Logger;
+
 public class LobbyCountdown extends AbstractCountdown {
 
+    private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
     private static final int INIT_SECONDS = 60;
 
     private BukkitTask idleTask;
@@ -23,6 +26,8 @@ public class LobbyCountdown extends AbstractCountdown {
     }
 
     public void startIdle() {
+        if (this.idleTask != null) return;
+        LOGGER.info("Starting idle task");
         this.idleTask = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () ->
                 Message.broadcast(
                         RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(
@@ -34,6 +39,7 @@ public class LobbyCountdown extends AbstractCountdown {
     public void stopIdle() {
         if (this.idleTask == null) return;
 
+        LOGGER.info("Stopping idle task");
         this.idleTask.cancel();
     }
 

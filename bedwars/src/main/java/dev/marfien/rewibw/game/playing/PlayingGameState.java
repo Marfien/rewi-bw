@@ -78,7 +78,6 @@ public class PlayingGameState extends GameState {
     public void onStart() {
         World world = this.map.load();
         this.borderTask = new BorderTask(this.map).runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), 10, 7);
-        TeamManager.setIngame(true);
         // Teleport players to their spawn
         for (GameTeam team : TeamManager.getTeams()) {
             team.init(this.map);
@@ -105,7 +104,6 @@ public class PlayingGameState extends GameState {
 
     @Override
     public void onStop() {
-        TeamManager.setIngame(false);
         this.countdown.stop();
         this.itemManager.shutdown();
         this.spawnerTasks.forEach(BukkitTask::cancel);

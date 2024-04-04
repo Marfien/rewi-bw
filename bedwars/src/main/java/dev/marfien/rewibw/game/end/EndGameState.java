@@ -20,8 +20,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 
+import java.util.logging.Logger;
+
 @RequiredArgsConstructor
 public class EndGameState extends GameState {
+
+    private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
 
     private static final LobbyWorld lobby = LobbyGameState.getInstance().getWorld();
 
@@ -39,6 +43,7 @@ public class EndGameState extends GameState {
     @Override
     public void onStart() {
         Location spawn = lobby.asLocation(LobbyConfig::getSpawn);
+        LOGGER.info("Teleporting players to " + spawn);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(spawn);
             PlayerManager.showSpectators(player);
@@ -49,6 +54,7 @@ public class EndGameState extends GameState {
 //        this.songPlayer.setPlaying(true);
 
         this.countdown.start();
+        LOGGER.info("Winner: " + this.winner);
         if (this.winner == null) {
             Message.broadcast(" ");
             Message.broadcast(Message.NO_WINNER.toString());
