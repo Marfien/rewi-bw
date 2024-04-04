@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.listener;
 
+import dev.marfien.rewibw.RewiBWPlugin;
 import org.bukkit.Difficulty;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -15,6 +16,9 @@ import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
+
+import java.util.logging.Level;
 
 public class WorldListener implements Listener {
 
@@ -54,6 +58,11 @@ public class WorldListener implements Listener {
             case SILVERFISH_BLOCK:
                 event.setCancelled(true);
         }
+    }
+
+    @EventHandler
+    private void onUnload(WorldUnloadEvent event) {
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Unloading world {}", event.getWorld().getName());
     }
 
     @EventHandler

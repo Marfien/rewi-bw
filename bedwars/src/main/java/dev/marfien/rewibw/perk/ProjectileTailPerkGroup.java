@@ -23,8 +23,8 @@ import java.util.Random;
 public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>> {
 
     @SafeVarargs
-    public ProjectileTailPerkGroup(ItemStack displayItem, DataPerk<ParticleEffect> defaultPerk, DataPerk<ParticleEffect>... perks) {
-        super(displayItem, defaultPerk, perks);
+    public ProjectileTailPerkGroup(String key, ItemStack displayItem, DataPerk<ParticleEffect> defaultPerk, DataPerk<ParticleEffect>... perks) {
+        super(key, displayItem, defaultPerk, perks);
     }
 
     @Override

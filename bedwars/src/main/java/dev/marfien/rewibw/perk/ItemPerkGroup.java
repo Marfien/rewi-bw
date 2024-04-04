@@ -20,8 +20,8 @@ import org.bukkit.plugin.Plugin;
 
 public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
 
-    public ItemPerkGroup(ItemStack displayItem, ItemStackTransformPerk defaultPerk, ItemStackTransformPerk... perks) {
-        super(displayItem, defaultPerk, perks);
+    public ItemPerkGroup(String key, ItemStack displayItem, ItemStackTransformPerk defaultPerk, ItemStackTransformPerk... perks) {
+        super(key, displayItem, defaultPerk, perks);
     }
 
     @Override

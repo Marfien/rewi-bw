@@ -24,8 +24,12 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class MapVoting {
+
+    private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
 
     private final Map<Player, String> votes = new HashMap<>();
     private final Map<String, Integer> voteCount = new HashMap<>();
@@ -80,6 +84,7 @@ public class MapVoting {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.getInventory().remove(Items.VOTE_ITEM);
         }
+        LOGGER.info("Map Voting reset");
     }
 
     @SneakyThrows(IOException.class)
@@ -89,6 +94,8 @@ public class MapVoting {
         for (Player onlinePlayer : Bukkit.getOnlinePlayers()) {
             onlinePlayer.getInventory().setItem(0, Items.VOTE_ITEM);
         }
+
+        LOGGER.info("Map Voting started");
     }
 
     public void vote(Player player, String map) {
@@ -97,6 +104,7 @@ public class MapVoting {
         if (previousVote != null) {
             this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
         }
+        LOGGER.log(Level.FINE, "Player {} changed vote from {} to {}", new Object[]{player.getName(), previousVote, map});
     }
 
     public void removeVote(Player player) {
@@ -104,6 +112,7 @@ public class MapVoting {
         if (previousVote != null) {
             this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
         }
+        LOGGER.log(Level.FINE, "Player {} removed vote for {}", new Object[]{player.getName(), previousVote});
     }
 
     public MapWorld getOrChooseWinner() throws IOException {
@@ -118,6 +127,7 @@ public class MapVoting {
     public void setWinner(MapWorld map) {
         reset();
         this.winner = map;
+        LOGGER.log(Level.INFO, "Winner set to {} ({})", new Object[]{map.getConfig().getMap().getDisplayName(), map.getName()});
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(Message.VOTING_BROADCAST.format(map.getConfig().getMap().getDisplayName()));
@@ -132,7 +142,9 @@ public class MapVoting {
             return this.votables[randomIndex];
         }
 
-        return Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        String winner = Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        LOGGER.log(Level.INFO, "Winner chosen: {}", winner);
+        return winner;
     }
 
     public int getVotes(String map) {

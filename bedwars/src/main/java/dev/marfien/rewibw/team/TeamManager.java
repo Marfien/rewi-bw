@@ -57,29 +57,27 @@ public class TeamManager {
     }
 
     public static void assignTeams() {
+        GameTeam[] teams = getTeamsSortedBySize();
+        int teamIndex = 0;
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (hasTeam(player)) continue;
-            assignTeam(player);
-        }
-    }
 
-    private static void assignTeam(Player player) {
-        GameTeam team = getSmallestTeam();
-        if (tryJoinTeam(player, team)) {
-            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_ASSIGNED.format(team.getColor().getDisplayName()));
-            return;
-        }
-        player.kickPlayer(Message.NO_TEAM_FOUND.toString());
-    }
+            while(!tryJoinTeam(player, teams[teamIndex])) {
+                teamIndex++;
 
-    private static GameTeam getSmallestTeam() {
-        GameTeam smallest = null;
-        for (GameTeam team : teams) {
-            if (smallest == null || team.getMembers().size() < smallest.getMembers().size()) {
-                smallest = team;
+                if (teamIndex >= teams.length) {
+                    player.kickPlayer(Message.NO_TEAM_FOUND.toString());
+                    return;
+                }
             }
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_ASSIGNED.format(teams[teamIndex].getColor().getDisplayName()));
         }
-        return smallest;
+    }
+
+    private static GameTeam[] getTeamsSortedBySize() {
+        return teams.stream()
+                .sorted(Comparator.comparingInt(GameTeam::size))
+                .toArray(GameTeam[]::new);
     }
 
     public static boolean tryJoinTeam(Player player, GameTeam team) {

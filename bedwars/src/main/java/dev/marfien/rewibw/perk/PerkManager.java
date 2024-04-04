@@ -16,6 +16,7 @@ import org.bukkit.plugin.Plugin;
 public class PerkManager {
 
     public static final NoOpPerkGroup<DataPerk<Sound>> BED_DESTROY_SOUND_PERK_GROUP = new NoOpPerkGroup<>(
+            "bed_destroy_sound",
             ItemBuilder.of(Material.BED).setDisplayName("§6Bettabbau-Sound").asItemStack(),
             new DataPerk<>("Eisengolem-Tot", ItemBuilder.of(Material.IRON_BLOCK).setDisplayName("§9Eisengolem-Tod").asItemStack(), Sound.IRONGOLEM_DEATH),
             new DataPerk<>("Enderdrache-Grollen", ItemBuilder.of(Material.DRAGON_EGG).setDisplayName("§9Enderdrache-Grollen").asItemStack(), Sound.ENDERDRAGON_GROWL),
@@ -25,6 +26,7 @@ public class PerkManager {
     );
 
     public static final NoOpPerkGroup<DataPerk<Sound>> KILL_SOUND_PERK_GROUP = new NoOpPerkGroup<>(
+            "kill_sound",
             ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§6Kill-Sound").asItemStack(),
             null,
             new DataPerk<>("Kolben", ItemBuilder.of(Material.PISTON_BASE).setDisplayName("§eKolben").asItemStack(), Sound.PISTON_EXTEND),
@@ -38,6 +40,7 @@ public class PerkManager {
     );
 
     public static final ItemPerkGroup STICK_PERK_GROUP = new ItemPerkGroup(
+            "stick",
             ItemBuilder.of(Material.STICK).setDisplayName("§6Knüppel").asItemStack(),
             new ItemStackTransformPerk("§cKnüppel", Material.STICK),
             new ItemStackTransformPerk("§cKnochen", Material.BONE),
@@ -73,6 +76,7 @@ public class PerkManager {
             BED_DESTROY_SOUND_PERK_GROUP,
             KILL_SOUND_PERK_GROUP,
             new ProjectileTailPerkGroup(
+                    "bow_particles",
                     ItemBuilder.of(Material.BOW).setDisplayName("§6Bogen-Particle").asItemStack(),
                     null,
                     new DataPerk<>("Herz", ItemBuilder.of(Material.RED_ROSE).setDisplayName("§dHerz").asItemStack(), ParticleEffect.HEART),

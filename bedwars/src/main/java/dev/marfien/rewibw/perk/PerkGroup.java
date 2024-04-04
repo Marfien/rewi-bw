@@ -36,6 +36,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     private static final GuiItem PANE_ACTIVE = new StaticNoOpGuiItem(ItemBuilder.of(Material.STAINED_GLASS_PANE).setDisplayName("§7").setDamage((short) 13).asItemStack());
     private static final GuiItem PANE_INACTIVE = new StaticNoOpGuiItem(ItemBuilder.of(Material.STAINED_GLASS_PANE).setDisplayName("§7").setDamage((short) 14).asItemStack());
 
+    private final String key;
     private final ItemStack displayItem;
     private final P defaultPerk;
 
@@ -46,14 +47,15 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     private GuiInventory inventory;
 
     @SafeVarargs
-    protected PerkGroup(ItemStack displayItem, P defaultPerk, P... perks) {
+    protected PerkGroup(String key, ItemStack displayItem, P defaultPerk, P... perks) {
+        this.key = key;
         this.displayItem = displayItem;
         this.defaultPerk = defaultPerk;
         this.perks = perks;
     }
 
     public void setPerk(Player player, P perk) {
-        LOGGER.debug("Setting perk {} for player {}", perk.getName(), player.getName());
+        LOGGER.debug("Perk set to {} for {} in {}", perk.getName(), player.getName(), this.key);
         this.selectedPerks.put(player, perk);
     }
 

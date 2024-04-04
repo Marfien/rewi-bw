@@ -10,6 +10,7 @@ import org.bukkit.inventory.PlayerInventory;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.function.Consumer;
+import java.util.logging.Level;
 
 public class PlayerManager {
 
@@ -47,6 +48,7 @@ public class PlayerManager {
         Inventory inventory = player.getInventory();
         inventory.setItem(0, Items.SPECTATOR_COMPASS);
         inventory.setItem(8, Items.QUIT_ITEM);
+        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Player {} is now a spectator.", player.getName());
     }
 
     public static void removeSpectator(Player player) {
