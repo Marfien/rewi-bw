@@ -22,7 +22,7 @@ public class ItemStackTransformPerk extends Perk {
     }
 
     public ItemStackTransformPerk(String name, Material material, short damage) {
-        this(name, material, damage, ignored -> %s);
+        this(name, material, damage, ignored -> {});
     }
 
     public ItemStackTransformPerk(String name, Material material, Consumer<ItemMeta> transformer) {
@@ -33,7 +33,7 @@ public class ItemStackTransformPerk extends Perk {
     }
 
     public ItemStackTransformPerk(String name, Material material) {
-        this(name, material, ignored -> %s);
+        this(name, material, ignored -> {});
     }
 
     public void transformItem(ItemStack item) {
