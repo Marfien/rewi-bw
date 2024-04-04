@@ -3,6 +3,7 @@ package dev.marfien.rewibw.game.end;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
+import dev.marfien.rewibw.game.GameStateManager;
 
 public class EndCountdown extends AbstractCountdown {
 
@@ -20,7 +21,7 @@ public class EndCountdown extends AbstractCountdown {
 
     @Override
     public void onStop() {
-        this.endGameState.stop();
+        GameStateManager.setActiveGameState(null);
     }
 
     @Override

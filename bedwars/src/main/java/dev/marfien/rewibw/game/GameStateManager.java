@@ -27,11 +27,16 @@ public class GameStateManager {
     }
 
     private static void setActiveGameStateSync(GameState state) {
-        LOGGER.info("Setting active game state to " + state.getClass().getSimpleName());
         if (hasActiveGameState()) {
             activeGameState.stop();
         }
 
+        if (state == null) {
+            activeGameState = null;
+            return;
+        }
+
+        LOGGER.info("Setting active game state to " + state.getClass().getSimpleName());
         activeGameState = state;
         state.start();
         System.gc();
