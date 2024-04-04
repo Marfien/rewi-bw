@@ -22,11 +22,13 @@ import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.util.logging.Logger;
 
+@Getter
 @RequiredArgsConstructor
 public class EndGameState extends GameState {
 
     private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
 
+    // TODO remove static reference to LobbyGameState
     private static final LobbyWorld lobby = LobbyGameState.getInstance().getWorld();
 
     //private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));

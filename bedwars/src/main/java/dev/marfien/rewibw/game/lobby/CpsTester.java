@@ -1,4 +1,4 @@
-package dev.marfien.rewibw.util;
+package dev.marfien.rewibw.game.lobby;
 
 import com.mojang.authlib.GameProfile;
 import dev.marfien.rewibw.RewiBWPlugin;

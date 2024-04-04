@@ -1,6 +1,5 @@
 package dev.marfien.rewibw.game.lobby;
 
-import com.google.common.collect.Maps;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.command.ForceMapCommand;
 import dev.marfien.rewibw.command.StartCommand;
@@ -10,25 +9,22 @@ import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
 import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
+import dev.marfien.rewibw.perk.PerkGroup;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
+import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.team.TeamManager;
-import dev.marfien.rewibw.util.CpsTester;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.voting.MapVoting;
 import lombok.Getter;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 @Getter
 public class LobbyGameState extends GameState {
@@ -37,14 +33,17 @@ public class LobbyGameState extends GameState {
     private static LobbyGameState instance;
 
     private final LobbyWorld world;
+    private final MapVoting mapVoting;
     private final UsableItemManager itemManager = new UsableItemManager();
-    private final LobbyCountdown countdown = new LobbyCountdown();
+    private final LobbyCountdown countdown;
 
     private final Listener[] listeners;
     private final TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
-    public LobbyGameState(Path lobbyPath) throws IOException {
+    public LobbyGameState(Path lobbyPath, PluginConfig.VoteConfig voteConfig) throws IOException {
         if (instance != null) throw new IllegalStateException("LobbyGameState already exists");
+        this.mapVoting = new MapVoting(voteConfig);
+        this.countdown = new LobbyCountdown(this.mapVoting);
 
         this.world = LobbyWorld.setupLobby(lobbyPath);
         this.world.load();
@@ -52,12 +51,13 @@ public class LobbyGameState extends GameState {
         this.listeners = new Listener[]{
                 new PlayerListener(this.world.asLocation(LobbyConfig::getSpawn)),
                 new LobbyWorldListener(),
-                new PlayerConnectionListener(this.countdown),
+                new PlayerConnectionListener(this.countdown, this.mapVoting),
                 this.teamJoinerListener
         };
 
-        this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> MapVoting.openGui(event.getPlayer())));
+        this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> this.mapVoting.openGui(event.getPlayer())));
         this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> PerkManager.openGui(event.getPlayer())));
+
         instance = this;
     }
 
@@ -76,7 +76,7 @@ public class LobbyGameState extends GameState {
         if (position == null) return;
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
-        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand());
+        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand(this.mapVoting));
 
         FakeEntityManager.spawn(new CpsTester(position.toLocation(this.world.getWorld())));
     }
@@ -85,6 +85,10 @@ public class LobbyGameState extends GameState {
     public void onStop() {
         this.itemManager.shutdown();
         TeamManager.assignTeams();
+        this.mapVoting.destroyGui();
+        for (PerkGroup<?> perkGroup : PerkManager.getPerkGroups()) {
+            perkGroup.destroyGui();
+        }
     }
 
 }

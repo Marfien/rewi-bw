@@ -8,6 +8,9 @@ depend:
   - NoteBlockAPI
 
 commands:
+  map:
+    description: Zeigt die aktuelle Map
+    usage: /map
   start:
     description: Startet das Spiel
     usage: /start

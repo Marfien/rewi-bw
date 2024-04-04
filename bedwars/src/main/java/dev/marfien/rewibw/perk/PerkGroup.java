@@ -143,6 +143,11 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
         this.inventory.openTo(player);
     }
 
+    public void destroyGui() {
+        this.inventory.destory();
+        this.inventory = null;
+    }
+
     @RequiredArgsConstructor
     public class PerkSelectGuiItem implements GuiItem {
 

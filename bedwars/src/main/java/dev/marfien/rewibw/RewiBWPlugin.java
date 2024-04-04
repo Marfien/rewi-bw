@@ -16,7 +16,7 @@ import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.voting.MapVoting;
+import dev.marfien.rewibw.game.lobby.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -77,19 +77,19 @@ public class RewiBWPlugin extends JavaPlugin {
     @SneakyThrows(IOException.class)
     public void onEnable() {
         MapPool.loadMaps(pluginConfig.getMapPool());
+        LobbyGameState lobbyGameState = new LobbyGameState(pluginConfig.getLobbyMap(), pluginConfig.getVoting());
 
         Bukkit.getPluginManager().registerEvents(new WorldListener(), this);
         Bukkit.getPluginManager().registerEvents(new PlayerConnectionListener(), this);
-        GameStateManager.setActiveGameState(new LobbyGameState(pluginConfig.getLobbyMap()));
+        GameStateManager.setActiveGameState(lobbyGameState);
         FakeEntityManager.init(this);
         GuiInventory.setPlugin(this);
         CustomScoreboardManager.init();
-        MapVoting.init(pluginConfig.getVoting());
         TeamManager.init();
         this.globalItemManager.register(this);
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
-        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand());
+        Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand(lobbyGameState.getMapVoting()));
     }
 
     @Override

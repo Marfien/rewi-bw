@@ -6,9 +6,10 @@ import dev.marfien.rewibw.game.Countdown;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
-import dev.marfien.rewibw.voting.MapVoting;
+import dev.marfien.rewibw.game.lobby.MapVoting;
 import dev.marfien.rewibw.world.MapPool;
 import dev.marfien.rewibw.world.MapWorld;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,7 +22,10 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 public class ForceMapCommand implements CommandExecutor, TabExecutor {
+
+    private final MapVoting mapVoting;
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
@@ -53,7 +57,7 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
 
         try {
             MapWorld mapWorld = MapPool.requestMap(mapName);
-            MapVoting.setWinner(mapWorld);
+            this.mapVoting.setWinner(mapWorld);
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.MAP_CHANGED.format(mapWorld.getConfig().getMap().getDisplayName()));
         } catch (IOException e) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cAn error occurred while loading the map: §4" + e.getMessage());

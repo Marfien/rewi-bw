@@ -3,10 +3,9 @@ package dev.marfien.rewibw.game.lobby.listeners;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
-import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.shared.config.PluginConfig;
 import dev.marfien.rewibw.util.Items;
-import dev.marfien.rewibw.voting.MapVoting;
+import dev.marfien.rewibw.game.lobby.MapVoting;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,8 +22,10 @@ public class PlayerConnectionListener implements Listener {
 
     private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
 
-    private PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+    private final PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+
     private final LobbyCountdown countdown;
+    private final MapVoting mapVoting;
 
     static {
         LOBBY_CONTENTS[4] = Items.PERKS_ITEM;
@@ -48,7 +49,7 @@ public class PlayerConnectionListener implements Listener {
             this.countdown.start();
         }
 
-        if (MapVoting.isRunning()) {
+        if (this.mapVoting.isRunning()) {
             player.getInventory().setItem(0, Items.VOTE_ITEM);
         }
     }
@@ -56,14 +57,14 @@ public class PlayerConnectionListener implements Listener {
     @EventHandler
     private void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        MapVoting.removeVote(player);
+        this.mapVoting.removeVote(player);
         event.setQuitMessage(Message.LOBBY_LEAVE.format(ChatColor.GRAY + player.getDisplayName()));
 
         int players = Bukkit.getOnlinePlayers().size() - 1;
         if (players < this.teamConfig.getMinPlayers() && this.countdown.isRunning()) {
             this.countdown.stop();
             this.countdown.startIdle();
-            MapVoting.reset();
+            this.mapVoting.reset();
         }
     }
 

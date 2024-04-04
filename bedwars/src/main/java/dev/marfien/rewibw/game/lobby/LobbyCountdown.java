@@ -5,7 +5,6 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
-import dev.marfien.rewibw.voting.MapVoting;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -18,11 +17,13 @@ public class LobbyCountdown extends AbstractCountdown {
 
     private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
     private static final int INIT_SECONDS = 60;
+    private final MapVoting mapVoting;
 
     private BukkitTask idleTask;
 
-    public LobbyCountdown() {
+    public LobbyCountdown(MapVoting mapVoting) {
         super(INIT_SECONDS);
+        this.mapVoting = mapVoting;
     }
 
     public void startIdle() {
@@ -51,7 +52,7 @@ public class LobbyCountdown extends AbstractCountdown {
     public void onStart() {
         this.stopIdle();
         Message.broadcast("\n " + RewiBWPlugin.PREFIX + Message.COUNTDOWN_BEGAN + "\n ");
-        MapVoting.start();
+        this.mapVoting.start();
     }
 
     @Override
@@ -68,7 +69,7 @@ public class LobbyCountdown extends AbstractCountdown {
 
         switch (second) {
             case 10:
-                MapVoting.getOrChooseWinner();
+                this.mapVoting.getOrChooseWinner();
             case 60:
             case 30:
             case 5:
@@ -78,7 +79,7 @@ public class LobbyCountdown extends AbstractCountdown {
                 }
                 break;
             case 0:
-                GameStateManager.setActiveGameState(new PlayingGameState(MapVoting.getWinner()));
+                GameStateManager.setActiveGameState(new PlayingGameState(this.mapVoting.getWinner()));
                 break;
         }
     }

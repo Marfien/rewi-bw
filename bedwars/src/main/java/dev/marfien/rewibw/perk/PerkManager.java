@@ -68,7 +68,7 @@ public class PerkManager {
             })
     );
 
-    static final PerkGroup<?>[] PERK_GROUPS = new PerkGroup<?>[]{
+    private static final PerkGroup<?>[] PERK_GROUPS = new PerkGroup<?>[]{
             STICK_PERK_GROUP,
             BED_DESTROY_SOUND_PERK_GROUP,
             KILL_SOUND_PERK_GROUP,
@@ -94,5 +94,9 @@ public class PerkManager {
 
     public static void openGui(Player player) {
         STICK_PERK_GROUP.openGui(player);
+    }
+
+    public static PerkGroup<?>[] getPerkGroups() {
+        return PERK_GROUPS;
     }
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -20,6 +21,7 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -32,6 +34,7 @@ public class GuiInventory {
 
     private final GuiItem[] items;
     private final Function<Player, String> titleFactory;
+    private final Listener listener = this.new EventListener();
 
     private final Map<Player, Inventory> cache = new ConcurrentHashMap<>();
     private final boolean useCache;
@@ -41,7 +44,7 @@ public class GuiInventory {
         this.titleFactory = titleFactory;
         this.useCache = useCache;
 
-        Bukkit.getPluginManager().registerEvents(this.new EventListener(), plugin);
+        Bukkit.getPluginManager().registerEvents(this.listener, plugin);
     }
 
     public GuiInventory(int rows, Function<Player, String> titleFactory) {
@@ -160,6 +163,12 @@ public class GuiInventory {
         inventory.setContents(contents);
 
         player.openInventory(inventory);
+    }
+
+    public void destory() {
+        this.closeAll();
+        this.cache.clear();
+        HandlerList.unregisterAll(this.listener);
     }
 
     public boolean controlsInventory(Inventory inventory) {
