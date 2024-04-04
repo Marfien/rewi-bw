@@ -64,7 +64,6 @@ public class LobbyGameState extends GameState {
         this.countdown.startIdle();
         this.world.load();
 
-        // TODO find a better way of handling this
         TeamManager.initTeams(this.world, this.teamJoinerListener);
 
         PerkManager.init(RewiBWPlugin.getInstance());
