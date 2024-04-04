@@ -5,6 +5,7 @@ import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -32,6 +33,8 @@ public class MiscListener implements Listener {
 
         event.setCancelled(true);
 
+        String privateMessage = String.format(format, player, message);
+        Bukkit.getConsoleSender().sendMessage("[" + team.getColor() + "] " + privateMessage);
         for (Player member : team.getMembers()) {
             member.sendMessage(String.format(format, player, message));
         }
