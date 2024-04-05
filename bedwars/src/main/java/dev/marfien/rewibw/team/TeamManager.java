@@ -51,7 +51,7 @@ public class TeamManager {
             teamJoinerListener.addJoiner(lobbyTeamConfig.getJoiner().toLocation(world.getWorld()), team);
 
             TeamManager.teams.add(team);
-            RewiBWPlugin.getInstance().getLogger().log(Level.INFO, "Registered team " + teamColor.name() + " with " + displayLocations.length + " display locations");
+            RewiBWPlugin.getPluginLogger().info("Registered team {} with {} display locations", teamColor, displayLocations.length);
         }
     }
 

@@ -94,7 +94,7 @@ public class GameTeam {
             HandlerList.unregisterAll(this.bed);
         }
         this.bed = bed;
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Set bed for team {0} at {1}", new Object[]{this.color, bed.getFirstBedBlock()});
+        RewiBWPlugin.getPluginLogger().info("Set bed for team {} at {}", this.color, bed.getFirstBedBlock());
         this.displayScoreboardTeam.setPrefix(player -> (this.bed.isAlive() ? ChatColor.RED : ChatColor.GRAY) + "❤ ");
         Bukkit.getPluginManager().registerEvents(bed, RewiBWPlugin.getInstance());
     }
