@@ -8,6 +8,7 @@ effectlib = { group = "com.github.Slikey", name = "EffectLib", version = "5.10-S
 noteblockapi = { group = "com.github.koca2000", name = "NoteBlockAPI", version = "1.6.2" }
 javassist = { group = "org.javassist", name = "javassist", version = "3.27.0-GA" }
 configurate = { group = "org.spongepowered", name = "configurate-yaml", version = "4.1.2" }
+log4j-api = { group = "org.apache.logging.log4j", name = "log4j-api", version = "2.8.1" }
 
 [plugins]
 shadow = { id = "com.github.johnrengelman.shadow", version = "8.1.1" }

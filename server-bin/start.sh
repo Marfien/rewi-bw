@@ -33,4 +33,4 @@ if [ "$PROFILING" = 'true' ]; then
 fi
 
 echo "Starting server with ${MEMORY}MB of RAM"
-eval "$COMMAND -jar spigot.jar nogui"
+eval "$COMMAND -Plog4j.configurationFile=log4j2.xml -jar spigot.jar nogui"

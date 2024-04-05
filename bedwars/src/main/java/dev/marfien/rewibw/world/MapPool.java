@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class MapPool {
@@ -38,7 +39,7 @@ public class MapPool {
     public static void loadMap(Path path, DuplicatePolicy policy) {
         String name = path.getFileName().toString();
         if (!maps.containsKey(name)) {
-            LOGGER.finer("Loading map " + name + " from " + path);
+            LOGGER.log(Level.FINER, "Loading map {0} from {1}", new Object[]{name, path});
             maps.put(name, path);
             return;
         }
