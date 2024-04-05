@@ -14,7 +14,7 @@ services:
     environment:
       EULA: true
       DEBUG: true
-      PROFILING: true
+      #PROFILING: true
       AIKAR_FLAGS: true
       ANTI_REDUCE: true
   rewi-bw-setup-tool:
