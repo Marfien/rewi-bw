@@ -4,6 +4,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.FileUtils;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.Getter;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 
 import java.io.IOException;
@@ -12,8 +13,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MapPool {
 
@@ -39,7 +38,7 @@ public class MapPool {
     public static void loadMap(Path path, DuplicatePolicy policy) {
         String name = path.getFileName().toString();
         if (!maps.containsKey(name)) {
-            LOGGER.log(Level.FINER, "Loading map {0} from {1}", new Object[]{name, path});
+            LOGGER.debug("Loading map {} from {}", name, path);
             maps.put(name, path);
             return;
         }
@@ -48,10 +47,10 @@ public class MapPool {
             case THROW_EXCEPTION:
                 throw new IllegalArgumentException("Map with name " + name + " already exists");
             case WARN:
-                LOGGER.warning("Map with name " + name + " already exists");
+                LOGGER.warn("Map with name {} already exists", name);
                 break;
             case REPLACE:
-                LOGGER.finest("Replacing map " + name + " from " + path);
+                LOGGER.debug("Replacing map {} from {}", name, path);
                 maps.put(name, path);
                 break;
             case IGNORE:
@@ -69,7 +68,7 @@ public class MapPool {
         }
         Path targetPath = bukkitWorldContainer.resolve(name);
 
-        LOGGER.fine("Copying requested map " + name + " to " + targetPath);
+        LOGGER.debug("Copying requested map {} to {}", name, targetPath);
         FileUtils.copyFolder(sourcePath, targetPath);
         map = new MapWorld(name, MapConfig.loader(targetPath).load().require(MapConfig.class));
         requestedMaps.put(name, map);

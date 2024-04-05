@@ -13,6 +13,7 @@ import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Sound;
@@ -24,8 +25,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class MapVoting {
 
@@ -104,7 +103,7 @@ public class MapVoting {
         if (previousVote != null) {
             this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
         }
-        LOGGER.log(Level.FINE, "Player {0} changed vote from {1} to {2}", new Object[]{player.getName(), previousVote, map});
+        LOGGER.debug("Player {} changed vote from {} to {}", player.getName(), previousVote, map);
     }
 
     public void removeVote(Player player) {
@@ -112,7 +111,7 @@ public class MapVoting {
         if (previousVote != null) {
             this.voteCount.put(previousVote, this.voteCount.get(previousVote) - 1);
         }
-        LOGGER.log(Level.FINE, "Player {0} removed vote for {1}", new Object[]{player.getName(), previousVote});
+        LOGGER.debug("Player {} removed vote for {}", player.getName(), previousVote);
     }
 
     public MapWorld getOrChooseWinner() throws IOException {
@@ -127,7 +126,7 @@ public class MapVoting {
     public void setWinner(MapWorld map) {
         reset();
         this.winner = map;
-        LOGGER.log(Level.INFO, "Winner set to {0} ({1})", new Object[]{map.getConfig().getMap().getDisplayName(), map.getName()});
+        LOGGER.info("Winner set to {} ({})", map.getConfig().getMap().getDisplayName(), map.getName());
 
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(Message.VOTING_BROADCAST.format(map.getConfig().getMap().getDisplayName()));
@@ -143,7 +142,7 @@ public class MapVoting {
         }
 
         String winner = Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        LOGGER.log(Level.INFO, "Winner chosen: {0}", winner);
+        LOGGER.info("Winner chosen: {}", winner);
         return winner;
     }
 

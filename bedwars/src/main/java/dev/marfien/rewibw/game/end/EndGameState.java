@@ -13,6 +13,7 @@ import dev.marfien.rewibw.team.GameTeam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -22,7 +23,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 import java.io.IOException;
-import java.util.logging.Logger;
 
 @Getter
 public class EndGameState extends GameState {
@@ -54,7 +54,7 @@ public class EndGameState extends GameState {
     @Override
     public void onStart() {
         Location spawn = this.lobby.asLocation(LobbyConfig::getSpawn);
-        LOGGER.info("Teleporting players to " + spawn);
+        LOGGER.info("Teleporting players to {}", spawn);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(spawn);
             PlayerManager.showSpectators(player);
@@ -65,7 +65,7 @@ public class EndGameState extends GameState {
 //        this.songPlayer.setPlaying(true);
 
         this.countdown.start();
-        LOGGER.info("Winner: " + this.winner);
+        LOGGER.info("Winner: {}", this.winner);
         if (this.winner == null) {
             Message.broadcast(" ");
             Message.broadcast(Message.NO_WINNER.toString());

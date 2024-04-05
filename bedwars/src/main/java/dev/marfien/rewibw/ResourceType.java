@@ -13,6 +13,8 @@ import org.bukkit.*;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitTask;
 
+import java.util.Arrays;
+
 @Getter
 public enum ResourceType {
 
@@ -53,6 +55,7 @@ public enum ResourceType {
         }
 
         return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
+            RewiBWPlugin.getPluginLogger().trace("Spawning {} at {} locations: {}", this::name, () -> locations.length, () -> Arrays.toString(locations));
             for (Location location : locations) {
                 world.dropItem(location, this.itemStack)
                         .setVelocity(RewiBWPlugin.ZERO_VECTOR);

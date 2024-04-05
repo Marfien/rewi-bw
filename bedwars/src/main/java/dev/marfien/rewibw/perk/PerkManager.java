@@ -14,7 +14,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.plugin.Plugin;
 
-import java.util.logging.Level;
 
 public class PerkManager {
 
@@ -96,7 +95,7 @@ public class PerkManager {
         for (PerkGroup<?> perkGroup : PERK_GROUPS) {
             perkGroup.init(plugin, PERK_GROUPS);
         }
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "PerkManager initialized with {0} perk groups", PERK_GROUPS.length);
+        RewiBWPlugin.getPluginLogger().info("PerkManager initialized with {} perk groups", PERK_GROUPS.length);
     }
 
     public static void openGui(Player player) {

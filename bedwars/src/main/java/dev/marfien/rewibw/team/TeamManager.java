@@ -24,7 +24,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
-import java.util.logging.Level;
 
 public class TeamManager {
 

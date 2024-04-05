@@ -18,7 +18,6 @@ import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
 import org.bukkit.event.world.WorldUnloadEvent;
 
-import java.util.logging.Level;
 
 public class WorldListener implements Listener {
 
@@ -62,7 +61,7 @@ public class WorldListener implements Listener {
 
     @EventHandler
     private void onUnload(WorldUnloadEvent event) {
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Unloading world {0}", event.getWorld().getName());
+        RewiBWPlugin.getPluginLogger().info("Unloading world {}", event.getWorld().getName());
     }
 
     @EventHandler

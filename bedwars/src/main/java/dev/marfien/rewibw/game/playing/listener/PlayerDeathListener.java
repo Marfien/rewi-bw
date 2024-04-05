@@ -24,7 +24,6 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.PlayerInventory;
 
 import java.util.Collection;
-import java.util.logging.Level;
 
 public class PlayerDeathListener implements Listener {
 
@@ -97,7 +96,7 @@ public class PlayerDeathListener implements Listener {
         GameTeam team = TeamManager.getTeam(player);
         TeamManager.removeTeam(player);
         SpectatorCompass.refreshInventory();
-        RewiBWPlugin.getPluginLogger().log(Level.INFO, "Removed player {0} ({1}) from game", new Object[]{player.getName(), team.getColor()});
+        RewiBWPlugin.getPluginLogger().info("Removed player {} ({}) from game", player.getName(), team.getColor());
 
         if (team.size() == 0) {
             Message.broadcast(RewiBWPlugin.PREFIX + Message.TEAM_ELIMINATED.format(team.getColor().getDisplayName()));
@@ -152,7 +151,7 @@ public class PlayerDeathListener implements Listener {
 
         event.setRespawnLocation(team.getSpawn());
         for (Player other : Bukkit.getOnlinePlayers()) {
-            if (other == player) continue;
+            other.hidePlayer(player);
         }
         Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), () -> {
             for (Player other : Bukkit.getOnlinePlayers()) {

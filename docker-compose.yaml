@@ -1,6 +1,6 @@
 services:
   rewi-bw-server:
-    image: marfiens/rewibw-server:main
+    image: marfiens/rewibw-server:sha-0a5da1d
     platform: linux/amd64
     pull_policy: always
 

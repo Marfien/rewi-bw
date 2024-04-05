@@ -1,9 +1,7 @@
-name: Build and Publish
+name: Publish on DockerHub
 run-name: Publish '${{ github.ref_name }}' for Commit '${{ github.event.head_commit.message }}'
 
 on:
-  workflow_call:
-
   push:
     tags:
       - '*'

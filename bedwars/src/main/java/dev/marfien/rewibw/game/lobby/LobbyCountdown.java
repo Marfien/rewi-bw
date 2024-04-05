@@ -6,12 +6,12 @@ import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import lombok.SneakyThrows;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitTask;
 
-import java.util.logging.Logger;
 
 public class LobbyCountdown extends AbstractCountdown {
 
@@ -62,6 +62,7 @@ public class LobbyCountdown extends AbstractCountdown {
     @Override
     public void onSecond(int second) {
         float exp = 0.99F * second / INIT_SECONDS;
+        LOGGER.trace("Setting exp to {}", exp);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.setLevel(second);
             player.setExp(exp);

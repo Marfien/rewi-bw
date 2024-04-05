@@ -19,7 +19,6 @@ import org.bukkit.command.TabExecutor;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -61,7 +60,7 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.MAP_CHANGED.format(mapWorld.getConfig().getMap().getDisplayName()));
         } catch (IOException e) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cAn error occurred while loading the map: §4" + e.getMessage());
-            RewiBWPlugin.getPluginLogger().log(Level.SEVERE, "Error while loading map: " + mapName, e);
+            RewiBWPlugin.getPluginLogger().error("Error while loading map: {}", mapName, e);
         }
         return true;
     }
