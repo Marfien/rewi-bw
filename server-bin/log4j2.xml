@@ -4,7 +4,7 @@
         <Console name="WINDOWS_COMPAT" target="SYSTEM_OUT" />
         <Queue name="TerminalConsole">
             <PatternLayout
-                    pattern="%style{%d{yyyy-MM-dd HH:mm:ss SSS}}{bright,black} %highlight{%-5level }[%style{%t}{yellow}] %style{%C{1.2.*}}{bright,blue}: %msg%n%throwable" />
+                    pattern="%style{%d{yyyy-MM-dd HH:mm:ss SSS}}{bright,black} %highlight{%-5level }%-75maxLen{%style{%t}{yellow} %style{%C{1.}}{bright,blue}}{75}  %msg%n%throwable" />
         </Queue>
 
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
@@ -21,7 +21,6 @@
             </Policies>
         </RollingRandomAccessFile>
     </Appenders>
-
     <Loggers>
         <Root level="info">
             <filters>
