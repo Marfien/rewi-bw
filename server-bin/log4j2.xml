@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration status="WARN" packages="com.mojang.util">
+    <Properties>
+        <Property name="LOG_MESSAGE_FORMAT">%replace{%msg}{\n$}{}%n%ex</Property>
+        <Property name="LOG_LEVEL_PATTERN">%-5level</Property>
+        <Property name="LOG_DATEFORMAT_PATTERN">yyyy-MM-dd HH:mm:ss SSS</Property>
+    </Properties>
     <Appenders>
         <Console name="WINDOWS_COMPAT" target="SYSTEM_OUT" />
         <Queue name="TerminalConsole">
             <PatternLayout>
-                <Pattern>%style{%d{yyyy-MM-dd HH:mm:ss SSS}}{bright,black} %highlight{%-5level} [%style{%t}{yellow}] %style{%-35.35C{1.}}{bright,blue}: %style{%replace{%msg}{\n$}{}%n%ex}{normal}</Pattern>
+                <Pattern>%style{%d{${sys:LOG_DATEFORMAT_PATTERN}}}{bright,black} %highlight{${sys:LOG_LEVEL_PATTERN}} [%style{%t}{yellow}] %style{%-35.35C{1.}}{bright,blue}: %style{${sys:LOG_MESSAGE_FORMAT}}{normal}</Pattern>
             </PatternLayout>
         </Queue>
 
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss SSS} %-5level [%t] %C: %msg%n%throwable</pattern>
+                <pattern>%d{${sys:LOG_DATEFORMAT_PATTERN}} ${sys:LOG_LEVEL_PATTERN} [%t] %C: ${sys:LOG_MESSAGE_FORMAT}%throwable</pattern>
             </PatternLayout>
             <Policies>
                 <!-- rollover on startup, daily and when the file reaches
