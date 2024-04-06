@@ -25,7 +25,9 @@ if [ "$ANTI_REDUCE" = 'true' ]; then
 fi
 
 if [ "$DEBUG" = 'true' ]; then
-  COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005"
+  COMMAND="$COMMAND -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005  -Dlog4j.configurationFile=log4j2.debug.xml"
+else
+  COMMAND="$COMMAND -Dlog4j.configurationFile=log4j2.xml"
 fi
 
 if [ "$PROFILING" = 'true' ]; then
@@ -33,4 +35,4 @@ if [ "$PROFILING" = 'true' ]; then
 fi
 
 echo "Starting server with ${MEMORY}MB of RAM"
-eval "$COMMAND -Dlog4j.configurationFile=log4j2.xml -jar spigot.jar nogui"
+eval "$COMMAND -jar spigot.jar nogui"

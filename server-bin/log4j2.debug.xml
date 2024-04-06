@@ -4,13 +4,13 @@
         <Console name="WINDOWS_COMPAT" target="SYSTEM_OUT" />
         <Queue name="TerminalConsole">
             <PatternLayout>
-                <Pattern>%style{%d{yyyy-MM-dd HH:mm:ss SSS}}{bright,black} %highlight{%-5level} [%style{%t}{yellow}] %style{%-35.35C{1.}}{bright,blue}: %style{%replace{%msg}{\n$}{}%n%ex}{normal}</Pattern>
+                <Pattern>%style{%d{yyyy-MM-dd HH:mm:ss SSS}}{bright,black} %highlight{%-5level} [%style{%t}{yellow}] %style{%-100.100l{1.}}{bright,blue}: %style{{%replace{%msg}{\n$}{}%n%ex}{normal}</Pattern>
             </PatternLayout>
         </Queue>
 
         <RollingRandomAccessFile name="File" fileName="logs/latest.log" filePattern="logs/%d{yyyy-MM-dd}-%i.log.gz">
             <PatternLayout>
-                <pattern>%d{yyyy-MM-dd HH:mm:ss SSS} %-5level [%t] %C: %msg%n%throwable</pattern>
+                <pattern>%d{yyyy-MM-dd HH:mm:ss SSS} %-5level %-150maxLen{%t %l}{150}: %msg%n%throwable</pattern>
             </PatternLayout>
             <Policies>
                 <!-- rollover on startup, daily and when the file reaches
@@ -27,9 +27,9 @@
             <filters>
                 <MarkerFilter marker="NETWORK_PACKETS" onMatch="DENY" onMismatch="NEUTRAL" />
             </filters>
-            <AppenderRef ref="WINDOWS_COMPAT" level="info"/>
+            <AppenderRef ref="WINDOWS_COMPAT" level="debug"/>
             <AppenderRef ref="File"/>
-            <AppenderRef ref="TerminalConsole" level="info"/>
+            <AppenderRef ref="TerminalConsole" level="debug"/>
         </Root>
     </Loggers>
 
