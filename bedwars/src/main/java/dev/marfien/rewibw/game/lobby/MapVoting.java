@@ -3,8 +3,9 @@ package dev.marfien.rewibw.game.lobby;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.config.MapConfig;
-import dev.marfien.rewibw.shared.config.PluginConfig;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import dev.marfien.rewibw.util.Items;
@@ -45,7 +46,7 @@ public class MapVoting {
     @Getter
     private boolean running = false;
     
-    public MapVoting(PluginConfig.VoteConfig config) {
+    public MapVoting(RewiBWConfig.VoteConfig config) {
         this.votableSlots = config.getInventorySlots();
         this.mapCollection = new ArrayList<>(MapPool.getMapNames());
         this.votables = new String[Math.min(this.votableSlots.length, this.mapCollection.size())];
@@ -63,7 +64,7 @@ public class MapVoting {
             this.voteCount.put(mapName, 0);
 
             Path sourcePath = MapPool.getSourcePath(mapName);
-            MapConfig config = MapConfig.loader(sourcePath).load().require(MapConfig.class);
+            MapConfig config = ConfigLoader.loadConfigIn(sourcePath).load().require(MapConfig.class);
 
             if (config == null) throw new IOException("Map Config could not be loaded for map " + mapName);
 

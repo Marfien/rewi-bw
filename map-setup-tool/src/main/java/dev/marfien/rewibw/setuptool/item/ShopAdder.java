@@ -3,9 +3,10 @@ package dev.marfien.rewibw.setuptool.item;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.LineEffect;
 import de.slikey.effectlib.util.ParticleEffect;
-import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import dev.marfien.rewibw.shared.Position;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,12 +18,22 @@ public class ShopAdder extends SessionItem {
     public static final ItemStack ITEM = ItemBuilder.of(Material.ARMOR_STAND).setDisplayName("§aShop hinzufügen").asItemStack();
 
     @Override
-    protected void onClick(PlayerInteractEvent event, Player player, SetupSession session, Location location) {
+    protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
         location.setDirection(location.clone().subtract(player.getLocation()).toVector());
         location.setPitch(0);
         location.setYaw(Math.round(location.getYaw() / 45) * 45F);
 
-        session.getShops().add(location);
+        mapConfig.setShops(appendToArray(
+                mapConfig.getShops(),
+                new Position(
+                        location.getX(),
+                        location.getY(),
+                        location.getZ(),
+                        location.getYaw(),
+                        location.getPitch()
+                ))
+        );
+
         addLocationEffect(location, ParticleEffect.VILLAGER_HAPPY, null, null);
         player.sendMessage("§aShop added.");
 

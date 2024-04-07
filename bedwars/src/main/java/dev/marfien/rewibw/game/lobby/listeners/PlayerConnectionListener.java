@@ -3,7 +3,7 @@ package dev.marfien.rewibw.game.lobby.listeners;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
-import dev.marfien.rewibw.shared.config.PluginConfig;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.game.lobby.MapVoting;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class PlayerConnectionListener implements Listener {
 
     private static final ItemStack[] LOBBY_CONTENTS = new ItemStack[4 * 9];
 
-    private final PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+    private final RewiBWConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
 
     private final LobbyCountdown countdown;
     private final MapVoting mapVoting;

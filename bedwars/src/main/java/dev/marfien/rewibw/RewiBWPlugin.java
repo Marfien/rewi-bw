@@ -10,7 +10,7 @@ import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.listener.PlayerConnectionListener;
 import dev.marfien.rewibw.listener.WorldListener;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
-import dev.marfien.rewibw.shared.config.PluginConfig;
+import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.logging.PrefixedLoggerFactory;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
@@ -27,6 +27,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.loader.ConfigurationLoader;
 
 import java.io.IOException;
 
@@ -42,7 +44,7 @@ public class RewiBWPlugin extends JavaPlugin {
     @Getter
     private static EffectManager effectManager;
     @Getter
-    private static PluginConfig pluginConfig;
+    private static RewiBWConfig pluginConfig;
     @Getter
     private static final Logger pluginLogger = PrefixedLoggerFactory.getLogger("[rewi-bw]");
 
@@ -56,12 +58,17 @@ public class RewiBWPlugin extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        super.saveResource("config.yaml", false);
         try {
-            pluginConfig = PluginConfig.loader(this).load().require(PluginConfig.class);
+            ConfigurationLoader<?> loader = ConfigLoader.loadPluginConfig(this);
+            ConfigurationNode node = loader.load();
+            if (node.empty()) {
+                pluginLogger.warn("Configuration file is empty, using default values");
+                node.set(new RewiBWConfig());
+            }
+            pluginConfig = node.get(RewiBWConfig.class);
             pluginLogger.info("Successfully loaded plugin configuration");
         } catch (ConfigurateException e) {
-            pluginLogger.error("Could not load configuration file", e);
+            pluginLogger.error("Could not load configuration file: {}", e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }

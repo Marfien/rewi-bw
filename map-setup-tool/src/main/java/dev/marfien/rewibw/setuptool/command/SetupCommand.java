@@ -1,11 +1,12 @@
 package dev.marfien.rewibw.setuptool.command;
 
 import dev.marfien.rewibw.setuptool.SetupSession;
+import dev.marfien.rewibw.setuptool.SetupSessionManager;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import dev.marfien.rewibw.setuptool.item.*;
 import dev.marfien.rewibw.shared.FileUtils;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.world.EmptyChunkGenerator;
-import dev.marfien.rewibw.shared.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -62,27 +63,21 @@ public class SetupCommand implements CommandExecutor {
                 .generator(new EmptyChunkGenerator());
 
         try {
-            FileUtils.copyFolder(SetupToolPlugin.IMPORT_PATH.resolve(mapName), Bukkit.getWorldContainer().toPath().resolve(mapName));
+            FileUtils.copyFolder(SetupToolPlugin.getPluginConfig().getImportPath().resolve(mapName), Bukkit.getWorldContainer().toPath().resolve(mapName));
         } catch (IOException e) {
             commandSender.sendMessage("§cFailed to copy map files: " + e.getMessage());
             return true;
         }
 
         Player player = (Player) commandSender;
-        SetupToolPlugin.setSession(player, new SetupSession(worldCreator.createWorld(), displayName, material + ":" + data));
+        SetupSession session = SetupSessionManager.setSessions(player.getUniqueId(), worldCreator.createWorld());
+        MapConfig config = session.getMapConfig();
+        MapConfig.MapInfoConfig mapInfo = config.getMap();
+        mapInfo.setDisplayName(displayName);
+        mapInfo.setIcon(material + ":" + data);
         player.teleport(new Location(player.getWorld(), 0, 120, 0));
 
-        Inventory inventory = player.getInventory();
-        inventory.clear();
-        inventory.setItem(0, BronzeSpawnerAdder.ITEM);
-        inventory.setItem(1, SilverSpawnerAdder.ITEM);
-        inventory.setItem(2, GoldSpawnerAdder.ITEM);
-
-        inventory.setItem(4, ShopAdder.ITEM);
-        inventory.setItem(5, SpecSpawnSetter.ITEM);
-
-        inventory.setItem(7, TeamAdder.ITEM);
-        inventory.setItem(8, LocationRemover.ITEM);
+        player.getInventory().setContents(GetItemsCommand.INVENTORY_CONTENTS);
         return false;
     }
 

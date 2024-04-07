@@ -13,3 +13,15 @@ commands:
     description: Save the current map
     usage: /save [path]
     permission: rewibw.save
+  exit:
+    description: Exit the setup
+    usage: /exit
+    permission: rewibw.exit
+  to-world:
+    description: Teleport to the world
+    usage: /to-world
+    permission: rewibw.toworld
+  get-items:
+    description: Get the items
+    usage: /get-items
+    permission: rewibw.getitems

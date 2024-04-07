@@ -13,7 +13,7 @@ import dev.marfien.rewibw.perk.PerkGroup;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
-import dev.marfien.rewibw.shared.config.PluginConfig;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
@@ -37,7 +37,7 @@ public class LobbyGameState extends GameState {
     private final Listener[] listeners;
     private final TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
-    public LobbyGameState(Path lobbyPath, PluginConfig.VoteConfig voteConfig) throws IOException {
+    public LobbyGameState(Path lobbyPath, RewiBWConfig.VoteConfig voteConfig) throws IOException {
         this.mapVoting = new MapVoting(voteConfig);
         this.countdown = new LobbyCountdown(this.mapVoting);
 

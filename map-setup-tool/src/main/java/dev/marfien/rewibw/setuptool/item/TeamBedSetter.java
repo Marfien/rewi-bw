@@ -3,10 +3,10 @@ package dev.marfien.rewibw.setuptool.item;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.LineEffect;
 import de.slikey.effectlib.util.ParticleEffect;
-import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -23,7 +23,7 @@ public class TeamBedSetter extends SessionItem {
     private final TeamColor team;
 
     @Override
-    protected void onClick(PlayerInteractEvent event, Player player, SetupSession session, Location location) {
+    protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
         Block block = event.getClickedBlock();
 
         if (block.getType() != Material.BED_BLOCK) {
@@ -31,11 +31,18 @@ public class TeamBedSetter extends SessionItem {
             return;
         }
 
-        SetupSession.TeamInfo info = session.getTeams().get(this.team);
-        info.setBed(block.getLocation());
+        Location bedLocation = block.getLocation();
+        MapConfig.MapTeamConfig info = mapConfig.getTeams().get(this.team);
+        MapConfig.TeamBedConfig teamBed = new MapConfig.TeamBedConfig();
+        teamBed.setX(bedLocation.getBlockX());
+        teamBed.setY(bedLocation.getBlockY());
+        teamBed.setZ(bedLocation.getBlockZ());
+
         Bed bed = (Bed) block.getState().getData();
         BlockFace direction = bed.isHeadOfBed() ? bed.getFacing() : bed.getFacing().getOppositeFace();
-        info.setDirection(direction);
+        teamBed.setDirection(direction);
+
+        info.setBed(teamBed);
         player.sendMessage("§aBed set for " + this.team.getDisplayName() + "§a.");
         player.getInventory().setItem(7, TeamAdder.ITEM);
 

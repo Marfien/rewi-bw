@@ -11,4 +11,5 @@ dependencies {
     }
     implementation(libs.effectlib)
     implementation(project(":shared"))
+    compileOnly(libs.log4j.api)
 }

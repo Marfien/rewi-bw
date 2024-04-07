@@ -15,12 +15,6 @@ import java.util.Map;
 @ConfigSerializable
 public class LobbyConfig extends GameWorldConfig {
 
-    public static ConfigurationLoader<?> loader(Path folder) {
-        return YamlConfigurationLoader.builder()
-                .path(folder.resolve("config.yaml"))
-                .build();
-    }
-
     @Required
     private Position spawn;
     private Position cpsTester;

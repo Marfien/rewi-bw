@@ -18,12 +18,6 @@ import java.util.Map;
 @ConfigSerializable
 public class MapConfig extends GameWorldConfig {
 
-    public static ConfigurationLoader<?> loader(Path folder) {
-        return YamlConfigurationLoader.builder()
-                .path(folder.resolve("config.yaml"))
-                .build();
-    }
-
     @Required
     private MapInfoConfig map;
 

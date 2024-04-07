@@ -3,8 +3,9 @@ package dev.marfien.rewibw.setuptool.item;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.CubeEffect;
 import de.slikey.effectlib.util.ParticleEffect;
-import dev.marfien.rewibw.setuptool.SetupSession;
+import dev.marfien.rewibw.setuptool.SetupSessionManager;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import org.bukkit.Color;
@@ -13,6 +14,8 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
+
+import java.util.Arrays;
 
 public abstract class SessionItem extends UsableItemInfo {
 
@@ -35,6 +38,12 @@ public abstract class SessionItem extends UsableItemInfo {
         effect.start();
     }
 
+    protected static <T> T[] appendToArray(T[] array, T element) {
+        T[] newArray = Arrays.copyOf(array, array.length + 1);
+        newArray[array.length] = element;
+        return newArray;
+    }
+
     protected SessionItem() {
         super(ConsumeType.NONE);
     }
@@ -42,18 +51,19 @@ public abstract class SessionItem extends UsableItemInfo {
     @Override
     protected boolean onClick(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        SetupSession session = SetupToolPlugin.getSession(player);
+        SetupSessionManager.getSession(player.getUniqueId()).ifPresent(session -> {
+            if (!event.hasBlock()) return;
+            if (!player.getWorld().equals(session.getWorld())) return;
 
-        if (session == null) return false;
+            Block targetBlock = event.getClickedBlock().getRelative(event.getBlockFace());
+            Location location = toCleanLocation(targetBlock.getLocation());
 
-        if (!event.hasBlock()) return false;
-        Block targetBlock = event.getClickedBlock().getRelative(event.getBlockFace());
-        Location location = toCleanLocation(targetBlock.getLocation());
+            this.onClick(event, player, session.getMapConfig(), location);
+        });
 
-        this.onClick(event, player, session, location);
         return false;
     }
 
-    protected abstract void onClick(PlayerInteractEvent event, Player player, SetupSession session, Location location);
+    protected abstract void onClick(PlayerInteractEvent event, Player player, MapConfig session, Location location);
 
 }

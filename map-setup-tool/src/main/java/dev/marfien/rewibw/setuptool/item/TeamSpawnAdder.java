@@ -3,10 +3,11 @@ package dev.marfien.rewibw.setuptool.item;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.LineEffect;
 import de.slikey.effectlib.util.ParticleEffect;
-import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
+import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,12 +21,19 @@ public class TeamSpawnAdder extends SessionItem {
     private final TeamColor team;
 
     @Override
-    protected void onClick(PlayerInteractEvent event, Player player, SetupSession session, Location location) {
+    protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
         location.setDirection(location.clone().subtract(player.getLocation()).toVector());
         location.setPitch(0);
         location.setYaw(Math.round(location.getYaw() / 45) * 45F);
 
-        session.getTeams().get(team).setSpawn(location);
+        mapConfig.getTeams().get(team).setSpawn(new Position(
+                location.getX(),
+                location.getY(),
+                location.getZ(),
+                location.getYaw(),
+                location.getPitch()
+        ));
+
         addLocationEffect(location, ParticleEffect.REDSTONE, this.team.getDyeColor().getColor(), null);
         player.sendMessage("§aSpawn for team " + team.getDisplayName() + " set.");
         player.getInventory().setItem(7, TeamBedSetter.getItemFor(this.team));

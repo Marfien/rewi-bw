@@ -3,6 +3,7 @@ package dev.marfien.rewibw.setuptool;
 import dev.marfien.rewibw.setuptool.item.TeamSpawnAdder;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import lombok.RequiredArgsConstructor;
@@ -26,12 +27,11 @@ public class TeamSelectorGuiItem implements GuiItem {
     @Override
     public void onClick(GuiInventory inventory, InventoryClickEvent click) {
         Player clicker = (Player) click.getWhoClicked();
-        SetupSession session = SetupToolPlugin.getSession(clicker);
-        if (session == null) return;
-
-        inventory.closeSafe(clicker);
-        session.getTeams().put(color, new SetupSession.TeamInfo());
-        clicker.sendMessage("§aTeam " + color.getDisplayName() + " hinzugefügt");
-        clicker.getInventory().setItem(7, TeamSpawnAdder.getItemFor(color));
+        SetupSessionManager.getSession(clicker.getUniqueId()).ifPresent(session -> {
+            inventory.closeSafe(clicker);
+            session.getMapConfig().getTeams().put(this.color, new MapConfig.MapTeamConfig());
+            clicker.sendMessage("§aTeam " + this.color.getDisplayName() + " hinzugefügt");
+            clicker.getInventory().setItem(7, TeamSpawnAdder.getItemFor(this.color));
+        });
     }
 }

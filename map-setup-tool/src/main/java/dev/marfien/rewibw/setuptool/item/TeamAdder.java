@@ -1,9 +1,9 @@
 package dev.marfien.rewibw.setuptool.item;
 
-import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.TeamSelectorGuiItem;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import org.bukkit.Location;
@@ -30,7 +30,7 @@ public class TeamAdder extends SessionItem {
     public static final ItemStack ITEM = ItemBuilder.of(Material.BANNER).setDisplayName("§aTeam hinzufügen").asItemStack();
 
     @Override
-    protected void onClick(PlayerInteractEvent event, Player player, SetupSession session, Location location) {
+    protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
         GUI.openTo(player);
     }
 

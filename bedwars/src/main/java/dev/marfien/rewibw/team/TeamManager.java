@@ -10,7 +10,7 @@ import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
-import dev.marfien.rewibw.shared.config.PluginConfig;
+import dev.marfien.rewibw.RewiBWConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -36,7 +36,7 @@ public class TeamManager {
     }
 
     public static void initTeams(LobbyWorld world, TeamJoinerListener teamJoinerListener) {
-        PluginConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+        RewiBWConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
         Map<TeamColor, LobbyConfig.LobbyTeamConfig> teams = world.getConfig().getTeams();
 
         for (TeamColor teamColor : teamConfig.getVariants()) {

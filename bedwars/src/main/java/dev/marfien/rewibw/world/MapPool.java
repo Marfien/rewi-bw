@@ -2,6 +2,7 @@ package dev.marfien.rewibw.world;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.FileUtils;
+import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.Getter;
 import org.apache.logging.log4j.Logger;
@@ -70,7 +71,7 @@ public class MapPool {
 
         LOGGER.debug("Copying requested map {} to {}", name, targetPath);
         FileUtils.copyFolder(sourcePath, targetPath);
-        map = new MapWorld(name, MapConfig.loader(targetPath).load().require(MapConfig.class));
+        map = new MapWorld(name, ConfigLoader.loadConfigIn(targetPath).load().require(MapConfig.class));
         requestedMaps.put(name, map);
 
         return map;

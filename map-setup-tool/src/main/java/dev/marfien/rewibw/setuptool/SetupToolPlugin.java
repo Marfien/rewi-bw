@@ -7,29 +7,32 @@ import dev.marfien.rewibw.setuptool.command.SetupCommand;
 import dev.marfien.rewibw.setuptool.item.*;
 import dev.marfien.rewibw.setuptool.listener.WorldNoOpListener;
 import dev.marfien.rewibw.shared.TeamColor;
+import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
+import dev.marfien.rewibw.shared.logging.PrefixedLoggerFactory;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import lombok.Getter;
+import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.ConfigurationNode;
+import org.spongepowered.configurate.loader.ConfigurationLoader;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 public class SetupToolPlugin extends JavaPlugin {
 
-    public static Path IMPORT_PATH;
+    @Getter
+    private final Logger pluginLogger = PrefixedLoggerFactory.getLogger(this);
+
+    @Getter
+    private static SetupToolConfig pluginConfig;
 
     @Getter
     private static EffectManager effectManager;
 
-    private static final Map<Player, SetupSession> sessions = new HashMap<>();
     public static final Collection<Effect> effects = new ArrayList<>();
     private static final UsableItemManager itemManager = new UsableItemManager();
 
@@ -37,19 +40,22 @@ public class SetupToolPlugin extends JavaPlugin {
         GuiInventory.setPlugin(this);
     }
 
-    public static SetupSession getSession(Player player) {
-        return sessions.get(player);
-    }
-
-    public static void setSession(Player player, SetupSession session) {
-        sessions.put(player, session);
-    }
-
     @Override
     public void onLoad() {
-        super.saveDefaultConfig();
-        FileConfiguration configuration = super.getConfig();
-        IMPORT_PATH = Paths.get(configuration.getString("import-path"));
+        try {
+            ConfigurationLoader<?> loader = ConfigLoader.loadPluginConfig(this);
+            ConfigurationNode node = loader.load();
+            if (node.empty()) {
+                pluginLogger.warn("Configuration file is empty, using default values");
+                node.set(new SetupToolConfig());
+            }
+            pluginConfig = node.get(SetupToolConfig.class);
+            pluginLogger.info("Successfully loaded plugin configuration");
+        } catch (ConfigurateException e) {
+            pluginLogger.error("Could not load configuration file: {}", e.getMessage());
+            Bukkit.getPluginManager().disablePlugin(this);
+            return;
+        }
     }
 
     @Override

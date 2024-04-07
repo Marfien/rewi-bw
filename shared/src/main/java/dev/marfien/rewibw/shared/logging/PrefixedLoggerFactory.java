@@ -1,10 +1,12 @@
 package dev.marfien.rewibw.shared.logging;
 
+import lombok.experimental.UtilityClass;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginDescriptionFile;
 
+@UtilityClass
 public class PrefixedLoggerFactory {
 
     public static Logger getLogger(String prefix) {

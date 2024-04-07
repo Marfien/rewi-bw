@@ -2,6 +2,7 @@ package dev.marfien.rewibw.game.lobby;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.FileUtils;
+import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.world.GameWorld;
 import dev.marfien.rewibw.world.MapPool;
@@ -19,7 +20,7 @@ public class LobbyWorld extends GameWorld<LobbyConfig> {
         Path lobbyWorldFolder = MapPool.getBukkitWorldContainer().resolve("lobby");
         FileUtils.copyFolder(lobbyPath, lobbyWorldFolder);
         RewiBWPlugin.getPluginLogger().info("Copied lobby world to " + lobbyWorldFolder);
-        LobbyConfig config = LobbyConfig.loader(lobbyWorldFolder).load().require(LobbyConfig.class);
+        LobbyConfig config = ConfigLoader.loadConfigIn(lobbyWorldFolder).load().require(LobbyConfig.class);
 
         if (config == null)
             throw new IllegalStateException("No configuration file in lobby world found. Did you define the right lobby path?");
