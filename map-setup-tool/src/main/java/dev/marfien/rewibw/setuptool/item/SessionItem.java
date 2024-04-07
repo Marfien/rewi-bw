@@ -35,7 +35,7 @@ public abstract class SessionItem extends UsableItemInfo {
         effect.edgeLength = 1;
         effect.outlineOnly = true;
         effect.enableRotation = false;
-        effect.period = 10;
+        effect.period = 20;
         SetupToolPlugin.effects.add(effect);
         effect.start();
     }

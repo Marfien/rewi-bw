@@ -46,16 +46,18 @@ public class TeamBedSetter extends SessionItem {
         player.sendMessage("§aBed set for " + this.team.getDisplayName() + "§a.");
         player.getInventory().setItem(7, TeamAdder.ITEM);
 
-        addLocationEffect(location, ParticleEffect.REDSTONE, this.team.getDyeColor().getColor(), null);
+        addLocationEffect(bedLocation, ParticleEffect.REDSTONE, this.team.getDyeColor().getColor(), null);
 
         LineEffect effect = new LineEffect(SetupToolPlugin.getEffectManager());
-        effect.setLocation(toCleanLocation(block.getLocation()));
+        effect.setLocation(toCleanLocation(bedLocation));
         effect.setTargetLocation(effect.getLocation().clone().add(direction.getModX(), 1 + direction.getModY(), direction.getModZ()));
         effect.particle = ParticleEffect.REDSTONE;
         effect.color = this.team.getDyeColor().getColor();
         effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
+        effect.start();
+        SetupToolPlugin.effects.add(effect);
     }
 
     public static ItemStack getItemFor(TeamColor teamColor) {

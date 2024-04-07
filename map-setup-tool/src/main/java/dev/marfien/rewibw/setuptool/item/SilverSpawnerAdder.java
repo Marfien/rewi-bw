@@ -28,7 +28,7 @@ public class SilverSpawnerAdder extends SessionItem {
                 ))
         );
 
-        addLocationEffect(location, ParticleEffect.BLOCK_CRACK, null, Material.IRON_BLOCK);
+        addLocationEffect(location, ParticleEffect.BLOCK_DUST, null, Material.IRON_BLOCK);
         player.sendMessage("§aSilver-Spawner added.");
     }
 

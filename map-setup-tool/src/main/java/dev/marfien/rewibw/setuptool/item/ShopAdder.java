@@ -43,5 +43,7 @@ public class ShopAdder extends SessionItem {
         effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
+        effect.start();
+        SetupToolPlugin.effects.add(effect);
     }
 }

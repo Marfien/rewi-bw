@@ -28,7 +28,7 @@ public class BronzeSpawnerAdder extends SessionItem {
                 ))
         );
 
-        addLocationEffect(location, ParticleEffect.BLOCK_CRACK, null, Material.HARD_CLAY);
+        addLocationEffect(location, ParticleEffect.BLOCK_DUST, null, Material.HARD_CLAY);
         player.sendMessage("§aBronze-Spawner added.");
     }
 

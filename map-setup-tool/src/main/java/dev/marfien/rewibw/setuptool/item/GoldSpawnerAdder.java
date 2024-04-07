@@ -28,7 +28,7 @@ public class GoldSpawnerAdder extends SessionItem {
                 ))
         );
 
-        addLocationEffect(location, ParticleEffect.BLOCK_CRACK, null, Material.GOLD_BLOCK);
+        addLocationEffect(location, ParticleEffect.BLOCK_DUST, null, Material.GOLD_BLOCK);
         player.sendMessage("§aGold-Spawner added.");
     }
 
