@@ -41,7 +41,7 @@ public class SetupCommand implements CommandExecutor {
         String displayName = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
 
         ItemStack inHand = ((Player) commandSender).getItemInHand();
-        if (inHand == null) {
+        if (inHand.getType() == Material.AIR) {
             commandSender.sendMessage("§cYou are not holding an Item in your hand.");
             return true;
         }
