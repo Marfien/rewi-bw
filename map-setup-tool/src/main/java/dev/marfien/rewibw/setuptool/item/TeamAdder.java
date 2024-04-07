@@ -33,7 +33,7 @@ public class TeamAdder extends UsableItemInfo {
 
     public static final ItemStack ITEM = ItemBuilder.of(Material.BANNER).setDisplayName("§aTeam hinzufügen").asItemStack();
 
-    protected TeamAdder() {
+    public TeamAdder() {
         super(ConsumeType.NONE);
     }
 
