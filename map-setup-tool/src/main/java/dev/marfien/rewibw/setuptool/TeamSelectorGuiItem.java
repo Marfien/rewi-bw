@@ -19,8 +19,8 @@ public class TeamSelectorGuiItem implements GuiItem {
 
     @Override
     public ItemStack getDisplayItemFor(Player player) {
-        return ItemBuilder.of(Material.WOOL)
-                .setDurability(color.getDyeColor().getDyeData())
+        return ItemBuilder.of(Material.BANNER)
+                .setBannerBaseColor(this.color.getDyeColor())
                 .setDisplayName(color.getDisplayName()).asItemStack();
     }
 

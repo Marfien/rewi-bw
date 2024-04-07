@@ -34,6 +34,8 @@ public abstract class SessionItem extends UsableItemInfo {
         effect.setLocation(blockLocation.add(0.5, 0.5, 0.5));
         effect.edgeLength = 1;
         effect.outlineOnly = true;
+        effect.enableRotation = false;
+        effect.period = 10;
         SetupToolPlugin.effects.add(effect);
         effect.start();
     }

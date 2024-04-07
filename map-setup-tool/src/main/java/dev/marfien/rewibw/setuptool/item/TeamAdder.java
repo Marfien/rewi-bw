@@ -1,18 +1,22 @@
 package dev.marfien.rewibw.setuptool.item;
 
+import dev.marfien.rewibw.setuptool.SetupSessionManager;
 import dev.marfien.rewibw.setuptool.TeamSelectorGuiItem;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
+import dev.marfien.rewibw.shared.usable.ConsumeType;
+import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
-public class TeamAdder extends SessionItem {
+public class TeamAdder extends UsableItemInfo {
 
     private static final GuiInventory GUI;
 
@@ -29,9 +33,20 @@ public class TeamAdder extends SessionItem {
 
     public static final ItemStack ITEM = ItemBuilder.of(Material.BANNER).setDisplayName("§aTeam hinzufügen").asItemStack();
 
+    protected TeamAdder() {
+        super(ConsumeType.NONE);
+    }
+
     @Override
-    protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
-        GUI.openTo(player);
+    protected boolean onClick(PlayerInteractEvent event) {
+        Player player = event.getPlayer();
+        SetupSessionManager.getSession(player.getUniqueId()).ifPresent(session -> {
+            if (!player.getWorld().equals(session.getWorld())) return;
+
+            GUI.openTo(player);
+        });
+
+        return false;
     }
 
 }

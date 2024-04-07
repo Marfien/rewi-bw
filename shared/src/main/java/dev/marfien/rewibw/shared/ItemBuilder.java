@@ -1,14 +1,12 @@
 package dev.marfien.rewibw.shared;
 
 import org.bukkit.Color;
+import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.LeatherArmorMeta;
-import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.inventory.meta.*;
 import org.bukkit.material.MaterialData;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -140,6 +138,10 @@ public class ItemBuilder {
         return this.usePotionMetaSafe(meta -> meta.removeCustomEffect(effectType));
     }
 
+    public ItemBuilder setBannerBaseColor(DyeColor color) {
+        return useBannerMetaSafe(bannerMeta -> bannerMeta.setBaseColor(color));
+    }
+
     public ItemStack asItemStack() {
         return this.itemStack;
     }
@@ -186,4 +188,13 @@ public class ItemBuilder {
         return this;
     }
 
+    private ItemBuilder useBannerMetaSafe(Consumer<BannerMeta> consumer) {
+        ItemMeta meta = this.itemStack.getItemMeta();
+
+        if (!(meta instanceof BannerMeta)) return this;
+
+        consumer.accept((BannerMeta) meta);
+        this.itemStack.setItemMeta(meta);
+        return this;
+    }
 }

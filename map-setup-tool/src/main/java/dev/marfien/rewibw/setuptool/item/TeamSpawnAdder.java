@@ -11,6 +11,7 @@ import dev.marfien.rewibw.shared.config.MapConfig;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.banner.Pattern;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
@@ -49,7 +50,7 @@ public class TeamSpawnAdder extends SessionItem {
 
     public static ItemStack getItemFor(TeamColor color) {
         return ItemBuilder.of(Material.BANNER)
-                .setDurability(color.getDyeColor().getDyeData())
+                .setBannerBaseColor(color.getDyeColor())
                 .setDisplayName(color.getChatColor() + "Set spawn")
                 .asItemStack();
     }
