@@ -2,7 +2,9 @@ package dev.marfien.rewibw.shared.config;
 
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
@@ -56,6 +58,8 @@ public class MapConfig extends GameWorldConfig {
 
     @Data
     @ConfigSerializable
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class BorderConfig {
 
         @Required

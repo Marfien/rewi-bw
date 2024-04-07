@@ -25,3 +25,7 @@ commands:
     description: Get the items
     usage: /get-items
     permission: rewibw.getitems
+  set-border:
+    description: Set the border
+    usage: /set-border <x1> <x2> <z1> <z2>
+    permission: rewibw.setborder

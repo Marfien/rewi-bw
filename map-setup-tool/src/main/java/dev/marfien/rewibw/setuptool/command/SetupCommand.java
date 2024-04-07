@@ -16,6 +16,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,30 +31,19 @@ public class SetupCommand implements CommandExecutor {
             return true;
         }
 
-        if (args.length < 3) {
-            commandSender.sendMessage("Usage: /setup <map_name> <display_item> <display_name>");
+        if (args.length < 2) {
+            commandSender.sendMessage("Usage: /setup <map_name> <display_name>");
+            commandSender.sendMessage("You have to hold the display item in your hand.");
             return true;
         }
 
         String mapName = args[0];
-        String displayItem = args[1];
         String displayName = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
 
-        String[] displayItemSplit = displayItem.split(":");
-        Material material = Material.matchMaterial(displayItemSplit[0]);
-        if (material == null) {
-            commandSender.sendMessage("§cInvalid material: " + displayItemSplit[0]);
+        ItemStack inHand = ((Player) commandSender).getItemInHand();
+        if (inHand == null) {
+            commandSender.sendMessage("§cYou are not holding an Item in your hand.");
             return true;
-        }
-
-        int data = 0;
-        if (displayItemSplit.length > 1) {
-            try {
-                data = Integer.parseInt(displayItemSplit[1]);
-            } catch (NumberFormatException e) {
-                commandSender.sendMessage("§cInvalid data (NaN): " + displayItemSplit[1]);
-                return true;
-            }
         }
 
         commandSender.sendMessage("§aLoading setup session for map " + mapName + "...");
@@ -75,7 +65,7 @@ public class SetupCommand implements CommandExecutor {
         MapConfig config = session.getMapConfig();
         MapConfig.MapInfoConfig mapInfo = new MapConfig.MapInfoConfig();
         mapInfo.setDisplayName(displayName);
-        mapInfo.setIcon(material + ":" + data);
+        mapInfo.setIcon(inHand.getType() + ":" + inHand.getDurability());
         config.setMap(mapInfo);
         config.setTeams(new HashMap<>());
         player.teleport(new Location(session.getWorld(), 0, 120, 0));

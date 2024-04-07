@@ -53,7 +53,6 @@ public class TeamBedSetter extends SessionItem {
         effect.setTargetLocation(bedLocation.add(direction.getModX(), direction.getModY(), direction.getModZ()));
         effect.particle = ParticleEffect.REDSTONE;
         effect.color = this.team.getDyeColor().getColor();
-        effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
         effect.period = 20;

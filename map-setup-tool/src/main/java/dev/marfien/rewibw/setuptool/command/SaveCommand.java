@@ -36,6 +36,15 @@ public class SaveCommand implements CommandExecutor {
                 ? Bukkit.getWorldContainer().toPath().resolve(session.getWorld().getName()).resolve("config.yaml")
                 : Paths.get(String.join(" ", args));
 
+        if (session.getMapConfig().getSpectatorSpawn() == null) {
+            player.sendMessage("§cSpectator spawn not set.");
+            return true;
+        }
+
+        if (session.getMapConfig().getMap().getBorder() == null) {
+            player.sendMessage("§eBorder is not set. Continuing. Safe again after setting border to add it to the config.");
+        }
+
         player.sendMessage("§7Saving map config...");
         try {
             session.save(savePath);
