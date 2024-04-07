@@ -31,7 +31,7 @@ public abstract class SessionItem extends UsableItemInfo {
         effect.particle = particleEffect;
         effect.color = color;
         effect.material = material;
-        effect.setLocation(blockLocation);
+        effect.setLocation(blockLocation.add(0.5, 0.5, 0.5));
         effect.edgeLength = 1;
         effect.outlineOnly = true;
         SetupToolPlugin.effects.add(effect);

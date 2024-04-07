@@ -19,7 +19,7 @@ public class TeamSelectorGuiItem implements GuiItem {
 
     @Override
     public ItemStack getDisplayItemFor(Player player) {
-        return ItemBuilder.of(Material.BANNER)
+        return ItemBuilder.of(Material.WOOL)
                 .setDurability(color.getDyeColor().getDyeData())
                 .setDisplayName(color.getDisplayName()).asItemStack();
     }
@@ -30,8 +30,9 @@ public class TeamSelectorGuiItem implements GuiItem {
         SetupSessionManager.getSession(clicker.getUniqueId()).ifPresent(session -> {
             inventory.closeSafe(clicker);
             session.getMapConfig().getTeams().put(this.color, new MapConfig.MapTeamConfig());
-            clicker.sendMessage("§aTeam " + this.color.getDisplayName() + " hinzugefügt");
+            clicker.sendMessage("§aTeam " + this.color.getDisplayName() + "§a hinzugefügt");
             clicker.getInventory().setItem(7, TeamSpawnAdder.getItemFor(this.color));
+            clicker.closeInventory();
         });
     }
 }
