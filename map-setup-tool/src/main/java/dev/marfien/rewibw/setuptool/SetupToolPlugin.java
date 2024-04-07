@@ -2,8 +2,7 @@ package dev.marfien.rewibw.setuptool;
 
 import de.slikey.effectlib.Effect;
 import de.slikey.effectlib.EffectManager;
-import dev.marfien.rewibw.setuptool.command.SaveCommand;
-import dev.marfien.rewibw.setuptool.command.SetupCommand;
+import dev.marfien.rewibw.setuptool.command.*;
 import dev.marfien.rewibw.setuptool.item.*;
 import dev.marfien.rewibw.setuptool.listener.WorldNoOpListener;
 import dev.marfien.rewibw.shared.TeamColor;
@@ -74,6 +73,9 @@ public class SetupToolPlugin extends JavaPlugin {
 
         super.getCommand("setup").setExecutor(new SetupCommand());
         super.getCommand("save").setExecutor(new SaveCommand());
+        super.getCommand("to-world").setExecutor(new ToWorldCommand());
+        super.getCommand("exit").setExecutor(new ExitCommand());
+        super.getCommand("get-items").setExecutor(new GetItemsCommand());
         effectManager = new EffectManager(this);
         itemManager.register(this);
 

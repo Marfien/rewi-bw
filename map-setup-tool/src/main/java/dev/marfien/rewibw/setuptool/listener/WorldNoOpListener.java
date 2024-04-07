@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.setuptool.listener;
 
 import org.bukkit.Difficulty;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.event.EventHandler;
@@ -12,6 +13,7 @@ import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingPlaceEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
@@ -81,6 +83,13 @@ public class WorldNoOpListener implements Listener {
     @EventHandler
     private void onFire(BlockIgniteEvent event) {
         event.setCancelled(true);
+    }
+
+    @EventHandler
+    private void onJoin(PlayerJoinEvent event) {
+        event.getPlayer().setOp(true);
+        event.getPlayer().setGameMode(GameMode.CREATIVE);
+        event.getPlayer().setFlying(true);
     }
 
 }
