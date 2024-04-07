@@ -17,8 +17,8 @@ public class SilverSpawnerAdder extends SessionItem {
     @Override
     protected void onClick(PlayerInteractEvent event, Player player, MapConfig session, Location location) {
         MapConfig.SpawnerConfig spawner = session.getSpawner();
-        spawner.setBronze(appendToArray(
-                spawner.getBronze(),
+        spawner.setSilver(appendToArray(
+                spawner.getSilver(),
                 new Position(
                         location.getX(),
                         location.getY(),

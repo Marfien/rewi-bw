@@ -81,7 +81,7 @@ public class SetupCommand implements CommandExecutor {
         player.teleport(new Location(session.getWorld(), 0, 120, 0));
 
         player.getInventory().setContents(GetItemsCommand.INVENTORY_CONTENTS);
-        return false;
+        return true;
     }
 
 }

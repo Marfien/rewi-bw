@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.setuptool.listener;
 
+import dev.marfien.rewibw.setuptool.SetupToolPlugin;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -17,6 +18,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.bukkit.event.world.WorldInitEvent;
 import org.bukkit.event.world.WorldLoadEvent;
+import org.bukkit.event.world.WorldUnloadEvent;
 
 public class WorldNoOpListener implements Listener {
 
@@ -90,6 +92,11 @@ public class WorldNoOpListener implements Listener {
         event.getPlayer().setOp(true);
         event.getPlayer().setGameMode(GameMode.CREATIVE);
         event.getPlayer().setFlying(true);
+    }
+
+    @EventHandler
+    private void onUnload(WorldUnloadEvent event) {
+        SetupToolPlugin.effects.removeIf(effect -> effect.getLocation().getWorld().equals(event.getWorld()));
     }
 
 }

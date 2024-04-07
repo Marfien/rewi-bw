@@ -39,7 +39,7 @@ public class TeamBedSetter extends SessionItem {
         teamBed.setZ(bedLocation.getBlockZ());
 
         Bed bed = (Bed) block.getState().getData();
-        BlockFace direction = bed.isHeadOfBed() ? bed.getFacing() : bed.getFacing().getOppositeFace();
+        BlockFace direction = bed.isHeadOfBed() ? bed.getFacing().getOppositeFace() : bed.getFacing();
         teamBed.setDirection(direction);
 
         info.setBed(teamBed);
@@ -56,6 +56,7 @@ public class TeamBedSetter extends SessionItem {
         effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
+        effect.period = 20;
         effect.start();
         SetupToolPlugin.effects.add(effect);
     }

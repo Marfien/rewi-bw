@@ -27,14 +27,14 @@ public class ExitCommand implements CommandExecutor {
         if (!waitingForConfirmation.contains(player)) {
             waitingForConfirmation.add(player);
             player.sendMessage("§7Are you sure you want to cancel the setup session? Type §a/exit §7again to confirm. Remember to save it!");
-            return false;
+            return true;
         }
 
         Optional<SetupSession> optionalSetupSession = SetupSessionManager.getSession(player.getUniqueId());
 
         if (!optionalSetupSession.isPresent()) {
             player.sendMessage("§cYou are not in a setup session.");
-            return false;
+            return true;
         }
 
         SetupSession setupSession = optionalSetupSession.get();
@@ -43,6 +43,6 @@ public class ExitCommand implements CommandExecutor {
         player.sendMessage("§cSetup session exited.");
         player.teleport(Bukkit.getWorld("world").getSpawnLocation());
         Bukkit.unloadWorld(setupSession.getWorld(), false);
-        return false;
+        return true;
     }
 }

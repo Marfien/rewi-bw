@@ -40,6 +40,6 @@ public class GetItemsCommand implements CommandExecutor {
         }
 
         player.getInventory().setContents(INVENTORY_CONTENTS);
-        return false;
+        return true;
     }
 }
