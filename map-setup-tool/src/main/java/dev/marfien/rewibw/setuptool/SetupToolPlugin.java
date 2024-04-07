@@ -76,6 +76,7 @@ public class SetupToolPlugin extends JavaPlugin {
         super.getCommand("to-world").setExecutor(new ToWorldCommand());
         super.getCommand("exit").setExecutor(new ExitCommand());
         super.getCommand("get-items").setExecutor(new GetItemsCommand());
+        super.getCommand("set-border").setExecutor(new BorderCommand());
         effectManager = new EffectManager(this);
         itemManager.register(this);
 
