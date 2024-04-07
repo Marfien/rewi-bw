@@ -19,7 +19,7 @@ public class ShopAdder extends SessionItem {
 
     @Override
     protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
-        location.setDirection(location.clone().subtract(player.getLocation()).toVector());
+        location.setDirection(player.getLocation().subtract(location).toVector());
         location.setPitch(0);
         location.setYaw(Math.round(location.getYaw() / 45) * 45F);
 
@@ -38,11 +38,12 @@ public class ShopAdder extends SessionItem {
         player.sendMessage("§aShop added.");
 
         LineEffect effect = new LineEffect(SetupToolPlugin.getEffectManager());
-        effect.setLocation(location);
+        effect.setLocation(location.add(0, 0.5, 0));
         effect.particle = ParticleEffect.VILLAGER_HAPPY;
         effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
+        effect.period = 20;
         effect.start();
         SetupToolPlugin.effects.add(effect);
     }

@@ -49,8 +49,8 @@ public class TeamBedSetter extends SessionItem {
         addLocationEffect(bedLocation, ParticleEffect.REDSTONE, this.team.getDyeColor().getColor(), null);
 
         LineEffect effect = new LineEffect(SetupToolPlugin.getEffectManager());
-        effect.setLocation(toCleanLocation(bedLocation));
-        effect.setTargetLocation(effect.getLocation().clone().add(direction.getModX(), 1 + direction.getModY(), direction.getModZ()));
+        effect.setLocation(bedLocation.add(0.5, 1, 0.5));
+        effect.setTargetLocation(bedLocation.add(direction.getModX(), direction.getModY(), direction.getModZ()));
         effect.particle = ParticleEffect.REDSTONE;
         effect.color = this.team.getDyeColor().getColor();
         effect.length = 1;

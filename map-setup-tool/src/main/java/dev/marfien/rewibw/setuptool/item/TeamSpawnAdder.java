@@ -23,7 +23,7 @@ public class TeamSpawnAdder extends SessionItem {
 
     @Override
     protected void onClick(PlayerInteractEvent event, Player player, MapConfig mapConfig, Location location) {
-        location.setDirection(location.clone().subtract(player.getLocation()).toVector());
+        location.setDirection(player.getLocation().subtract(location).toVector());
         location.setPitch(0);
         location.setYaw(Math.round(location.getYaw() / 45) * 45F);
 
@@ -40,12 +40,15 @@ public class TeamSpawnAdder extends SessionItem {
         player.getInventory().setItem(7, TeamBedSetter.getItemFor(this.team));
 
         LineEffect effect = new LineEffect(SetupToolPlugin.getEffectManager());
-        effect.setLocation(location);
+        effect.setLocation(location.add(0, 0.5, 0));
         effect.particle = ParticleEffect.REDSTONE;
         effect.color = this.team.getDyeColor().getColor();
         effect.length = 1;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
+        effect.period = 10;
+        effect.start();
+        SetupToolPlugin.effects.add(effect);
     }
 
     public static ItemStack getItemFor(TeamColor color) {
