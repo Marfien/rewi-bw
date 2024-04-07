@@ -78,7 +78,7 @@ public class SetupCommand implements CommandExecutor {
         mapInfo.setIcon(material + ":" + data);
         config.setMap(mapInfo);
         config.setTeams(new HashMap<>());
-        player.teleport(new Location(player.getWorld(), 0, 120, 0));
+        player.teleport(new Location(session.getWorld(), 0, 120, 0));
 
         player.getInventory().setContents(GetItemsCommand.INVENTORY_CONTENTS);
         return false;
