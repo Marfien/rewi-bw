@@ -39,7 +39,7 @@ public class TeamJoinerListener implements Listener {
         armorStand.setBasePlate(false);
         armorStand.setArms(false);
 
-        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} ({})", team.getColor(), armorStand.toString());
+        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} (entityId: {}, location: {})", team.getColor(), armorStand.getEntityId(), armorStand.getLocation());
         this.joiners.put(armorStand.getEntityId(), team);
     }
 
@@ -73,7 +73,7 @@ public class TeamJoinerListener implements Listener {
 
     @EventHandler
     private void onEntityDamage(EntityDamageEvent event) {
-        if (this.joiners.containsKey(event.getEntity())) {
+        if (this.joiners.containsKey(event.getEntity().getEntityId())) {
             event.setCancelled(true);
         }
     }
