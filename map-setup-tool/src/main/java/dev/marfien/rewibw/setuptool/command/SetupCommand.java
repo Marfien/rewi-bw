@@ -38,7 +38,7 @@ public class SetupCommand implements CommandExecutor {
         }
 
         String mapName = args[0];
-        String displayName = String.join(" ", Arrays.copyOfRange(args, 2, args.length));
+        String displayName = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         ItemStack inHand = ((Player) commandSender).getItemInHand();
         if (inHand.getType() == Material.AIR) {
