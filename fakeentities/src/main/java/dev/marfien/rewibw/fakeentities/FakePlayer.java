@@ -123,12 +123,12 @@ public class FakePlayer extends AbstractFakeEntity {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(action);
 
         List<PacketPlayOutPlayerInfo.PlayerInfoData> infoData = (List<PacketPlayOutPlayerInfo.PlayerInfoData>) PLAYER_INFO_DATA_FIELD.get(packet);
-        infoData.add(this.createPlayerInfoPacketData(packet));
+        infoData.add(this.createPlayerInfoPacketData(player, packet));
 
         sendPacket(player, packet);
     }
 
-    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(PacketPlayOutPlayerInfo packet) {
+    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(Player player, PacketPlayOutPlayerInfo packet) {
         return packet.new PlayerInfoData(this.profile, 1, WorldSettings.EnumGamemode.NOT_SET,
                 CraftChatMessage.fromString(this.profile.getName())[0]);
     }

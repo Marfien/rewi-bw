@@ -44,7 +44,7 @@ public class CpsTester extends FakePlayer {
     }
 
     @Override
-    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(Player player, PacketPlayOutPlayerInfo packet, PacketPlayOutPlayerInfo.EnumPlayerInfoAction action) {
+    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(Player player, PacketPlayOutPlayerInfo packet) {
         GameProfile playerProfile = ((CraftPlayer) player).getHandle().getProfile();
         GameProfile profile = new GameProfile(super.getProfile().getId(), super.getProfile().getName());
         playerProfile.getProperties().get("textures").forEach(property -> profile.getProperties().put("textures", property));
