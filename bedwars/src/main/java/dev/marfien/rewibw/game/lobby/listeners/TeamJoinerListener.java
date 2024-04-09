@@ -39,7 +39,7 @@ public class TeamJoinerListener implements Listener {
         armorStand.setBasePlate(false);
         armorStand.setArms(false);
 
-        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} (entityId: {}, location: {})", color, armorStand.getEntityId(), armorStand.getLocation());
+        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} (entityId: {}, uuid: {}, location: {})", color, armorStand.getEntityId(), armorStand.getUniqueId(), armorStand.getLocation());
         this.joiners.put(armorStand.getUniqueId(), team);
     }
 
