@@ -73,7 +73,7 @@ public class LocationRemover extends SessionItem {
             }
         });
 
-        SetupToolPlugin.effects.removeIf(effect -> {
+        SetupToolPlugin.getEffects().removeIf(effect -> {
             if (isSameBlock(effect.getLocation(), location)) {
                 effect.cancel();
                 return true;

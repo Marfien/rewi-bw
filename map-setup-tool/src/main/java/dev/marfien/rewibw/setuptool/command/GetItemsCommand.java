@@ -12,15 +12,15 @@ import java.util.Optional;
 
 public class GetItemsCommand implements CustomCommand {
 
-    static ItemStack[] INVENTORY_CONTENTS = new ItemStack[36];
+    static ItemStack[] contents = new ItemStack[36];
     static {
-        INVENTORY_CONTENTS[0] = BronzeSpawnerAdder.ITEM;
-        INVENTORY_CONTENTS[1] = SilverSpawnerAdder.ITEM;
-        INVENTORY_CONTENTS[2] = GoldSpawnerAdder.ITEM;
-        INVENTORY_CONTENTS[4] = ShopAdder.ITEM;
-        INVENTORY_CONTENTS[5] = SpecSpawnSetter.ITEM;
-        INVENTORY_CONTENTS[7] = TeamAdder.ITEM;
-        INVENTORY_CONTENTS[8] = LocationRemover.ITEM;
+        contents[0] = BronzeSpawnerAdder.ITEM;
+        contents[1] = SilverSpawnerAdder.ITEM;
+        contents[2] = GoldSpawnerAdder.ITEM;
+        contents[4] = ShopAdder.ITEM;
+        contents[5] = SpecSpawnSetter.ITEM;
+        contents[7] = TeamAdder.ITEM;
+        contents[8] = LocationRemover.ITEM;
     }
 
     @Override
@@ -38,7 +38,6 @@ public class GetItemsCommand implements CustomCommand {
             return;
         }
 
-        player.getInventory().setContents(INVENTORY_CONTENTS);
-        return;
+        player.getInventory().setContents(contents);
     }
 }

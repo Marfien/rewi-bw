@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.lobby;
 
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.command.ForceMapCommand;
 import dev.marfien.rewibw.command.StartCommand;
@@ -13,7 +14,6 @@ import dev.marfien.rewibw.perk.PerkGroup;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
-import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;

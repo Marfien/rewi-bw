@@ -57,7 +57,7 @@ public class TeamBedSetter extends SessionItem {
         effect.iterations = -1;
         effect.period = 20;
         effect.start();
-        SetupToolPlugin.effects.add(effect);
+        SetupToolPlugin.getEffects().add(effect);
     }
 
     public static ItemStack getItemFor(TeamColor teamColor) {

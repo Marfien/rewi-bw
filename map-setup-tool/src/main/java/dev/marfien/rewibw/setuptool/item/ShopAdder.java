@@ -45,6 +45,6 @@ public class ShopAdder extends SessionItem {
         effect.iterations = -1;
         effect.period = 40;
         effect.start();
-        SetupToolPlugin.effects.add(effect);
+        SetupToolPlugin.getEffects().add(effect);
     }
 }

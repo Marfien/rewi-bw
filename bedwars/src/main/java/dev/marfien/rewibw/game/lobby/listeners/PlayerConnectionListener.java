@@ -1,11 +1,11 @@
 package dev.marfien.rewibw.game.lobby.listeners;
 
 import dev.marfien.rewibw.Message;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.lobby.LobbyCountdown;
-import dev.marfien.rewibw.RewiBWConfig;
-import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.game.lobby.MapVoting;
+import dev.marfien.rewibw.util.Items;
 import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

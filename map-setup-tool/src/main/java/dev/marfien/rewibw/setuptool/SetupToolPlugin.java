@@ -10,7 +10,9 @@ import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.logging.PrefixedLoggerFactory;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,16 +29,20 @@ public class SetupToolPlugin extends JavaPlugin {
     private final Logger pluginLogger = PrefixedLoggerFactory.getLogger(this);
 
     @Getter
+    @Setter(AccessLevel.PRIVATE)
     private static SetupToolConfig pluginConfig;
 
     @Getter
+    @Setter(AccessLevel.PRIVATE)
     private static EffectManager effectManager;
 
-    public static final Collection<Effect> effects = new ArrayList<>();
+    @Getter
+    private static final Collection<Effect> effects = new ArrayList<>();
     private static final UsableItemManager itemManager = new UsableItemManager();
 
     public SetupToolPlugin() {
         GuiInventory.setPlugin(this);
+        setEffectManager(new EffectManager(this));
     }
 
     @Override
@@ -48,12 +54,11 @@ public class SetupToolPlugin extends JavaPlugin {
                 pluginLogger.warn("Configuration file is empty, using default values");
                 node.set(new SetupToolConfig());
             }
-            pluginConfig = node.get(SetupToolConfig.class);
+            setPluginConfig(node.get(SetupToolConfig.class));
             pluginLogger.info("Successfully loaded plugin configuration");
         } catch (ConfigurateException e) {
             pluginLogger.error("Could not load configuration file: {}", e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
-            return;
         }
     }
 
@@ -77,7 +82,6 @@ public class SetupToolPlugin extends JavaPlugin {
         super.getCommand("exit").setExecutor(new ExitCommand());
         super.getCommand("get-items").setExecutor(new GetItemsCommand());
         super.getCommand("set-border").setExecutor(new BorderCommand());
-        effectManager = new EffectManager(this);
         itemManager.register(this);
 
         Bukkit.getPluginManager().registerEvents(new WorldNoOpListener(), this);

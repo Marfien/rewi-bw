@@ -7,8 +7,6 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.shared.CustomCommand;
 import dev.marfien.rewibw.world.MapWorld;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class MapCommand implements CustomCommand {

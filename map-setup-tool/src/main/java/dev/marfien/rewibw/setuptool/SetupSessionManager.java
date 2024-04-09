@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.setuptool;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.World;
 
 import java.util.HashMap;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+@UtilityClass
 public class SetupSessionManager {
 
     private static final Map<UUID, SetupSession> sessions = new HashMap<>();

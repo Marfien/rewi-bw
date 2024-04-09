@@ -96,7 +96,7 @@ public class WorldNoOpListener implements Listener {
 
     @EventHandler
     private void onUnload(WorldUnloadEvent event) {
-        SetupToolPlugin.effects.removeIf(effect -> effect.getLocation().getWorld().equals(event.getWorld()));
+        SetupToolPlugin.getEffects().removeIf(effect -> effect.getLocation().getWorld().equals(event.getWorld()));
     }
 
 }

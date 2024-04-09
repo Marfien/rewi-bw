@@ -1,11 +1,11 @@
 package dev.marfien.rewibw.game.lobby;
 
 import dev.marfien.rewibw.Message;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.config.MapConfig;
-import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.gui.GuiItem;
 import dev.marfien.rewibw.util.Items;

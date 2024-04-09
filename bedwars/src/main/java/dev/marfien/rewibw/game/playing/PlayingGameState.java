@@ -1,19 +1,15 @@
 package dev.marfien.rewibw.game.playing;
 
 import dev.marfien.rewibw.PlayerManager;
-import dev.marfien.rewibw.ResourceType;
 import dev.marfien.rewibw.RewiBWPlugin;
-import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.playing.item.*;
 import dev.marfien.rewibw.game.playing.listener.*;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
 import dev.marfien.rewibw.scoreboard.ScoreboardObjective;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
-import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.config.MapConfig;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
-import dev.marfien.rewibw.shop.FakeDealer;
 import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
@@ -22,7 +18,6 @@ import dev.marfien.rewibw.util.Strings;
 import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.scheduler.BukkitTask;

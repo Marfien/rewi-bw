@@ -1,7 +1,6 @@
 package dev.marfien.rewibw.perk;
 
 import com.avaje.ebean.validation.NotNull;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;

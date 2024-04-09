@@ -8,12 +8,9 @@ import lombok.NoArgsConstructor;
 import org.bukkit.Material;
 import org.bukkit.block.BlockFace;
 import org.bukkit.inventory.ItemStack;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Required;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
-import java.nio.file.Path;
 import java.util.Map;
 
 @Data

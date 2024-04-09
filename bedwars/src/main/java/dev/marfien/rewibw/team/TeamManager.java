@@ -2,6 +2,7 @@ package dev.marfien.rewibw.team;
 
 import com.google.common.base.Preconditions;
 import dev.marfien.rewibw.Message;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
@@ -10,7 +11,6 @@ import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
 import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
-import dev.marfien.rewibw.RewiBWConfig;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;

@@ -2,7 +2,6 @@ package dev.marfien.rewibw.game.lobby.listeners;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import lombok.RequiredArgsConstructor;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

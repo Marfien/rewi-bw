@@ -4,7 +4,6 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
-import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.game.lobby.LobbyWorld;
 import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
@@ -12,7 +11,6 @@ import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.team.GameTeam;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.FireworkEffect;
@@ -21,8 +19,6 @@ import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.meta.FireworkMeta;
-
-import java.io.IOException;
 
 @Getter
 @RequiredArgsConstructor
