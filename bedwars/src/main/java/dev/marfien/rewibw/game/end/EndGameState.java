@@ -32,7 +32,7 @@ public class EndGameState extends GameState {
     private final LobbyWorld lobby;
 
     //private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
-    private final EndCountdown countdown = new EndCountdown(this);
+    private final EndCountdown countdown = new EndCountdown();
     private final GameTeam winner;
 
     @Getter

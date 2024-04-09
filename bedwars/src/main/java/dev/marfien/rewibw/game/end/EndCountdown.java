@@ -7,11 +7,8 @@ import dev.marfien.rewibw.game.GameStateManager;
 
 public class EndCountdown extends AbstractCountdown {
 
-    private final EndGameState endGameState;
-
-    public EndCountdown(EndGameState endGameState) {
+    public EndCountdown() {
         super(30);
-        this.endGameState = endGameState;
     }
 
     @Override
