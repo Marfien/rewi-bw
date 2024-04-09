@@ -3,7 +3,7 @@
 This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This plugin is not affiliated with Rewinside.tv in any way. This plugin is not intended to be used for commercial.
 
 ### Run locally
-```bash
+```shell
 docker compose run --rm --service-ports rewi-bw-server
 ```
 
@@ -54,7 +54,7 @@ teams:
         yaw: 0.0
 ```
 
-### maps/\<map name/>/config.yaml
+### maps/\<map name>/config.yaml
 ```yaml
 world: # Same as lobby config
 spectator-pawn:

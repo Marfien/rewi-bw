@@ -39,7 +39,7 @@ public class AntiReduceTransformer implements ClassFileTransformer {
 
         CtMethod method = baseClass.getDeclaredMethod(methodName, parameters);
         try (BufferedReader attackMethodStream = new BufferedReader(new InputStreamReader(getClass().getClassLoader().getResourceAsStream(customMethodDeclarationResource)))) {
-            String methodSource = attackMethodStream.lines().reduce((a, b) -> a + '\n' + b).get();
+            String methodSource = attackMethodStream.lines().reduce((a, b) -> a + '\n' + b).orElse("");
             String methodBody = methodSource.substring(methodSource.indexOf('{'));
             method.setBody(methodBody);
             System.out.println("Replaced method " + methodName + " in " + className);
