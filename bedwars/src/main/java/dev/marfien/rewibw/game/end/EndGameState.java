@@ -25,35 +25,28 @@ import org.bukkit.inventory.meta.FireworkMeta;
 import java.io.IOException;
 
 @Getter
+@RequiredArgsConstructor
 public class EndGameState extends GameState {
 
     private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
 
-    private final LobbyWorld lobby;
+    private final LobbyWorld lobby = LobbyWorld.getInstance();
 
     //private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
     private final EndCountdown countdown = new EndCountdown();
     private final GameTeam winner;
 
     @Getter
-    private final Listener[] listeners;
-
-    @SneakyThrows
-    public EndGameState(GameTeam winner) {
-        this.winner = winner;
-        this.lobby = LobbyWorld.setupLobby(RewiBWPlugin.getPluginConfig().getLobbyMap());
-        this.lobby.load();
-
-        this.listeners = new Listener[]{
-                new LobbyWorldListener(),
-                new PlayerListener(this.lobby.asLocation(LobbyConfig::getSpawn)),
-                new ChatFormatListener()
-        };
-    }
+    private final Listener[] listeners = new Listener[]{
+            new LobbyWorldListener(),
+            new PlayerListener(this.lobby.asLocation(LobbyConfig::getSpawn)),
+            new ChatFormatListener()
+    };
 
     @Override
     public void onStart() {
         Location spawn = this.lobby.asLocation(LobbyConfig::getSpawn);
+        spawn.getChunk().load();
         LOGGER.info("Teleporting players to {}", spawn);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(spawn);

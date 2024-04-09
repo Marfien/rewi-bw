@@ -21,6 +21,7 @@ import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Chunk;
 import org.bukkit.event.Listener;
 
 import java.io.IOException;
@@ -81,7 +82,11 @@ public class LobbyGameState extends GameState {
         TeamManager.assignTeams();
         this.mapVoting.destroyGui();
         // TODO move this into PlayingGameState#onStart
-        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), this.world::unload, 20);
+        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), () -> {
+            for (Chunk loadedChunk : this.world.getWorld().getLoadedChunks()) {
+                loadedChunk.unload(true, true);
+            }
+        }, 20);
         for (PerkGroup<?> perkGroup : PerkManager.getPerkGroups()) {
             perkGroup.destroyGui();
         }

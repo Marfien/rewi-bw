@@ -12,11 +12,25 @@ import java.nio.file.Path;
 
 public class LobbyWorld extends GameWorld<LobbyConfig> {
 
-    private LobbyWorld(String name, LobbyConfig config) {
-        super(name, config);
+    private static LobbyWorld instance;
+
+    public static LobbyWorld getInstance() {
+        if (instance == null) {
+            throw new IllegalStateException("LobbyWorld has not been initialized yet");
+        }
+
+        return instance;
     }
 
-    public static LobbyWorld setupLobby(Path lobbyPath) throws IOException {
+    private LobbyWorld(String name, LobbyConfig config) {
+        super(name, config);
+        if (instance != null) {
+            throw new IllegalStateException("LobbyWorld has already been initialized");
+        }
+        instance = this;
+    }
+
+    static LobbyWorld setupLobby(Path lobbyPath) throws IOException {
         Path lobbyWorldFolder = MapPool.getBukkitWorldContainer().resolve("lobby");
         FileUtils.copyFolder(lobbyPath, lobbyWorldFolder);
         RewiBWPlugin.getPluginLogger().info("Copied lobby world to " + lobbyWorldFolder);
