@@ -54,7 +54,7 @@ public enum ResourceType {
             locations[i] = positions[i].toLocation(world);
         }
 
-        return Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
+        return RewiBWPlugin.getScheduler().runTaskTimer(() -> {
             RewiBWPlugin.getPluginLogger().trace("Spawning {} at {} locations: {}", this::name, () -> locations.length, () -> Arrays.toString(locations));
             for (Location location : locations) {
                 world.dropItem(location, this.itemStack)

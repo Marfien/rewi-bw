@@ -80,7 +80,7 @@ public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
                 case PLACE_ONE:
                 case PLACE_SOME:
                 case SWAP_WITH_CURSOR:
-                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+                    RewiBWPlugin.getScheduler().runTaskLater(() -> {
                         if (isPlayerInventory) {
                             applyPerk(player, inventory.getItem(slot));
                         } else {
@@ -103,7 +103,7 @@ public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
 
                     resetItem(player, inPlayerInventory);
                     applyPerk(player, inOtherInventory);
-                    Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), player::updateInventory, 1);
+                    RewiBWPlugin.getScheduler().runTaskLater(player::updateInventory, 1);
                     break;
                 default:
                     break;

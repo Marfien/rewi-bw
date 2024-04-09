@@ -39,7 +39,7 @@ public class Teleporter extends UsableItemInfo {
 
     public Teleporter() {
         super(ConsumeType.NONE);
-        Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), this::tick, 0, 1);
+        RewiBWPlugin.getScheduler().runTaskTimer(this::tick, 0, 1);
     }
 
     private void tick() {
@@ -183,7 +183,7 @@ public class Teleporter extends UsableItemInfo {
                 this.clicker.getInventory().removeItem(Items.TELEPORTER);
                 this.clicker.setVelocity(new Vector(0, 200, 0));
                 launchedPlayers.put((CraftPlayer) this.clicker, location.getBlockY());
-                Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> launchedPlayers.remove(this.clicker), 20L * 5);
+                RewiBWPlugin.getScheduler().runTaskLater(() -> launchedPlayers.remove(this.clicker), 20L * 5);
                 return;
             }
 

@@ -48,7 +48,7 @@ public class TeamChest implements Listener {
 
     private BukkitTask startTimerTask() {
         Location blockCenter = this.chest.getLocation().add(0.5, 0.0, 0.5);
-        return Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
+        return RewiBWPlugin.getScheduler().runTaskTimerAsynchronously(() -> {
             this.updateViewerCount();
 
             for (int i = 0; i < 5; i++) {

@@ -72,7 +72,7 @@ public class EndGameState extends GameState {
         Message.broadcast(" ");
 
         Location location = this.lobby.asLocation(config -> config.getTeams().get(this.winner.getColor()).getJoiner());
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+        RewiBWPlugin.getScheduler().runTaskLater(() -> {
             //this.songPlayer.setPlaying(false);
             Firework firework = this.lobby.getWorld().spawn(location, Firework.class);
             FireworkMeta meta = firework.getFireworkMeta();

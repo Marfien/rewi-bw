@@ -29,7 +29,7 @@ public class LobbyCountdown extends AbstractCountdown {
     public void startIdle() {
         if (this.idleTask != null) return;
         LOGGER.info("Starting idle task");
-        this.idleTask = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () ->
+        this.idleTask = RewiBWPlugin.getScheduler().runTaskTimerAsynchronously(() ->
                 Message.broadcast(
                         RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(
                                 RewiBWPlugin.getPluginConfig().getTeams().getMinPlayers() - Bukkit.getOnlinePlayers().size()

@@ -30,9 +30,9 @@ public class CpsTester extends FakePlayer {
             short[] cps = this.cpsSamples.get(player);
             return "§6CPS: §a" + (cps == null ? "0 §7& §a0" : cps[0] + " §7& §a" + cps[1]);
         }, "§6CPS: §a0 §7& §a0");
-        Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
+        RewiBWPlugin.getScheduler().runTaskTimer(() -> {
             this.hologram.updateMetadata();
-            cpsSamples.clear();
+            this.cpsSamples.clear();
         }, 0, 20);
 
         super.addAttackListener(player -> {

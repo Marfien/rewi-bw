@@ -28,7 +28,7 @@ public class Parachute extends UsableItemInfo {
 
     public Parachute() {
         super(ConsumeType.DECREASE_AMOUNT);
-        Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), this::tick, 0, 1);
+        RewiBWPlugin.getScheduler().runTaskTimerAsynchronously(this::tick, 0, 1);
     }
 
     @Override
@@ -49,7 +49,7 @@ public class Parachute extends UsableItemInfo {
         clicker.setPassenger(clicker.getWorld().spawnEntity(clicker.getEyeLocation(), EntityType.CHICKEN));
         clicker.setVelocity(clicker.getVelocity().setY(0));
         
-        activeParachutes.put(nmsPlayer, Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+        activeParachutes.put(nmsPlayer, RewiBWPlugin.getScheduler().runTaskLater(() -> {
             clicker.sendMessage(RewiBWPlugin.PREFIX + Message.PARACHUTE_BROKE);
             removeParachute(nmsPlayer);
         }, 30 * 20L));

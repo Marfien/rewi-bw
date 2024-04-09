@@ -36,7 +36,7 @@ public class WebListener implements Listener {
         }
 
         lastWebPlace.put(player, System.currentTimeMillis());
-        this.removeTaskByBlock.put(placed, Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
+        this.removeTaskByBlock.put(placed, RewiBWPlugin.getScheduler().runTaskLater(() -> {
             event.getBlockReplacedState().update(true, false);
             this.removeTaskByBlock.remove(placed);
         }, 20 * 10L));

@@ -45,7 +45,7 @@ public class PlayerManager {
             other.hidePlayer(player);
         }
 
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> player.setFlying(true), 10);
+        RewiBWPlugin.getScheduler().runTaskLater(() -> player.setFlying(true), 10);
 
         Inventory inventory = player.getInventory();
         inventory.setItem(0, Items.SPECTATOR_COMPASS);

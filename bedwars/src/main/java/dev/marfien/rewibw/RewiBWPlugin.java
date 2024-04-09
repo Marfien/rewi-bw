@@ -10,6 +10,7 @@ import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.listener.PlayerConnectionListener;
 import dev.marfien.rewibw.listener.WorldListener;
 import dev.marfien.rewibw.scoreboard.CustomScoreboardManager;
+import dev.marfien.rewibw.shared.Scheduler;
 import dev.marfien.rewibw.shared.config.ConfigLoader;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.shared.logging.PrefixedLoggerFactory;
@@ -49,6 +50,9 @@ public class RewiBWPlugin extends JavaPlugin {
     @Setter(AccessLevel.PRIVATE)
     private static RewiBWConfig pluginConfig;
     @Getter
+    @Setter(AccessLevel.PRIVATE)
+    private static Scheduler scheduler;
+    @Getter
     private static final Logger pluginLogger = PrefixedLoggerFactory.getLogger("[rewi-bw]");
 
     public static RewiBWPlugin getInstance() {
@@ -68,6 +72,7 @@ public class RewiBWPlugin extends JavaPlugin {
     public RewiBWPlugin() {
         setInstance(this);
         setEffectManager(new EffectManager(this));
+        setScheduler(new Scheduler(this));
     }
 
     @Override

@@ -82,7 +82,7 @@ public class LobbyGameState extends GameState {
         TeamManager.assignTeams();
         this.mapVoting.destroyGui();
         // TODO move this into PlayingGameState#onStart
-        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), () -> {
+        RewiBWPlugin.getScheduler().runTaskLaterAsynchronously(() -> {
             for (Chunk loadedChunk : this.world.getWorld().getLoadedChunks()) {
                 loadedChunk.unload(true, true);
             }

@@ -28,7 +28,7 @@ public abstract class AbstractCountdown implements Countdown {
         this.onStart();
 
         this.seconds = this.initSeconds;
-        this.task = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
+        this.task = RewiBWPlugin.getScheduler().runTaskTimerAsynchronously(() -> {
             LOGGER.trace("Countdown {} running with {} seconds", this.getClass(), this.seconds);
             this.onSecond(this.seconds);
 

@@ -21,10 +21,10 @@ public class GameStateManager {
         if (Bukkit.isPrimaryThread()) {
             setActiveGameStateSync(state);
         } else {
-            Bukkit.getScheduler().callSyncMethod(RewiBWPlugin.getInstance(), () -> {
+            RewiBWPlugin.getScheduler().awaitSyncMethod(() -> {
                 setActiveGameStateSync(state);
                 return null;
-            }).get();
+            });
         }
     }
 

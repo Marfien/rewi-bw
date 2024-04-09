@@ -88,7 +88,7 @@ public class PlayerDeathListener implements Listener {
     public void onDeath(PlayerDeathEvent event) {
         Player player = event.getEntity();
         event.setDeathMessage(RewiBWPlugin.PREFIX + getDeathMessage(player));
-        Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> event.getEntity().spigot().respawn(), 20);
+        RewiBWPlugin.getScheduler().runTaskLater(() -> event.getEntity().spigot().respawn(), 20);
     }
 
     private static void removeFromGame(Player player) {
@@ -156,7 +156,7 @@ public class PlayerDeathListener implements Listener {
         for (Player other : Bukkit.getOnlinePlayers()) {
             other.hidePlayer(player);
         }
-        Bukkit.getScheduler().runTaskLaterAsynchronously(RewiBWPlugin.getInstance(), () -> {
+        RewiBWPlugin.getScheduler().runTaskLaterAsynchronously(() -> {
             for (Player other : Bukkit.getOnlinePlayers()) {
                 other.showPlayer(player);
             }
