@@ -19,16 +19,16 @@ import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class TeamJoinerListener implements Listener {
 
-    private Map<Integer, GameTeam> joiners = new HashMap<>();
+    private final Map<UUID, GameTeam> joiners = new HashMap<>();
 
     public void addJoiner(Location location, GameTeam team) {
         TeamColor color = team.getColor();
-        location.getChunk();
 
-        ArmorStand armorStand = location.getWorld().spawn(location, ArmorStand.class);
+        ArmorStand armorStand = location.getChunk().getWorld().spawn(location, ArmorStand.class);
         armorStand.setCustomName(color.getChatColor() + "Team " + color.getName());
         armorStand.setCustomNameVisible(true);
         armorStand.setBoots(team.getBoots());
@@ -39,8 +39,8 @@ public class TeamJoinerListener implements Listener {
         armorStand.setBasePlate(false);
         armorStand.setArms(false);
 
-        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} (entityId: {}, location: {})", team.getColor(), armorStand.getEntityId(), armorStand.getLocation());
-        this.joiners.put(armorStand.getEntityId(), team);
+        RewiBWPlugin.getPluginLogger().info("Added team joiner for team {} (entityId: {}, location: {})", color, armorStand.getEntityId(), armorStand.getLocation());
+        this.joiners.put(armorStand.getUniqueId(), team);
     }
 
     public void clearJoiners() {
@@ -52,7 +52,7 @@ public class TeamJoinerListener implements Listener {
         Entity rightClicked = event.getRightClicked();
         if (rightClicked.getType() != EntityType.ARMOR_STAND) return;
 
-        GameTeam team = this.joiners.get(rightClicked.getEntityId());
+        GameTeam team = this.joiners.get(rightClicked.getUniqueId());
         if (team == null) return;
 
         event.setCancelled(true);
@@ -73,7 +73,7 @@ public class TeamJoinerListener implements Listener {
 
     @EventHandler
     private void onEntityDamage(EntityDamageEvent event) {
-        if (this.joiners.containsKey(event.getEntity().getEntityId())) {
+        if (this.joiners.containsKey(event.getEntity().getUniqueId())) {
             event.setCancelled(true);
         }
     }

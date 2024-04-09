@@ -40,7 +40,8 @@ public class EndGameState extends GameState {
     private final Listener[] listeners = new Listener[]{
             new LobbyWorldListener(),
             new PlayerListener(this.lobby.asLocation(LobbyConfig::getSpawn)),
-            new ChatFormatListener()
+            new ChatFormatListener(),
+            new ConnectionListener()
     };
 
     @Override
