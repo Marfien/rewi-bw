@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 @Getter
 @Setter
@@ -54,7 +55,7 @@ public class FakePlayer extends AbstractFakeEntity {
             SPAWN_PACKET_FIELDS[ITEM_IN_HAND_ID] = spawnPacketClass.getDeclaredField("h");
             SPAWN_PACKET_FIELDS[DATAWATCHER] = spawnPacketClass.getDeclaredField("i");
         } catch (NoSuchFieldException e) {
-            System.err.println("Failed to initialize FakePlayer fields");
+            Logger.getAnonymousLogger().severe("Failed to initialize FakePlayer fields");
         }
 
         PLAYER_INFO_DATA_FIELD = field;

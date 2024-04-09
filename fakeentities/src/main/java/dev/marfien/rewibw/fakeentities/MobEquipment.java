@@ -9,7 +9,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MobEquipment {
+public class MobEquipment implements Cloneable {
     private final ItemStack[] items = new ItemStack[5];
 
     public ItemStack getItemInHand() {
@@ -90,13 +90,14 @@ public class MobEquipment {
         return true;
     }
 
+    @Override
     public MobEquipment clone() {
-        MobEquipment inv = new MobEquipment();
+        MobEquipment equipment = new MobEquipment();
 
         for (int i = 0; i < 5; ++i) {
-            inv.setSlot(i, this.getSlot(i));
+            equipment.setSlot(i, this.getSlot(i));
         }
 
-        return inv;
+        return equipment;
     }
 }
