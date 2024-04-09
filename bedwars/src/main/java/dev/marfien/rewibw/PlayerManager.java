@@ -1,6 +1,7 @@
 package dev.marfien.rewibw;
 
 import dev.marfien.rewibw.util.Items;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.function.Consumer;
 
+@UtilityClass
 public class PlayerManager {
 
     private static final Collection<Player> SPECTATORS = new HashSet<>();
@@ -36,6 +38,7 @@ public class PlayerManager {
         SPECTATORS.add(player);
         resetPlayerStatus(player);
         player.setAllowFlight(true);
+        player.spigot().setCollidesWithEntities(false);
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other == player) continue;

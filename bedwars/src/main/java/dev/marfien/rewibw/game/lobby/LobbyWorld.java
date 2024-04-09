@@ -33,7 +33,7 @@ public class LobbyWorld extends GameWorld<LobbyConfig> {
     static LobbyWorld setupLobby(Path lobbyPath) throws IOException {
         Path lobbyWorldFolder = MapPool.getBukkitWorldContainer().resolve("lobby");
         FileUtils.copyFolder(lobbyPath, lobbyWorldFolder);
-        RewiBWPlugin.getPluginLogger().info("Copied lobby world to " + lobbyWorldFolder);
+        RewiBWPlugin.getPluginLogger().info("Copied lobby world to {}", lobbyWorldFolder);
         LobbyConfig config = ConfigLoader.loadConfigIn(lobbyWorldFolder).load().require(LobbyConfig.class);
 
         if (config == null)

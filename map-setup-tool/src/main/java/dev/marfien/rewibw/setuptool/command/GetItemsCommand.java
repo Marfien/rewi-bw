@@ -3,15 +3,14 @@ package dev.marfien.rewibw.setuptool.command;
 import dev.marfien.rewibw.setuptool.SetupSession;
 import dev.marfien.rewibw.setuptool.SetupSessionManager;
 import dev.marfien.rewibw.setuptool.item.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
+import dev.marfien.rewibw.shared.CustomCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Optional;
 
-public class GetItemsCommand implements CommandExecutor {
+public class GetItemsCommand implements CustomCommand {
 
     static ItemStack[] INVENTORY_CONTENTS = new ItemStack[36];
     static {
@@ -25,10 +24,10 @@ public class GetItemsCommand implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+    public void execute(CommandSender commandSender, String[] args) {
         if (!(commandSender instanceof Player)) {
             commandSender.sendMessage("§cOnly players can use this command.");
-            return true;
+            return;
         }
 
         Player player = (Player) commandSender;
@@ -36,10 +35,10 @@ public class GetItemsCommand implements CommandExecutor {
 
         if (!session.isPresent()) {
             player.sendMessage("§cYou are not in a setup session.");
-            return true;
+            return;
         }
 
         player.getInventory().setContents(INVENTORY_CONTENTS);
-        return true;
+        return;
     }
 }

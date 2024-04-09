@@ -1,21 +1,28 @@
 package dev.marfien.rewibw.agent;
 
-import java.lang.instrument.Instrumentation;
+import lombok.experimental.UtilityClass;
 
+import java.lang.instrument.Instrumentation;
+import java.util.logging.Logger;
+
+@UtilityClass
 public class AntiReduceAgent {
 
-    public static void premain(String args, Instrumentation instrumentation) throws Exception {
-        System.out.println("Loading AntiReduceAgent");
+    private static final Logger logger = Logger.getLogger("AntiReduceAgent");
+
+    @SuppressWarnings("unused")
+    public static void premain(String args, Instrumentation instrumentation) {
+        logger.info("Loading AntiReduceAgent");
         try {
-            instrumentation.addTransformer(new AntiReduceTransformer(), true);
+            instrumentation.addTransformer(new AntiReduceTransformer(logger), true);
         } catch (Exception e) {
-            System.err.println("Error loading AntiReduceAgent");
+            logger.severe("Error loading AntiReduceAgent");
             throw e;
         }
-        System.out.println("AntiReduceAgent loaded");
+        logger.info("AntiReduceAgent loaded");
     }
 
-    public static void agentmain(String args, Instrumentation instrumentation) throws Exception {
+    public static void agentmain(String args, Instrumentation instrumentation) {
         premain(args, instrumentation);
     }
 

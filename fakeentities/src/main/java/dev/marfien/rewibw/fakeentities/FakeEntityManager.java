@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.fakeentities;
 
 import lombok.Getter;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -10,12 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+@UtilityClass
 public class FakeEntityManager {
 
-    private static int ENTITY_COUNTER = Integer.MAX_VALUE;
+    private static int entityCounter = Integer.MAX_VALUE;
 
     public static final int VIEW_DISTANCE = 60;
-    public static final double VIEW_DISTANCE_SQUARED = VIEW_DISTANCE * VIEW_DISTANCE;
+    public static final int VIEW_DISTANCE_SQUARED = VIEW_DISTANCE * VIEW_DISTANCE;
 
     private static final Map<Integer, FakeEntity> fakeEntities = new HashMap<>();
 
@@ -74,7 +76,7 @@ public class FakeEntityManager {
     }
 
     public static int nextEntityId() {
-        return ENTITY_COUNTER--;
+        return entityCounter--;
     }
 
     public static void unloadFor(Player player) {

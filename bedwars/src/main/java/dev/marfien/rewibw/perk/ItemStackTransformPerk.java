@@ -1,12 +1,16 @@
 package dev.marfien.rewibw.perk;
 
 import dev.marfien.rewibw.shared.ItemBuilder;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.function.Consumer;
 
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class ItemStackTransformPerk extends Perk {
 
 

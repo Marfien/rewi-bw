@@ -142,9 +142,9 @@ public class MapVoting {
             return this.votables[randomIndex];
         }
 
-        String winner = Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
-        LOGGER.info("Winner chosen: {}", winner);
-        return winner;
+        String winnerKey = Collections.max(this.voteCount.entrySet(), Comparator.comparingInt(Map.Entry::getValue)).getKey();
+        LOGGER.info("Winner chosen: {}", winnerKey);
+        return winnerKey;
     }
 
     public int getVotes(String map) {

@@ -105,6 +105,8 @@ public class ItemPerkGroup extends PerkGroup<ItemStackTransformPerk> {
                     applyPerk(player, inOtherInventory);
                     Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), player::updateInventory, 1);
                     break;
+                default:
+                    break;
             }
         }
 

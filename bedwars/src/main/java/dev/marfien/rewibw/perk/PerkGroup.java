@@ -55,12 +55,12 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     }
 
     public void setPerk(Player player, P perk) {
-        LOGGER.debug("Perk set to {0} for {1} in {2}", perk.getName(), player.getName(), this.key);
+        LOGGER.debug("Perk set to {} for {} in {}", perk.getName(), player.getName(), this.key);
         this.selectedPerks.put(player, perk);
     }
 
     public void unsetPerk(Player player) {
-        LOGGER.trace("Unsetting perk for player {0}", player.getName());
+        LOGGER.trace("Unsetting perk for player {}", player.getName());
         this.selectedPerks.remove(player);
     }
 
@@ -106,12 +106,12 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
 
             contents[row * 9 + 1] = PANE_ACTIVE;
             contents[row * 9] = (NoOpGuiItem) player -> {
-                ItemStack displayItem = perkGroup.getDisplayItemFor(player).clone();
-                ItemMeta meta = displayItem.getItemMeta();
+                ItemStack personalDisplayItem = perkGroup.getDisplayItemFor(player).clone();
+                ItemMeta meta = personalDisplayItem.getItemMeta();
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                displayItem.setItemMeta(meta);
-                displayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-                return displayItem;
+                personalDisplayItem.setItemMeta(meta);
+                personalDisplayItem.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                return personalDisplayItem;
             };
         }
 
@@ -157,17 +157,17 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
 
         @Override
         public ItemStack getDisplayItemFor(Player player) {
-            ItemStack displayItem = this.perk.getDisplayItem().clone();
+            ItemStack perkDisplayItem = this.perk.getDisplayItem().clone();
 
             getPerk(player).ifPresent(selectedPerk -> {
                 if (selectedPerk == this.perk) {
-                    ItemBuilder.of(displayItem)
+                    ItemBuilder.of(perkDisplayItem)
                             .setLore(" ", "§a§lAusgewählt")
                             .addItemFlags(ItemFlag.HIDE_ENCHANTS)
                             .addEnchantment(Enchantment.DURABILITY, 1);
                 }
             });
-            return displayItem;
+            return perkDisplayItem;
         }
 
         @Override

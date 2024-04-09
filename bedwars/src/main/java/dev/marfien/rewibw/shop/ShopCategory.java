@@ -59,9 +59,9 @@ public class ShopCategory implements ShopButton, Listener {
             }
 
             contents[i] = (NoOpGuiItem) player -> {
-                ItemStack displayItem = category.getDisplayItemFor(player);
-                this.transformOnActive.accept(displayItem);
-                return displayItem;
+                ItemStack categoryDisplayItem = category.getDisplayItemFor(player);
+                this.transformOnActive.accept(categoryDisplayItem);
+                return categoryDisplayItem;
             };
         }
 

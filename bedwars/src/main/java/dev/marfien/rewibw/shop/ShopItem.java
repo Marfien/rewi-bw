@@ -12,7 +12,7 @@ public abstract class ShopItem implements Shoppable {
     private final ShopPrice price;
     private final int shiftClickMultiplier;
 
-    public ShopItem(ShopPrice price, int shiftClickMultiplier) {
+    protected ShopItem(ShopPrice price, int shiftClickMultiplier) {
         this.price = price;
         this.shiftClickMultiplier = shiftClickMultiplier;
     }
@@ -43,8 +43,7 @@ public abstract class ShopItem implements Shoppable {
             current.setAmount(maxStackSize);
         }
 
-        for (int i = 0; i < contents.length; i++) {
-            if (totalAmount <= 0) break;
+        for (int i = 0; i < contents.length && totalAmount > 0; i++) {
             if (contents[i] != null) continue;
 
             int amount = Math.min(totalAmount, maxStackSize);

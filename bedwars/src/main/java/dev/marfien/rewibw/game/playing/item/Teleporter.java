@@ -183,7 +183,7 @@ public class Teleporter extends UsableItemInfo {
                 this.clicker.getInventory().removeItem(Items.TELEPORTER);
                 this.clicker.setVelocity(new Vector(0, 200, 0));
                 launchedPlayers.put((CraftPlayer) this.clicker, location.getBlockY());
-                Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> launchedPlayers.remove(this.clicker), 20 * 5);
+                Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> launchedPlayers.remove(this.clicker), 20L * 5);
                 return;
             }
 

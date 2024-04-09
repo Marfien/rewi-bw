@@ -52,7 +52,7 @@ public class Parachute extends UsableItemInfo {
         activeParachutes.put(nmsPlayer, Bukkit.getScheduler().runTaskLater(RewiBWPlugin.getInstance(), () -> {
             clicker.sendMessage(RewiBWPlugin.PREFIX + Message.PARACHUTE_BROKE);
             removeParachute(nmsPlayer);
-        }, 30 * 20));
+        }, 30 * 20L));
         return true;
     }
 

@@ -1,11 +1,13 @@
 package dev.marfien.rewibw.fakeentities;
 
 import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.minecraft.server.v1_8_R3.*;
+import net.minecraft.server.v1_8_R3.DataWatcher;
+import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
+import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
+import net.minecraft.server.v1_8_R3.WorldSettings;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
@@ -52,7 +54,7 @@ public class FakePlayer extends AbstractFakeEntity {
             SPAWN_PACKET_FIELDS[ITEM_IN_HAND_ID] = spawnPacketClass.getDeclaredField("h");
             SPAWN_PACKET_FIELDS[DATAWATCHER] = spawnPacketClass.getDeclaredField("i");
         } catch (NoSuchFieldException e) {
-            // ignored
+            System.err.println("Failed to initialize FakePlayer fields");
         }
 
         PLAYER_INFO_DATA_FIELD = field;
@@ -76,28 +78,11 @@ public class FakePlayer extends AbstractFakeEntity {
     }
 
     @Override
+    @SneakyThrows
     protected void spawn(Player player) {
         this.addToTabList(player);
-        try {
-            this.sendSpawnPacket(player);
-        } catch (IllegalAccessException e) {
-            // ignored
-        }
+        this.sendSpawnPacket(player);
         Bukkit.getScheduler().runTaskLater(FakeEntityManager.getPlugin(), () -> this.removeFromTabList(player), 20 * 2L);
-    }
-
-    @SneakyThrows
-    public void playAnimation(Player player, byte animation) {
-        PacketPlayOutAnimation packet = new PacketPlayOutAnimation();
-        PacketDataSerializer serializer = new PacketDataSerializer(Unpooled.buffer());
-        serializer.b(super.getEntityId());
-        serializer.writeByte(animation);
-        packet.a(serializer);
-        sendPacket(player, packet);
-    }
-
-    public void playDamageAnimation(Player player) {
-        this.playAnimation(player, (byte) 1);
     }
 
     private void addToTabList(Player player) {
@@ -133,21 +118,17 @@ public class FakePlayer extends AbstractFakeEntity {
         sendPacket(player, packet);
     }
 
+    @SneakyThrows
     private void sendTabListInfo(Player player, PacketPlayOutPlayerInfo.EnumPlayerInfoAction action) {
         PacketPlayOutPlayerInfo packet = new PacketPlayOutPlayerInfo(action);
 
-        try {
-            List<PacketPlayOutPlayerInfo.PlayerInfoData> infoData = (List<PacketPlayOutPlayerInfo.PlayerInfoData>) PLAYER_INFO_DATA_FIELD.get(packet);
-            infoData.add(this.createPlayerInfoPacketData(player, packet, action));
-        } catch (IllegalAccessException e) {
-            // set accessable
-        }
+        List<PacketPlayOutPlayerInfo.PlayerInfoData> infoData = (List<PacketPlayOutPlayerInfo.PlayerInfoData>) PLAYER_INFO_DATA_FIELD.get(packet);
+        infoData.add(this.createPlayerInfoPacketData(packet));
 
         sendPacket(player, packet);
     }
 
-    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(Player player, PacketPlayOutPlayerInfo packet,
-                                                                                PacketPlayOutPlayerInfo.EnumPlayerInfoAction action) {
+    protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(PacketPlayOutPlayerInfo packet) {
         return packet.new PlayerInfoData(this.profile, 1, WorldSettings.EnumGamemode.NOT_SET,
                 CraftChatMessage.fromString(this.profile.getName())[0]);
     }

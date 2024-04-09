@@ -11,7 +11,6 @@ import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -130,19 +129,23 @@ public class PlayerDeathListener implements Listener {
             return Message.PLAYER_DIED.format(player.getDisplayName());
         }
 
-        long health = Math.round(killer.getHealth());
-        ChatColor color =
-                health >= 16 ? ChatColor.GREEN
-                        : health >= 13 ? ChatColor.YELLOW
-                        : health >= 7 ? ChatColor.GOLD
-                        : health >= 3 ? ChatColor.RED
-                        : ChatColor.DARK_RED;
+        int health = (int) Math.round(killer.getHealth());
+        ChatColor color = getColorForHealth(health);
 
         return Message.PLAYER_KILLED.format(player.getDisplayName(), killer.getDisplayName(), color.toString() + Math.round(health / 2D));
     }
 
+    private static ChatColor getColorForHealth(int health) {
+        if (health >= 16) return ChatColor.GREEN;
+        if (health >= 13) return ChatColor.YELLOW;
+        if (health >= 7) return ChatColor.GOLD;
+        if (health >= 3) return ChatColor.RED;
+
+        return ChatColor.DARK_RED;
+    }
+
     @EventHandler
-    public void onRespawn(PlayerRespawnEvent event) {
+    private void onRespawn(PlayerRespawnEvent event) {
         Player player = event.getPlayer();
 
         GameTeam team = TeamManager.getTeam(player);

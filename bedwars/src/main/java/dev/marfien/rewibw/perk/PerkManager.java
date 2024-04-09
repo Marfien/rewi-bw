@@ -3,7 +3,7 @@ package dev.marfien.rewibw.perk;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.shared.ItemBuilder;
-import org.apache.logging.log4j.LogManager;
+import lombok.experimental.UtilityClass;
 import org.bukkit.DyeColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.plugin.Plugin;
 
-
+@UtilityClass
 public class PerkManager {
 
     public static final NoOpPerkGroup<DataPerk<Sound>> BED_DESTROY_SOUND_PERK_GROUP = new NoOpPerkGroup<>(
@@ -102,7 +102,7 @@ public class PerkManager {
         STICK_PERK_GROUP.openGui(player);
     }
 
-    public static PerkGroup<?>[] getPerkGroups() {
+    public static PerkGroup<? extends Perk>[] getPerkGroups() {
         return PERK_GROUPS;
     }
 }

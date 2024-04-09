@@ -15,12 +15,12 @@ public class IngameCountdown extends AbstractCountdown {
 
     @Override
     public void onStart() {
-
+        // Nothing to do here
     }
 
     @Override
     public void onStop() {
-
+      // Nothing to do here
     }
 
     @Override

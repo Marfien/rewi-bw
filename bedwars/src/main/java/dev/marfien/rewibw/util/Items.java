@@ -1,10 +1,12 @@
 package dev.marfien.rewibw.util;
 
 import dev.marfien.rewibw.shared.ItemBuilder;
+import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+@UtilityClass
 public class Items {
 
     // Lobby Items

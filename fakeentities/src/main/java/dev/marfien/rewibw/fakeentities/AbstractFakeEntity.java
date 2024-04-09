@@ -3,6 +3,7 @@ package dev.marfien.rewibw.fakeentities;
 import io.netty.buffer.Unpooled;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
@@ -125,6 +126,20 @@ public abstract class AbstractFakeEntity implements FakeEntity {
         this.sendHeadRotation(player, yaw);
     }
 
+    @SneakyThrows
+    public void playAnimation(Player player, byte animation) {
+        PacketPlayOutAnimation packet = new PacketPlayOutAnimation();
+        PacketDataSerializer serializer = new PacketDataSerializer(Unpooled.buffer());
+        serializer.b(this.getEntityId());
+        serializer.writeByte(animation);
+        packet.a(serializer);
+        sendPacket(player, packet);
+    }
+
+    public void playDamageAnimation(Player player) {
+        this.playAnimation(player, (byte) 1);
+    }
+
     @Override
     public void smoothUpdateFor(Player player) {
         this.updateLookAtPlayer(player);
@@ -132,8 +147,8 @@ public abstract class AbstractFakeEntity implements FakeEntity {
 
     @Override
     public void updateFor(Player player) {
-        Location location = player.getLocation();
-        if (!this.isInRange(location)) {
+        Location playerLocation = player.getLocation();
+        if (!this.isInRange(playerLocation)) {
             this.unloadFor(player);
             return;
         }
@@ -168,16 +183,13 @@ public abstract class AbstractFakeEntity implements FakeEntity {
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
     }
 
+    @SneakyThrows
     protected void sendHeadRotation(Player player, float yaw) {
         PacketPlayOutEntityHeadRotation packet = new PacketPlayOutEntityHeadRotation();
         PacketDataSerializer serializer = new PacketDataSerializer(Unpooled.buffer());
         serializer.b(this.entityId);
         serializer.writeByte(FakeEntity.getFixedRotation(yaw));
-        try {
-            packet.a(serializer);
-        } catch (IOException e) {
-            // ignored
-        }
+        packet.a(serializer);
         sendPacket(player, packet);
     }
 
@@ -212,19 +224,6 @@ public abstract class AbstractFakeEntity implements FakeEntity {
         for (Packet<?> packet : packets) {
             sendPacket(player, packet);
         }
-    }
-
-    private void sendAnimation(Player player, byte animation) {
-        PacketDataSerializer serializer = new PacketDataSerializer(Unpooled.buffer());
-        serializer.b(this.entityId);
-        serializer.writeByte(animation);
-        PacketPlayOutAnimation packet = new PacketPlayOutAnimation();
-        try {
-            packet.a(serializer);
-        } catch (IOException e) {
-            // ignored
-        }
-        sendPacket(player, packet);
     }
 
 }

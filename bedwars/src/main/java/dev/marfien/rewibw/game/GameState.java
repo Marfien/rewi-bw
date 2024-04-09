@@ -1,17 +1,11 @@
 package dev.marfien.rewibw.game;
 
 import dev.marfien.rewibw.RewiBWPlugin;
-import lombok.SneakyThrows;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.command.CommandExecutor;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-
-import java.util.Collections;
-import java.util.Map;
-import java.util.concurrent.Future;
 
 public abstract class GameState {
 
@@ -21,7 +15,7 @@ public abstract class GameState {
     public abstract Countdown getCountdown();
 
     void start() {
-        LOGGER.info("Starting game state " + this.getClass());
+        LOGGER.info("Starting game state {}", this.getClass());
         this.onStart();
         for (Listener listener : this.getListeners()) {
             Bukkit.getPluginManager().registerEvents(listener, RewiBWPlugin.getInstance());
@@ -33,7 +27,7 @@ public abstract class GameState {
             HandlerList.unregisterAll(listener);
         }
         this.onStop();
-        LOGGER.info("Stopped game state " + this.getClass());
+        LOGGER.info("Stopped game state {}", this.getClass());
     }
 
     public abstract void onStart();

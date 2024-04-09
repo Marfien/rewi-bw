@@ -34,7 +34,7 @@ public class LobbyCountdown extends AbstractCountdown {
                         RewiBWPlugin.PREFIX + Message.LOBBY_IDLE.format(
                                 RewiBWPlugin.getPluginConfig().getTeams().getMinPlayers() - Bukkit.getOnlinePlayers().size()
                         )
-                ), 0, 20 * 30);
+                ), 0, 20L * 30);
     }
 
     public void stopIdle() {
@@ -56,7 +56,9 @@ public class LobbyCountdown extends AbstractCountdown {
     }
 
     @Override
-    public void onStop() { }
+    public void onStop() {
+        // Nothing to do
+    }
 
     @SneakyThrows
     @Override
@@ -69,19 +71,28 @@ public class LobbyCountdown extends AbstractCountdown {
         }
 
         switch (second) {
-            case 10:
-                this.mapVoting.getOrChooseWinner();
             case 60:
             case 30:
             case 5:
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_STARTS_IN.format(second));
-                    player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
-                }
+                broadcastTime(second);
+                break;
+            case 10:
+                this.mapVoting.getOrChooseWinner();
+                broadcastTime(second);
                 break;
             case 0:
                 GameStateManager.setActiveGameState(new PlayingGameState(this.mapVoting.getWinner()));
                 break;
+            default:
+                break;
         }
     }
+
+    private static void broadcastTime(int second) {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_STARTS_IN.format(second));
+            player.playSound(player.getLocation(), Sound.ORB_PICKUP, 1, 1);
+        }
+    }
+
 }

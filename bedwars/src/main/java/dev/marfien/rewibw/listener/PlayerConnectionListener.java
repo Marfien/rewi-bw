@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.listener;
 
 import dev.marfien.rewibw.PlayerManager;
+import dev.marfien.rewibw.RewiBWPlugin;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketDataSerializer;
@@ -30,7 +31,7 @@ public class PlayerConnectionListener implements Listener {
             serializer.a(footer);
             TABLIST_PACKET.a(serializer);
         } catch (IOException e) {
-            System.err.println("Error while creating tablist packet");
+            RewiBWPlugin.getPluginLogger().error("Error while creating tablist packet", e);
         }
     }
 

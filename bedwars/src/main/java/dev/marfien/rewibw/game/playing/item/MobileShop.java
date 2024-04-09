@@ -6,6 +6,8 @@ import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.shared.usable.ConsumeType;
 import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shop.FakeDealer;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -16,9 +18,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
+@ToString
+@EqualsAndHashCode(callSuper = true)
 public class MobileShop extends UsableItemInfo {
 
-    private final int SECONDS_TO_DESPAWN = 20;
+    private static final int SECONDS_TO_DESPAWN = 20;
 
     public MobileShop() {
         super(ConsumeType.DECREASE_AMOUNT);

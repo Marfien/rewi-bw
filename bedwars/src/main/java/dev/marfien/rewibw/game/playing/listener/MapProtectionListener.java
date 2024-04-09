@@ -12,18 +12,19 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 public class MapProtectionListener implements Listener {
 
-    public static final Collection<Material> BREAKABLE_BLOCKS = Sets.newHashSet(
+    public static final Collection<Material> BREAKABLE_BLOCKS = Collections.unmodifiableCollection(Sets.newHashSet(
             Material.LONG_GRASS,
             Material.DEAD_BUSH,
             Material.DOUBLE_PLANT,
             Material.RED_ROSE,
             Material.YELLOW_FLOWER
-    );
+    ));
 
     private static final Set<Block> placedByPlayer = new HashSet<>();
 

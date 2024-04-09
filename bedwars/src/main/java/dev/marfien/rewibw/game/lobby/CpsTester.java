@@ -20,27 +20,27 @@ import java.util.UUID;
 
 public class CpsTester extends FakePlayer {
 
-    private final Map<Player, short[]> cps = new HashMap<>();
+    private final Map<Player, short[]> cpsSamples = new HashMap<>();
 
     private final FakeHologram hologram;
 
     public CpsTester(Location location) {
         super(new MobEquipment(), location, true, new GameProfile(UUID.randomUUID(), "§3Schlag mich!"));
         this.hologram = new FakeHologram(location.add(0, 2.2, 0), player -> {
-            short[] cps = this.cps.get(player);
+            short[] cps = this.cpsSamples.get(player);
             return "§6CPS: §a" + (cps == null ? "0 §7& §a0" : cps[0] + " §7& §a" + cps[1]);
         }, "§6CPS: §a0 §7& §a0");
         Bukkit.getScheduler().runTaskTimer(RewiBWPlugin.getInstance(), () -> {
             this.hologram.updateMetadata();
-            cps.clear();
+            cpsSamples.clear();
         }, 0, 20);
 
         super.addAttackListener(player -> {
-            cps.computeIfAbsent(player, ignored -> new short[2])[0] += 1;
+            cpsSamples.computeIfAbsent(player, ignored -> new short[2])[0] += 1;
             player.playSound(this.getLocation(), Sound.HURT_FLESH, 1, 1);
             super.playDamageAnimation(player);
         });
-        super.addInteractListener(player -> cps.computeIfAbsent(player, ignored -> new short[2])[1] += 1);
+        super.addInteractListener(player -> cpsSamples.computeIfAbsent(player, ignored -> new short[2])[1] += 1);
     }
 
     @Override

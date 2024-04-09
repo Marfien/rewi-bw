@@ -7,6 +7,7 @@ import dev.marfien.rewibw.shared.ItemBuilder;
 import dev.marfien.rewibw.shared.gui.GuiInventory;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
+import lombok.experimental.UtilityClass;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+@UtilityClass
 public class Shop {
 
     private static final ShopCategory[] CATEGORIES = new ShopCategory[]{

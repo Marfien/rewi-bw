@@ -66,7 +66,7 @@ public class ScoreboardObjective {
         }
     }
 
-    void apply(Player player, Objective bukkitObjective) {
+    void apply(Objective bukkitObjective) {
         bukkitObjective.setDisplayName(this.displayName);
         bukkitObjective.setDisplaySlot(this.displaySlot);
         for (Map.Entry<String, Integer> entry : this.scores.entrySet()) {

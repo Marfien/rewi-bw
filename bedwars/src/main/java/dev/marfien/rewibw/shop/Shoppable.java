@@ -36,6 +36,7 @@ public interface Shoppable extends ShopButton {
 
         @Override
         public void onClick(InventoryClickEvent event) {
+            // Do nothing
         }
     };
 
@@ -45,6 +46,7 @@ public interface Shoppable extends ShopButton {
 
     int getShiftClickMultiplier();
 
+    // TODO: Reduce compexity
     @Override
     default void onClick(InventoryClickEvent event) {
         Player clicker = (Player) event.getWhoClicked();

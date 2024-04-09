@@ -64,6 +64,7 @@ public class RescuePlatform extends UsableItemInfo {
                     && !MapProtectionListener.BREAKABLE_BLOCKS.contains(block.getType())) continue;
 
             block.setType(Material.STAINED_GLASS);
+            // Using BlockStates would create unnecessary overhead by creating new BlockState instances
             block.setData(team.getColor().getDyeColor().getData());
         }
 

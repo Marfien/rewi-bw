@@ -11,6 +11,7 @@ import dev.marfien.rewibw.shared.Position;
 import dev.marfien.rewibw.shared.TeamColor;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.RewiBWConfig;
+import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -25,6 +26,7 @@ import org.bukkit.projectiles.ProjectileSource;
 
 import java.util.*;
 
+@UtilityClass
 public class TeamManager {
 
     private static final Collection<GameTeam> teams = new HashSet<>();
@@ -127,8 +129,15 @@ public class TeamManager {
         for (GameTeam team : teams) {
             if (team.getMembers().isEmpty()) continue;
             TeamColor color = team.getColor();
-            Message.broadcast(Message.TEAM_BROADCAST_FORMAT.format(color.getChatColor(), color.getName(),
-                    team.getMembers().stream().map(Player::getName).reduce((a, b) -> a + ", " + b).get()));
+            Message.broadcast(Message.TEAM_BROADCAST_FORMAT.format(
+                    color.getChatColor(),
+                    color.getName(),
+                    team.getMembers()
+                            .stream()
+                            .map(Player::getName)
+                            .reduce((a, b) -> a + ", " + b)
+                            .orElse("§c/")
+            ));
         }
         Message.broadcast(Message.TEAM_BROADCAST_HEADER.toString());
     }

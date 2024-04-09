@@ -33,7 +33,7 @@ public class BorderTask extends BukkitRunnable {
             }
 
             if (Math.abs(player.locX - this.border.getUpperX() + 1) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderX(player, this.border.getUpperX() + 1, Location.locToBlock(player.locY) + 0.5F, Location.locToBlock(player.locZ) + 0.5F);
+                drawBorderX(player, this.border.getUpperX() + 1F, Location.locToBlock(player.locY) + 0.5F, Location.locToBlock(player.locZ) + 0.5F);
             }
 
             if (Math.abs(player.locZ - this.border.getLowerZ()) < BORDER_DISTANCE_VISIBLE) {
@@ -41,7 +41,7 @@ public class BorderTask extends BukkitRunnable {
             }
 
             if (Math.abs(player.locZ - this.border.getUpperZ() + 1) < BORDER_DISTANCE_VISIBLE) {
-                drawBorderZ(player, Location.locToBlock(player.locX) + 0.5F, Location.locToBlock(player.locY) + 0.5F, this.border.getUpperZ() + 1);
+                drawBorderZ(player, Location.locToBlock(player.locX) + 0.5F, Location.locToBlock(player.locY) + 0.5F, this.border.getUpperZ() + 1F);
             }
         }
     }

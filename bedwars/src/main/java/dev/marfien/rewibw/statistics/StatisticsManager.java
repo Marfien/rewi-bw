@@ -2,11 +2,13 @@ package dev.marfien.rewibw.statistics;
 
 import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.scoreboard.ScoreboardTeam;
+import lombok.experimental.UtilityClass;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@UtilityClass
 public class StatisticsManager {
 
     private static final Map<UUID, GameStatistics> stats = new HashMap<>();

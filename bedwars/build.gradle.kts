@@ -7,10 +7,11 @@ plugins {
 dependencies {
     // Obtainable via BuildTools
     compileOnly(libs.spigot)
+    compileOnly(libs.noteblockapi)
+
     implementation(libs.effectlib)
     implementation(project(":shared"))
     implementation(project(":fakeentities"))
-    compileOnly(libs.noteblockapi)
 }
 
 tasks.withType<ShadowJar> {

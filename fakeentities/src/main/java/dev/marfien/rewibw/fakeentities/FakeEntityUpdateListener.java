@@ -49,7 +49,7 @@ public class FakeEntityUpdateListener implements Listener {
             Player player = event.getPlayer();
             FakeEntityManager.updateView(player);
             FakeEntityManager.smoothUpdateView(player);
-        }, 20 * 2);
+        }, 20L * 2);
     }
 
     @EventHandler
@@ -66,6 +66,7 @@ public class FakeEntityUpdateListener implements Listener {
             if (mobLocation.getWorld() != location.getWorld()) continue;
             double dX = mobLocation.getX() - location.getX();
             double dY = mobLocation.getY() - location.getY();
+
             if (dX * dX + dY * dY > 0.25D) continue;
 
             int height = mob.getHeight();

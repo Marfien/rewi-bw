@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.shared;
 
 import lombok.RequiredArgsConstructor;
+import lombok.experimental.UtilityClass;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.stream.Stream;
 
+@UtilityClass
 public class FileUtils {
 
     public static void copyFolder(Path source, Path target) throws IOException {

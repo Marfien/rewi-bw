@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.scoreboard;
 
 import dev.marfien.rewibw.RewiBWPlugin;
+import lombok.experimental.UtilityClass;
 import org.apache.commons.lang.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 
+@UtilityClass
 public class CustomScoreboardManager {
 
     private static final Map<String, ScoreboardTeam> teams = new HashMap<>();
@@ -66,7 +68,7 @@ public class CustomScoreboardManager {
         objectives.put(name, objective);
         for (Player player : Bukkit.getOnlinePlayers()) {
             Objective bukkitObjective = player.getScoreboard().registerNewObjective(name, criteria);
-            objective.apply(player, bukkitObjective);
+            objective.apply(bukkitObjective);
         }
 
         return objective;
@@ -90,29 +92,29 @@ public class CustomScoreboardManager {
         }
     }
 
-    private static Scoreboard getNewScoreboard(Player player) {
-        Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
-        for (Map.Entry<String, ScoreboardTeam> teamEntry : teams.entrySet()) {
-            Team team = scoreboard.registerNewTeam(teamEntry.getKey());
-            teamEntry.getValue().apply(player, team);
-        }
-
-        for (Map.Entry<String, ScoreboardObjective> entry : objectives.entrySet()) {
-            String name = entry.getKey();
-            ScoreboardObjective objective = entry.getValue();
-            Objective bukkitObjective = scoreboard.registerNewObjective(name, objective.getCriteria());
-            objective.apply(player, bukkitObjective);
-        }
-
-        return scoreboard;
-    }
-
     private static class ScoreboardListener implements Listener {
 
         @EventHandler
         private void onJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
             player.setScoreboard(getNewScoreboard(player));
+        }
+
+        private static Scoreboard getNewScoreboard(Player player) {
+            Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
+            for (Map.Entry<String, ScoreboardTeam> teamEntry : teams.entrySet()) {
+                Team team = scoreboard.registerNewTeam(teamEntry.getKey());
+                teamEntry.getValue().apply(player, team);
+            }
+
+            for (Map.Entry<String, ScoreboardObjective> entry : objectives.entrySet()) {
+                String name = entry.getKey();
+                ScoreboardObjective objective = entry.getValue();
+                Objective bukkitObjective = scoreboard.registerNewObjective(name, objective.getCriteria());
+                objective.apply(bukkitObjective);
+            }
+
+            return scoreboard;
         }
 
     }

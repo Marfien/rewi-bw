@@ -10,7 +10,7 @@ public abstract class Perk {
     private final String name;
     private final ItemStack displayItem;
 
-    public Perk(String name, ItemStack displayItem) {
+    protected Perk(String name, ItemStack displayItem) {
         this.name = name;
         this.displayItem = ItemBuilder.of(displayItem)
                 .setLore(" ", "§eGekauft")

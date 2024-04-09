@@ -1,7 +1,10 @@
 package dev.marfien.rewibw.util;
 
+import lombok.experimental.UtilityClass;
+
 import java.util.concurrent.ThreadLocalRandom;
 
+@UtilityClass
 public class Strings {
 
     private static final String GAMEID_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -19,7 +19,9 @@ import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.world.MapPool;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
@@ -38,12 +40,13 @@ public class RewiBWPlugin extends JavaPlugin {
     public static final String PREFIX = "§8[§3BedWars§8] §r";
 
     private static RewiBWPlugin instance;
-    { instance = this; }
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
 
     @Getter
+    @Setter(AccessLevel.PRIVATE)
     private static EffectManager effectManager;
     @Getter
+    @Setter(AccessLevel.PRIVATE)
     private static RewiBWConfig pluginConfig;
     @Getter
     private static final Logger pluginLogger = PrefixedLoggerFactory.getLogger("[rewi-bw]");
@@ -54,7 +57,18 @@ public class RewiBWPlugin extends JavaPlugin {
         return instance;
     }
 
+    public static void setInstance(RewiBWPlugin instance) {
+        if (RewiBWPlugin.instance != null)
+            throw new IllegalStateException("The Plugin is already initialized.");
+        RewiBWPlugin.instance = instance;
+    }
+
     private final UsableItemManager globalItemManager = new UsableItemManager();
+
+    public RewiBWPlugin() {
+        setInstance(this);
+        setEffectManager(new EffectManager(this));
+    }
 
     @Override
     public void onLoad() {
@@ -65,15 +79,13 @@ public class RewiBWPlugin extends JavaPlugin {
                 pluginLogger.warn("Configuration file is empty, using default values");
                 node.set(new RewiBWConfig());
             }
-            pluginConfig = node.get(RewiBWConfig.class);
+            setPluginConfig(node.get(RewiBWConfig.class));
             pluginLogger.info("Successfully loaded plugin configuration");
         } catch (ConfigurateException e) {
             pluginLogger.error("Could not load configuration file: {}", e.getMessage());
             Bukkit.getPluginManager().disablePlugin(this);
             return;
         }
-
-        effectManager = new EffectManager(this);
 
         this.globalItemManager.putHandler(Items.QUIT_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> event.getPlayer().kickPlayer("§cDu hast den Server verlassen!")));
     }

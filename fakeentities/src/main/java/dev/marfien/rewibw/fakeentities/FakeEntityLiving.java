@@ -59,7 +59,7 @@ public class FakeEntityLiving extends AbstractFakeEntity {
     }
 
     public void setCustomName(String name) {
-        name = name.isEmpty() ? null : name.length() > 32 ? name.substring(0, 32) : name;
+        name = name.isEmpty() ? null : cutName(name);
         if (name == null) {
             this.watcher.a(3, (byte) 0);
             this.watcher.a(2, "");
@@ -69,6 +69,10 @@ public class FakeEntityLiving extends AbstractFakeEntity {
         }
 
         this.updateMetadata();
+    }
+
+    private String cutName(String name) {
+        return name.length() > 32 ? name.substring(0, 32) : name;
     }
 
     public void updateMetadata() {

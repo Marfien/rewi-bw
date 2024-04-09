@@ -7,6 +7,7 @@ import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.game.lobby.MapVoting;
+import dev.marfien.rewibw.shared.CustomCommand;
 import dev.marfien.rewibw.world.MapPool;
 import dev.marfien.rewibw.world.MapWorld;
 import lombok.RequiredArgsConstructor;
@@ -22,28 +23,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-public class ForceMapCommand implements CommandExecutor, TabExecutor {
+public class ForceMapCommand implements CustomCommand, TabExecutor {
 
     private final MapVoting mapVoting;
 
     @Override
-    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
+    public void execute(CommandSender commandSender, String[] args) {
         GameState currentGameState = GameStateManager.getActiveGameState();
         if (!(currentGameState instanceof LobbyGameState)) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.GAME_ALREADY_RUNNING);
-            return true;
+            return;
         }
 
         Countdown countdown = currentGameState.getCountdown();
 
         if (countdown.isRunning() && countdown.getSeconds() <= 10) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.FORCEMAP_COMMAND_TOO_LATE);
-            return true;
+            return;
         }
 
         if (args.length != 1) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.FORCEMAP_COMMAND_USAGE);
-            return true;
+            return;
         }
 
         String mapName = args[0];
@@ -51,7 +52,7 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
         if (!MapPool.contains(mapName)) {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.UNKNOWN_MAP.format(mapName));
             commandSender.sendMessage(RewiBWPlugin.PREFIX + Message.AVAILABLE_MAPS.format(String.join(", ", MapPool.getMapNames())));
-            return true;
+            return;
         }
 
         try {
@@ -62,7 +63,6 @@ public class ForceMapCommand implements CommandExecutor, TabExecutor {
             commandSender.sendMessage(RewiBWPlugin.PREFIX + "§cAn error occurred while loading the map: §4" + e.getMessage());
             RewiBWPlugin.getPluginLogger().error("Error while loading map: {}", mapName, e);
         }
-        return true;
     }
 
     @Override

@@ -1,12 +1,8 @@
 package dev.marfien.rewibw;
 
 import dev.marfien.rewibw.shared.TeamColor;
-import lombok.Data;
 import lombok.Getter;
-import org.bukkit.plugin.Plugin;
-import org.spongepowered.configurate.loader.ConfigurationLoader;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
-import org.spongepowered.configurate.yaml.YamlConfigurationLoader;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

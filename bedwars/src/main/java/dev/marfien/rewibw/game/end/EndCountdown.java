@@ -13,7 +13,7 @@ public class EndCountdown extends AbstractCountdown {
 
     @Override
     public void onStart() {
-
+        // Do nothing
     }
 
     @Override
