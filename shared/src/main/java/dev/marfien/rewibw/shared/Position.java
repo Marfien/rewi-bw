@@ -1,8 +1,6 @@
 package dev.marfien.rewibw.shared;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.bukkit.Chunk;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,10 +9,10 @@ import org.bukkit.util.NumberConversions;
 import org.bukkit.util.Vector;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
-@Getter
-@Setter
+@Data
 @NoArgsConstructor
 @ConfigSerializable
+@EqualsAndHashCode(callSuper = true)
 public class Position extends Vector {
 
     private float yaw;
@@ -99,7 +97,7 @@ public class Position extends Vector {
         double x = vector.getX();
         double z = vector.getZ();
         if (x == 0.0 && z == 0.0) {
-            this.pitch = (float) (vector.getY() > 0.0 ? -90 : 90);
+            this.pitch = (vector.getY() > 0.0 ? -90 : 90);
             return this;
         }
 
@@ -130,12 +128,13 @@ public class Position extends Vector {
         return this;
     }
 
+    @Override
     public Location toLocation(World world) {
         return new Location(world, super.x, super.y, super.z, this.yaw, this.pitch);
     }
 
     @Override
     public Position clone() {
-        return new Position();
+        return new Position(super.x, super.y, super.z, this.yaw, this.pitch);
     }
 }

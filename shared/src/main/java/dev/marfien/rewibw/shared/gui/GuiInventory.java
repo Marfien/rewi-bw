@@ -88,7 +88,7 @@ public class GuiInventory {
     }
 
     public void update(int slot) {
-        if (slot < 0 || slot >= this.items.length) throw new IndexOutOfBoundsException("Index: " + slot + ", array size: " + this.items.length);
+        this.checkSlot(slot);
 
         for (Map.Entry<Player, Inventory> entry : this.cache.entrySet()) {
             Player player = entry.getKey();
@@ -98,7 +98,7 @@ public class GuiInventory {
     }
 
     public void update(int slot, Player player) {
-        if (slot < 0 || slot >= this.items.length) throw new IndexOutOfBoundsException("Index: " + slot + ", array size: " + this.items.length);
+        this.checkSlot(slot);
 
         Inventory inventory = this.cache.get(player);
         if (inventory == null) return;
@@ -107,8 +107,7 @@ public class GuiInventory {
     }
 
     public void setItem(int index, GuiItem item) {
-        if (index < 0 || index >= this.items.length)
-            throw new IndexOutOfBoundsException("Index: " + index + ", array size: " + this.items.length);
+        this.checkSlot(index);
 
         synchronized (this) {
             this.items[index] = item;
@@ -121,8 +120,7 @@ public class GuiInventory {
     }
 
     public GuiItem getItem(int index) {
-        if (index < 0 || index >= this.items.length)
-            throw new IndexOutOfBoundsException("Index: " + index + ", array size: " + this.items.length);
+        this.checkSlot(index);
         return this.items[index];
     }
 
@@ -175,6 +173,11 @@ public class GuiInventory {
         return this.cache.containsValue(inventory);
     }
 
+    private void checkSlot(int slot) {
+        if (slot < 0 || slot >= this.items.length)
+            throw new IndexOutOfBoundsException("Index: " + slot + ", array size: " + this.items.length);
+    }
+
     private class EventListener implements Listener {
 
         @EventHandler
@@ -219,8 +222,9 @@ public class GuiInventory {
         @EventHandler
         private void onClose(InventoryCloseEvent event) {
             // Every inventory is created per player
-            if (!useCache)
-                cache.remove((Player) event.getPlayer());
+            if (!useCache) {
+                cache.remove(event.getPlayer());
+            }
         }
 
         @EventHandler

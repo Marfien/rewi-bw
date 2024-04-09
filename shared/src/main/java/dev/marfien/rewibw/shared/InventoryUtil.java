@@ -1,7 +1,9 @@
 package dev.marfien.rewibw.shared;
 
+import lombok.experimental.UtilityClass;
 import org.bukkit.inventory.ItemStack;
 
+@UtilityClass
 public class InventoryUtil {
 
     public static int rowsNeeded(int itemCount) {

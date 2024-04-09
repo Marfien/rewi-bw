@@ -48,10 +48,10 @@ public class MapConfig extends GameWorldConfig {
 
         public ItemStack getIcon() {
             String[] iconString = this.icon.split(":");
-            Material icon = Material.matchMaterial(iconString[0]);
+            Material iconMaterial = Material.matchMaterial(iconString[0]);
             short iconData = iconString.length > 1 ? Short.parseShort(iconString[1]) : 0;
 
-            return new ItemStack(icon, 1, iconData);
+            return new ItemStack(iconMaterial, 1, iconData);
         }
 
     }

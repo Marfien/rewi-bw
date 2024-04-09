@@ -91,9 +91,7 @@ public class ItemBuilder {
     public ItemBuilder addLoreLines(String... lines) {
         return this.useItemMeta(meta -> {
             List<String> lore = meta.hasLore() ? meta.getLore() : new ArrayList<>();
-            for (String line : lines) {
-                lore.add(line);
-            }
+            lore.addAll(Arrays.asList(lines));
             meta.setLore(lore);
         });
     }
