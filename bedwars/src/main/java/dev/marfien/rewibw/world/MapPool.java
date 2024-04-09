@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Stream;
 
 public class MapPool {
 
@@ -25,11 +26,14 @@ public class MapPool {
     private static final Map<String, MapWorld> requestedMaps = new ConcurrentHashMap<>();
 
     public static void loadMaps(Path baseDir, DuplicatePolicy policy) throws IOException {
-        Files.list(baseDir)
-                .parallel()
-                .filter(Files::isDirectory)
-                .filter(path -> Files.exists(path.resolve("config.yaml")))
-                .forEach(path -> loadMap(path, policy));
+        try (Stream<Path> files = Files.list(baseDir)) {
+                files.parallel()
+                    .filter(Files::isDirectory)
+                    .filter(path -> Files.exists(path.resolve("config.yaml")))
+                    .forEach(path -> loadMap(path, policy));
+        } catch (IOException e) {
+            throw new IOException("Failed to load maps from " + baseDir, e);
+        }
     }
 
     public static void loadMaps(Path baseDir) throws IOException {
