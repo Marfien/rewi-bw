@@ -14,33 +14,10 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup Maven
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          cache: 'gradle'
-          java-version: '8'
-      - name: Get Maven cache
-        uses: actions/cache@v4
-        id: cache-maven
-        with:
-          path: ~/.m2
-          key: ${{ runner.os }}-maven
-      - name: Install Spigot in local maven repo
-        if: steps.cache-maven.outputs.cache-hit != 'true'
-        run: |
-          wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
-          java -jar BuildTools.jar --rev 1.8.8
-      - name: Build with Gradle
-        run: ./gradlew -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-' }}${{ github.ref_name }}' clean shadowJar --no-daemon --parallel
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-artifacts
-          path: '**/build/libs/*.jar'
+    uses: ./.github/workflows/util/build-with-gradle.yml
+    with:
+      task: 'shadowJar'
+      extra_flags: -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-' }}${{ github.ref_name }}'
 
   publish:
     needs: build

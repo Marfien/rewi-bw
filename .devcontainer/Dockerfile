@@ -4,7 +4,7 @@ WORKDIR /spigot
 # Download BuildTools
 RUN wget -O BuildTools.jar https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar
 # Build Spigot 1.8.8
-RUN java -jar BuildTools.jar --rev 1.8.8
+RUN java -jar BuildTools.jar --rev 1.8.8 --generate-source
 
 FROM mcr.microsoft.com/devcontainers/java:2-8-bookworm
 
