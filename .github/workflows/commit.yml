@@ -12,6 +12,6 @@ env:
 
 jobs:
   build:
-    uses: ./.github/workflows/util/build-with-gradle.yml
+    uses: ./.github/workflows/build-with-gradle.yml
     with:
       task: 'check'
