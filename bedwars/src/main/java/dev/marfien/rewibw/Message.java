@@ -120,6 +120,8 @@ public class Message {
     }
 
     public static void broadcast(String message) {
+        if (Bukkit.getOnlinePlayers().isEmpty()) return;
+
         Bukkit.getConsoleSender().sendMessage(message);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.sendMessage(message);
