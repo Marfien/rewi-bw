@@ -50,11 +50,11 @@ public class PlayerDeathListener implements Listener {
         PlayerInventory inventory = player.getInventory();
         inventory.clear();
         inventory.setArmorContents(null);
+
         if (team.getBed().isAlive()) return;
         // final death
 
         Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
-        removeFromGame(player);
         PlayerManager.setSpectator(player);
         event.setCancelled(true);
         player.sendTitle(
@@ -72,6 +72,8 @@ public class PlayerDeathListener implements Listener {
                 player.playSound(player.getLocation(), sound, 1.0F, 1.0F);
             });
         }
+
+        removeFromGame(player);
     }
 
     @EventHandler

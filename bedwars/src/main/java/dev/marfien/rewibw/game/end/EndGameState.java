@@ -9,6 +9,7 @@ import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
 import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
 import dev.marfien.rewibw.shared.config.LobbyConfig;
 import dev.marfien.rewibw.team.GameTeam;
+import dev.marfien.rewibw.util.Items;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
@@ -18,6 +19,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 @Getter
@@ -48,6 +50,9 @@ public class EndGameState extends GameState {
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(spawn);
             PlayerManager.showSpectators(player);
+            Inventory inventory = player.getInventory();
+            inventory.clear();
+            inventory.setItem(8, Items.QUIT_ITEM);
             //this.songPlayer.addPlayer(player);
         }
 
