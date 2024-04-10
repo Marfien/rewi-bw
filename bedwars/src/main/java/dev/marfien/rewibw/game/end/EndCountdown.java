@@ -4,6 +4,7 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.AbstractCountdown;
 import dev.marfien.rewibw.game.GameStateManager;
+import dev.marfien.rewibw.game.playing.PlayingGameState;
 
 public class EndCountdown extends AbstractCountdown {
 
@@ -26,5 +27,9 @@ public class EndCountdown extends AbstractCountdown {
         if (second % 10 == 0 || second <= 5) {
             Message.broadcast(RewiBWPlugin.PREFIX + Message.SERVER_STOPPING.format(second));
         }
+        int minutes = second / 60;
+        int seconds = second % 60;
+        String timeString = String.format("%02d:%02d", minutes, seconds);
+        PlayingGameState.getSidebarObjective().setDisplayName("§3BedWars §7- §b" + timeString);
     }
 }

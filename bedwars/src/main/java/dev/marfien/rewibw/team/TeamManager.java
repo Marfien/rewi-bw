@@ -60,6 +60,8 @@ public class TeamManager {
     public static void assignTeams() {
         GameTeam[] teams = getTeamsSortedBySize();
         int teamIndex = 0;
+
+        outerLoop:
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (hasTeam(player)) continue;
 
@@ -68,7 +70,7 @@ public class TeamManager {
 
                 if (teamIndex >= teams.length) {
                     player.kickPlayer(Message.NO_TEAM_FOUND.toString());
-                    return;
+                    continue outerLoop;
                 }
             }
             player.sendMessage(RewiBWPlugin.PREFIX + Message.TEAM_ASSIGNED.format(teams[teamIndex].getColor().getDisplayName()));
