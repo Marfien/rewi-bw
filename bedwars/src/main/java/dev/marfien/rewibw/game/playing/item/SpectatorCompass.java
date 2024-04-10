@@ -37,6 +37,7 @@ public class SpectatorCompass extends UsableItemInfo {
         for (GameTeam team : TeamManager.getTeams()) {
             for (Player player : team.getMembers()) {
                 contents[slot++] = ItemBuilder.of(Material.SKULL_ITEM)
+                        .setDamage((short) 3)
                         .setSkullOwner(player.getName())
                         .setDisplayName(player.getDisplayName())
                         .setLore(" ", " §fClicke zum teleportieren")

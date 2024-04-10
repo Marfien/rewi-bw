@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -23,6 +24,14 @@ import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 public class SpectatorListener implements Listener {
 
     private final Location spectatorSpawn;
+
+    @EventHandler
+    private void onHit(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+        if (!PlayerManager.isSpectator((Player) event.getEntity())) return;
+
+        event.setCancelled(true);
+    }
 
     @EventHandler
     private void onJoin(PlayerJoinEvent event) {
@@ -139,6 +148,17 @@ public class SpectatorListener implements Listener {
         ((CraftPlayer) player).getHandle().setSpectatorTarget(((CraftPlayer) rightClicked).getHandle());
         player.sendMessage(RewiBWPlugin.PREFIX + Message.SPECTATOR_TARGET.format(rightClicked.getDisplayName()));
         player.sendTitle("§6Spieleransicht", "§6Drücke SHIFT zum verlassen");
+    }
+
+    @EventHandler
+    private void onSneak(PlayerToggleSneakEvent event) {
+        Player player = event.getPlayer();
+        if (!PlayerManager.isSpectator(player)) return;
+
+        if (!event.isSneaking() && player.getSpectatorTarget() != null) {
+            ((CraftPlayer) player).getHandle().setSpectatorTarget(null);
+            player.sendMessage(RewiBWPlugin.PREFIX + Message.SPECTATOR_TARGET.format("keiner"));
+        }
     }
 
 }

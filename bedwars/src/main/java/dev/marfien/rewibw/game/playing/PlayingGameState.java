@@ -112,8 +112,7 @@ public class PlayingGameState extends GameState {
         sidebarObjective.setScore("§1", playersPerTeam + 2);
         sidebarObjective.setScore("§2", playersPerTeam + 1);
         for (GameTeam team : TeamManager.getTeams()) {
-            String displayName = team.getColor().getDisplayName();
-            sidebarObjective.setScore(displayName, team.size());
+            sidebarObjective.setScore(team.getScoreboardEntry(), team.size());
         }
     }
 
