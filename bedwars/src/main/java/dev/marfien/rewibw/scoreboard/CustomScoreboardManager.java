@@ -97,7 +97,7 @@ public class CustomScoreboardManager {
         @EventHandler
         private void onJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
-            player.setScoreboard(getNewScoreboard(player));
+            //player.setScoreboard(getNewScoreboard(player));
         }
 
         private static Scoreboard getNewScoreboard(Player player) {

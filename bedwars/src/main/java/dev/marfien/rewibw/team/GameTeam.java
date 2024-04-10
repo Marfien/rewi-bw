@@ -48,8 +48,8 @@ public class GameTeam {
         this.playerScoreboardTeam = CustomScoreboardManager.registerTeam("team_" + color.name());
         this.playerScoreboardTeam.setPrefix(ignored -> color.getChatColor().toString());
         this.displayScoreboardTeam = CustomScoreboardManager.registerTeam("display_" + color.name());
-        this.displayScoreboardTeam.addEntry(color.getDisplayName());
-        this.displayScoreboardTeam.addEntry(ChatColor.RESET + color.getDisplayName());
+        this.displayScoreboardTeam.addEntry(this.getScoreboardEntry(true));
+        this.displayScoreboardTeam.addEntry(this.getScoreboardEntry(false));
 
         this.teamChest = Bukkit.createInventory(null, 27, "Team Inventar");
 
@@ -144,7 +144,11 @@ public class GameTeam {
     }
 
     public String getScoreboardEntry() {
-        return (this.bed.isAlive() ? ChatColor.RESET : ChatColor.BLACK) + this.color.getDisplayName();
+        return this.getScoreboardEntry(this.bed.isAlive());
+    }
+
+    private String getScoreboardEntry(boolean bedAlive) {
+        return (bedAlive ? ChatColor.RESET : ChatColor.BLACK) + this.color.getDisplayName();
     }
 
     public int size() {
