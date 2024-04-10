@@ -158,7 +158,7 @@ public class PlayerDeathListener implements Listener {
         for (Player other : Bukkit.getOnlinePlayers()) {
             other.hidePlayer(player);
         }
-        RewiBWPlugin.getScheduler().runTaskLaterAsynchronously(() -> {
+        RewiBWPlugin.getScheduler().runTaskLater(() -> {
             for (Player other : Bukkit.getOnlinePlayers()) {
                 other.showPlayer(player);
             }

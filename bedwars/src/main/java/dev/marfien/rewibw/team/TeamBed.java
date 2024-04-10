@@ -6,14 +6,19 @@ import dev.marfien.rewibw.game.playing.PlayingGameState;
 import dev.marfien.rewibw.perk.PerkManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.Effect;
+import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.material.Bed;
+import org.bukkit.material.MaterialData;
 
 @Getter
 public class TeamBed implements Listener {
@@ -41,11 +46,15 @@ public class TeamBed implements Listener {
             return;
         }
 
-        event.setCancelled(false);
+        this.firstBedBlock.setType(Material.AIR);
+        this.secondBedBlock.setType(Material.AIR);
+        Block block = event.getBlock();
+        block.getWorld()
+                .playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
 
+        PlayingGameState.getSidebarObjective().removeScore(this.team.getScoreboardEntry());
         this.alive = false;
         this.team.getDisplayScoreboardTeam().updatePrefix();
-        PlayingGameState.getSidebarObjective().removeScore(this.team.getColor().getDisplayName());
         this.team.updateScoreboardEntry();
         Message.broadcast(RewiBWPlugin.PREFIX + Message.BED_DESTROYED.format(this.team.getColor().getDisplayName(), breaker.getDisplayName()));
         for (Player player : Bukkit.getOnlinePlayers()) {

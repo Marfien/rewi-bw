@@ -42,7 +42,7 @@ public class Message {
     public static final Message TELEPORTER_LOST = bad("Du hast keinen Teleporter mehr!");
 
     public static final Message PLAYER_DIED = system("%s§r ist gestorben.");
-    public static final Message PLAYER_KILLED = system("%s§r wurde von %s §r[§c❤%s§r] getötet.");
+    public static final Message PLAYER_KILLED = system("%s§r wurde von %s §8[§c❤%s§8] §rgetötet.");
 
     public static final Message CANNOT_PLACE_BLOCKS_TEAMSPAWN = bad("Du kannst keine Blöcke auf einen Spawnpunkt setzen.");
 

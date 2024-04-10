@@ -139,8 +139,12 @@ public class GameTeam {
     public void updateScoreboardEntry() {
         ScoreboardObjective objective = PlayingGameState.getSidebarObjective();
         if (objective != null) {
-            objective.setScore((this.bed.isAlive() ? "" : ChatColor.RESET) + this.color.getDisplayName(), this.size());
+            objective.setScore(this.getScoreboardEntry(), this.size());
         }
+    }
+
+    public String getScoreboardEntry() {
+        return (this.bed.isAlive() ? ChatColor.RESET : ChatColor.BLACK) + this.color.getDisplayName();
     }
 
     public int size() {
