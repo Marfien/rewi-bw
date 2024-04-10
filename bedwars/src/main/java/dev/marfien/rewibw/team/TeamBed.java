@@ -49,8 +49,7 @@ public class TeamBed implements Listener {
         this.firstBedBlock.setType(Material.AIR);
         this.secondBedBlock.setType(Material.AIR);
         Block block = event.getBlock();
-        block.getWorld()
-                .playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
+        block.getWorld().playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
 
         PlayingGameState.getSidebarObjective().removeScore(this.team.getScoreboardEntry());
         this.alive = false;

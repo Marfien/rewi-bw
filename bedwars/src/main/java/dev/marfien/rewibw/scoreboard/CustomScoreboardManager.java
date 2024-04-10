@@ -97,7 +97,7 @@ public class CustomScoreboardManager {
         @EventHandler
         private void onJoin(PlayerJoinEvent event) {
             Player player = event.getPlayer();
-            //player.setScoreboard(getNewScoreboard(player));
+            RewiBWPlugin.getScheduler().runTaskLater(() -> player.setScoreboard(getNewScoreboard(player)), 10L);
         }
 
         private static Scoreboard getNewScoreboard(Player player) {
