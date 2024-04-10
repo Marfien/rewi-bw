@@ -7,6 +7,7 @@ import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.end.EndGameState;
 import dev.marfien.rewibw.game.playing.item.SpectatorCompass;
 import dev.marfien.rewibw.perk.PerkManager;
+import dev.marfien.rewibw.statistics.StatisticsManager;
 import dev.marfien.rewibw.team.GameTeam;
 import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.Bukkit;
@@ -67,6 +68,7 @@ public class PlayerDeathListener implements Listener {
         Player killer = player.getKiller();
 
         if (killer != null && killer != player) {
+            StatisticsManager.addKill(killer.getUniqueId());
             PerkManager.KILL_SOUND_PERK_GROUP.getPerk(player).ifPresent(perk -> {
                 Sound sound = perk.getData();
                 player.playSound(player.getLocation(), sound, 1.0F, 1.0F);
