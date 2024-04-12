@@ -3,7 +3,10 @@ package dev.marfien.rewibw.game.playing.listener;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.util.LazyValue;
+import dev.marfien.rewibw.world.MapWorld;
 import lombok.RequiredArgsConstructor;
+import net.minecraft.server.v1_8_R3.LazyInitVar;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
@@ -20,10 +23,16 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.*;
 import org.spigotmc.event.player.PlayerSpawnLocationEvent;
 
+import java.util.function.Supplier;
+
 @RequiredArgsConstructor
 public class SpectatorListener implements Listener {
 
-    private final Location spectatorSpawn;
+    private final LazyValue<Location> spectatorSpawn;
+
+    public SpectatorListener(Supplier<Location> spectatorSpawn) {
+        this.spectatorSpawn = new LazyValue<>(spectatorSpawn);
+    }
 
     @EventHandler
     private void onHit(EntityDamageByEntityEvent event) {
@@ -58,14 +67,14 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
-        event.setSpawnLocation(this.spectatorSpawn);
+        event.setSpawnLocation(this.spectatorSpawn.get());
     }
 
     @EventHandler
     private void onSpawn(PlayerRespawnEvent event) {
         if (!PlayerManager.isSpectator(event.getPlayer())) return;
 
-        event.setRespawnLocation(this.spectatorSpawn);
+        event.setRespawnLocation(this.spectatorSpawn.get());
     }
 
     @EventHandler

@@ -148,7 +148,7 @@ public class GameTeam {
     }
 
     public String getScoreboardEntry(boolean bedAlive) {
-        return (bedAlive ? ChatColor.RESET : ChatColor.BLACK) + this.color.getDisplayName();
+        return (bedAlive ? ChatColor.DARK_BLUE : ChatColor.BLACK) + this.color.getDisplayName();
     }
 
     public int size() {

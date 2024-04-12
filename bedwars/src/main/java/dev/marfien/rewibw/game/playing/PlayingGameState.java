@@ -55,7 +55,7 @@ public class PlayingGameState extends GameState {
                 new PlayerDeathListener(),
                 new MiscListener(),
                 new TeamSpawnProtectListener(),
-                new SpectatorListener(map.asLocation(MapConfig::getSpectatorSpawn)),
+                new SpectatorListener(() -> map.asLocation(MapConfig::getSpectatorSpawn)),
                 new BlockListener(map.getConfig().getMap().getBorder().getSnapshot()),
                 new Parachute.ParachuteListener(),
                 new Teleporter.TeleporterListener(),
