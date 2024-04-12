@@ -47,8 +47,7 @@ public class CpsTester extends FakePlayer {
         GameProfile playerProfile = ((CraftPlayer) player).getHandle().getProfile();
         GameProfile profile = new GameProfile(super.getProfile().getId(), super.getProfile().getName());
         playerProfile.getProperties().get("textures").forEach(property -> profile.getProperties().put("textures", property));
-        return packet.new PlayerInfoData(profile, 1, WorldSettings.EnumGamemode.NOT_SET,
-                CraftChatMessage.fromString(profile.getName())[0]);
+        return packet.new PlayerInfoData(profile, 1, WorldSettings.EnumGamemode.NOT_SET, EMPTY_COMPONENT);
     }
 
     @Override

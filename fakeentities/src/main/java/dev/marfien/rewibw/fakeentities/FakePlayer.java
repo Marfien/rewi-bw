@@ -4,10 +4,7 @@ import com.mojang.authlib.GameProfile;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
-import net.minecraft.server.v1_8_R3.DataWatcher;
-import net.minecraft.server.v1_8_R3.PacketPlayOutNamedEntitySpawn;
-import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerInfo;
-import net.minecraft.server.v1_8_R3.WorldSettings;
+import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
@@ -23,6 +20,8 @@ import java.util.logging.Logger;
 @Getter
 @Setter
 public class FakePlayer extends AbstractFakeEntity {
+
+    public static final IChatBaseComponent EMPTY_COMPONENT = CraftChatMessage.fromString("")[0];
 
     private static final Field PLAYER_INFO_DATA_FIELD;
     private static final Field[] SPAWN_PACKET_FIELDS = new Field[9];
@@ -130,8 +129,7 @@ public class FakePlayer extends AbstractFakeEntity {
     }
 
     protected PacketPlayOutPlayerInfo.PlayerInfoData createPlayerInfoPacketData(Player player, PacketPlayOutPlayerInfo packet) {
-        return packet.new PlayerInfoData(this.profile, 1, WorldSettings.EnumGamemode.NOT_SET,
-                CraftChatMessage.fromString(this.profile.getName())[0]);
+        return packet.new PlayerInfoData(this.profile, 1, WorldSettings.EnumGamemode.NOT_SET, EMPTY_COMPONENT);
     }
 
 }
