@@ -49,10 +49,10 @@ public class TeamBed implements Listener {
         Block block = event.getBlock();
         block.getWorld().playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
 
-        this.team.getDisplayScoreboardTeam().updatePrefix();
         PlayingGameState.getSidebarObjective().removeScore(this.team.getScoreboardEntry());
         this.alive = false;
         this.team.updateScoreboardEntry();
+        this.team.getDisplayScoreboardTeam().updatePrefix();
         Message.broadcast(RewiBWPlugin.PREFIX + Message.BED_DESTROYED.format(this.team.getColor().getDisplayName(), breaker.getDisplayName()));
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.playSound(player.getLocation(), PerkManager.BED_DESTROY_SOUND_PERK_GROUP.getOrDefault(player).getData(), 1F, 0.8F);
