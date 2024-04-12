@@ -4,13 +4,10 @@ import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.util.LazyValue;
-import dev.marfien.rewibw.world.MapWorld;
 import lombok.RequiredArgsConstructor;
-import net.minecraft.server.v1_8_R3.LazyInitVar;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -59,17 +56,15 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onHunger(FoodLevelChangeEvent event) {
-        if (event.getEntityType() != EntityType.PLAYER) return;
-        if (!PlayerManager.isSpectator((Player) event.getEntity())) return;
+        Entity entity = event.getEntity();
+        if (!(entity instanceof Player)) return;
+        if (!PlayerManager.isSpectator((Player) entity)) return;
 
         event.setCancelled(true);
     }
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
-        Player player = event.getPlayer();
-        player.setAllowFlight(true);
-        player.setFlying(true);
         event.setSpawnLocation(this.spectatorSpawn.get());
     }
 

@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -49,7 +48,7 @@ public class TeamJoinerListener implements Listener {
     @EventHandler
     private void onPlayerInteract(PlayerInteractAtEntityEvent event) {
         Entity rightClicked = event.getRightClicked();
-        if (rightClicked.getType() != EntityType.ARMOR_STAND) return;
+        if (!(rightClicked instanceof ArmorStand)) return;
 
         GameTeam team = this.joiners.get(rightClicked.getUniqueId());
         if (team == null) return;
