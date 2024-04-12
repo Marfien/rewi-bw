@@ -64,7 +64,7 @@ public class SpectatorListener implements Listener {
     }
 
     @EventHandler
-    private void onSpawn(PlayerSpawnLocationEvent event) {
+    private void onSpawnLocation(PlayerSpawnLocationEvent event) {
         event.setSpawnLocation(this.spectatorSpawn.get());
     }
 

@@ -4,6 +4,7 @@ import dev.marfien.rewibw.util.Items;
 import lombok.experimental.UtilityClass;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.PlayerInventory;
@@ -40,6 +41,7 @@ public class PlayerManager {
         player.setAllowFlight(true);
         player.setFlying(true);
         player.spigot().setCollidesWithEntities(false);
+        ((CraftPlayer) player).getHandle().updateAbilities();
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other == player) continue;
