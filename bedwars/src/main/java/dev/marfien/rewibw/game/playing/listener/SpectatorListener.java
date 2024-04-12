@@ -46,6 +46,7 @@ public class SpectatorListener implements Listener {
     private void onJoin(PlayerJoinEvent event) {
         event.setJoinMessage(null);
         Player player = event.getPlayer();
+        PlayerManager.setSpectator(player);
         PlayerManager.hideSpectators(player);
     }
 
@@ -66,7 +67,6 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
-        PlayerManager.setSpectator(event.getPlayer());
         event.setSpawnLocation(this.spectatorSpawn.get());
     }
 
