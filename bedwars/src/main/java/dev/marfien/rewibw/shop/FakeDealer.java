@@ -5,8 +5,11 @@ import com.mojang.authlib.properties.Property;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.fakeentities.FakePlayer;
 import dev.marfien.rewibw.fakeentities.MobEquipment;
+import dev.marfien.rewibw.labymod.Emote;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+
+import java.util.concurrent.ThreadLocalRandom;
 
 public class FakeDealer extends FakePlayer {
 
@@ -27,6 +30,7 @@ public class FakeDealer extends FakePlayer {
     @Override
     public void onInteract(Player player) {
         if (PlayerManager.isSpectator(player)) return;
+        super.doEmote(player, Emote.values()[ThreadLocalRandom.current().nextInt(Emote.values().length)]);
         Shop.open(player);
     }
 }

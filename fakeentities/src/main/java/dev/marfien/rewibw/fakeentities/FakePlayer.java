@@ -1,12 +1,18 @@
 package dev.marfien.rewibw.fakeentities;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.mojang.authlib.GameProfile;
+import dev.marfien.rewibw.labymod.Emote;
+import dev.marfien.rewibw.labymod.LabyModProtocol;
+import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.SneakyThrows;
 import net.minecraft.server.v1_8_R3.*;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -22,6 +28,8 @@ import java.util.logging.Logger;
 public class FakePlayer extends AbstractFakeEntity {
 
     public static final IChatBaseComponent EMPTY_COMPONENT = CraftChatMessage.fromString("")[0];
+
+    private static long uuidMost = 0L;
 
     private static final Field PLAYER_INFO_DATA_FIELD;
     private static final Field[] SPAWN_PACKET_FIELDS = new Field[9];
@@ -73,8 +81,42 @@ public class FakePlayer extends AbstractFakeEntity {
             return;
         }
 
-        this.profile = new GameProfile(UUID.randomUUID(), profile.getName());
+        this.profile = new GameProfile(new UUID(uuidMost++, 0), profile.getName());
         profile.getProperties().get("textures").forEach(property -> this.profile.getProperties().put("textures", property));
+    }
+
+    public void doEmote(Emote emote) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("uuid", this.profile.getId().toString());
+        jsonObject.addProperty("emote_id", emote.getId());
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(jsonObject);
+
+        // Don't use the LabyModProtocol class here to avoid creating Packets for every player
+        byte[] bytes = LabyModProtocol.getBytesToSend("emote_api", jsonArray.toString());
+
+        PacketDataSerializer pds = new PacketDataSerializer(Unpooled.wrappedBuffer(bytes));
+        PacketPlayOutCustomPayload payloadPacket = new PacketPlayOutCustomPayload(LabyModProtocol.CHANNEL, pds);
+
+        for (Player player : super.getLoadedPlayers()) {
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(payloadPacket);
+        }
+    }
+
+    public void doEmote(Player player, Emote emote) {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("uuid", this.profile.getId().toString());
+        jsonObject.addProperty("emote_id", emote.getId());
+        JsonArray jsonArray = new JsonArray();
+        jsonArray.add(jsonObject);
+
+        // Don't use the LabyModProtocol class here to avoid creating Packets for every player
+        byte[] bytes = LabyModProtocol.getBytesToSend("emote_api", jsonArray.toString());
+
+        PacketDataSerializer pds = new PacketDataSerializer(Unpooled.wrappedBuffer(bytes));
+        PacketPlayOutCustomPayload payloadPacket = new PacketPlayOutCustomPayload(LabyModProtocol.CHANNEL, pds);
+
+        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(payloadPacket);
     }
 
     @Override
