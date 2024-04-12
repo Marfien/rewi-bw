@@ -67,6 +67,9 @@ public class SpectatorListener implements Listener {
 
     @EventHandler
     private void onSpawn(PlayerSpawnLocationEvent event) {
+        Player player = event.getPlayer();
+        player.setAllowFlight(true);
+        player.setFlying(true);
         event.setSpawnLocation(this.spectatorSpawn.get());
     }
 
