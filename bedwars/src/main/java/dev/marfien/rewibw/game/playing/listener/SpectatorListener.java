@@ -71,7 +71,7 @@ public class SpectatorListener implements Listener {
     }
 
     @EventHandler
-    private void onSpawn(PlayerRespawnEvent event) {
+    private void onRespawn(PlayerRespawnEvent event) {
         if (!PlayerManager.isSpectator(event.getPlayer())) return;
 
         event.setRespawnLocation(this.spectatorSpawn.get());
@@ -86,12 +86,22 @@ public class SpectatorListener implements Listener {
     }
 
     @EventHandler
+    private void onMove(PlayerMoveEvent event) {
+        if (!PlayerManager.isSpectator(event.getPlayer())) return;
+
+        if (event.getTo().getY() < -64) {
+            event.getPlayer().teleport(this.spectatorSpawn.get());
+        }
+    }
+
+    @EventHandler
     private void onChat(AsyncPlayerChatEvent event) {
         Player player = event.getPlayer();
         if (!PlayerManager.isSpectator(player)) return;
 
         event.setCancelled(true);
-        PlayerManager.forAllSpectators(member -> member.sendMessage("§8[§7SPECTATOR§8] §7" + player.getName() + "§8 » §f" + event.getMessage()));
+        String message = "§8[§7SPECTATOR§8] §7" + player.getName() + "§8 » §f" + event.getMessage();
+        PlayerManager.forAllSpectators(member -> member.sendMessage(message));
     }
 
     @EventHandler

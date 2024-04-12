@@ -38,14 +38,13 @@ public class PlayerManager {
         SPECTATORS.add(player);
         resetPlayerStatus(player);
         player.setAllowFlight(true);
+        player.setFlying(true);
         player.spigot().setCollidesWithEntities(false);
 
         for (Player other : Bukkit.getOnlinePlayers()) {
             if (other == player) continue;
             other.hidePlayer(player);
         }
-
-        RewiBWPlugin.getScheduler().runTaskLater(() -> player.setFlying(true), 10);
 
         Inventory inventory = player.getInventory();
         inventory.setItem(0, Items.SPECTATOR_COMPASS);
