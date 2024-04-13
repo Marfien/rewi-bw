@@ -61,7 +61,7 @@ public abstract class ParticlePerk extends Perk {
                 );
                 return;
             }
-            this.effect.display(RANDOM.nextFloat(), RANDOM.nextFloat(), RANDOM.nextFloat(), 0, 1, location, 64);
+            this.effect.display(RANDOM.nextFloat(), RANDOM.nextFloat(), RANDOM.nextFloat(), 1, 0, location, 64);
         }
     }
 

@@ -86,7 +86,7 @@ public class PerkManager {
                     new ParticlePerk.StaticParticlePerk("Flammen", ItemBuilder.of(Material.BLAZE_POWDER).setDisplayName("§dFlammen").asItemStack(), ParticleEffect.FLAME),
                     new ParticlePerk.NoteParticlePerk("Noten", ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§dNoten").asItemStack()),
                     new ParticlePerk.StaticParticlePerk("Funken", ItemBuilder.of(Material.NETHER_STAR).setDisplayName("§dFunken").asItemStack(), ParticleEffect.FIREWORKS_SPARK),
-                    new ParticlePerk.ColoredParticlePerk("Redstone Staub", ItemBuilder.of(Material.REDSTONE).setDisplayName("§dRedstone Staub").asItemStack(), ParticleEffect.REDSTONE, new Vector(1, 0, 0)),
+                    new ParticlePerk.ColoredParticlePerk("Redstone Staub", ItemBuilder.of(Material.REDSTONE).setDisplayName("§dRedstone Staub").asItemStack(), ParticleEffect.REDSTONE, new Vector()),
                     new ParticlePerk.StaticParticlePerk("Slime", ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§dSlime").asItemStack(), ParticleEffect.SLIME),
                     new ParticlePerk.StaticParticlePerk("Feuer", ItemBuilder.of(Material.LAVA_BUCKET).setDisplayName("§dFeuer").asItemStack(), ParticleEffect.LAVA),
                     new ParticlePerk.ColoredParticlePerk("Bunter Staub", ItemBuilder.of(Material.GLOWSTONE_DUST).setDisplayName("§dBunter Staub").asItemStack(), ParticleEffect.REDSTONE)
