@@ -89,7 +89,7 @@ public class PerkManager {
                     new ParticlePerk.ColoredParticlePerk("Redstone Staub", ItemBuilder.of(Material.REDSTONE).setDisplayName("§dRedstone Staub").asItemStack(), ParticleEffect.REDSTONE, new Vector(1, 0, 0)),
                     new ParticlePerk.StaticParticlePerk("Slime", ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§dSlime").asItemStack(), ParticleEffect.SLIME),
                     new ParticlePerk.StaticParticlePerk("Feuer", ItemBuilder.of(Material.LAVA_BUCKET).setDisplayName("§dFeuer").asItemStack(), ParticleEffect.LAVA),
-                    new ParticlePerk.ColoredParticlePerk("Bunter Staub", ItemBuilder.of(Material.GLOWSTONE).setDisplayName("§dBunter Staub").asItemStack(), ParticleEffect.REDSTONE)
+                    new ParticlePerk.ColoredParticlePerk("Bunter Staub", ItemBuilder.of(Material.GLOWSTONE_DUST).setDisplayName("§dBunter Staub").asItemStack(), ParticleEffect.REDSTONE)
             )
     };
 

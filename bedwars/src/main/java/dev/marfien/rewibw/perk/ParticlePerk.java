@@ -55,7 +55,7 @@ public abstract class ParticlePerk extends Perk {
                         (float) this.color.getY(),
                         (float) this.color.getZ(),
                         0,
-                        1,
+                        0,
                         location,
                         64
                 );
@@ -67,16 +67,13 @@ public abstract class ParticlePerk extends Perk {
 
     public static class NoteParticlePerk extends ParticlePerk {
 
-        private final ParticleEffect effect;
-
-        public NoteParticlePerk(String name, ItemStack displayItem, ParticleEffect effect) {
+        public NoteParticlePerk(String name, ItemStack displayItem) {
             super(name, displayItem);
-            this.effect = effect;
         }
 
         @Override
         public void spawnParticle(Location location) {
-            this.effect.display(RANDOM.nextFloat(), 0, 0, 0, 0, location, 64);
+            ParticleEffect.NOTE.display(RANDOM.nextFloat(), 0, 0, 1, 0, location, 64);
         }
     }
 
