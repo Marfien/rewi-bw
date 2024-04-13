@@ -84,7 +84,7 @@ public class PerkManager {
                     null,
                     new ParticlePerk.StaticParticlePerk("Herz", ItemBuilder.of(Material.RED_ROSE).setDisplayName("§dHerz").asItemStack(), ParticleEffect.HEART),
                     new ParticlePerk.StaticParticlePerk("Flammen", ItemBuilder.of(Material.BLAZE_POWDER).setDisplayName("§dFlammen").asItemStack(), ParticleEffect.FLAME),
-                    new ParticlePerk.NoteParticlePerk("Noten", ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§dNoten").asItemStack(), ParticleEffect.NOTE),
+                    new ParticlePerk.NoteParticlePerk("Noten", ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§dNoten").asItemStack()),
                     new ParticlePerk.StaticParticlePerk("Funken", ItemBuilder.of(Material.NETHER_STAR).setDisplayName("§dFunken").asItemStack(), ParticleEffect.FIREWORKS_SPARK),
                     new ParticlePerk.ColoredParticlePerk("Redstone Staub", ItemBuilder.of(Material.REDSTONE).setDisplayName("§dRedstone Staub").asItemStack(), ParticleEffect.REDSTONE, new Vector(1, 0, 0)),
                     new ParticlePerk.StaticParticlePerk("Slime", ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§dSlime").asItemStack(), ParticleEffect.SLIME),
