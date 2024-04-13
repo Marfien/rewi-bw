@@ -13,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.meta.BannerMeta;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.util.Vector;
 
 @UtilityClass
 public class PerkManager {
@@ -81,13 +82,14 @@ public class PerkManager {
                     "bow_particles",
                     ItemBuilder.of(Material.BOW).setDisplayName("§6Bogen-Particle").asItemStack(),
                     null,
-                    new DataPerk<>("Herz", ItemBuilder.of(Material.RED_ROSE).setDisplayName("§dHerz").asItemStack(), ParticleEffect.HEART),
-                    new DataPerk<>("Flammen", ItemBuilder.of(Material.BLAZE_POWDER).setDisplayName("§dFlammen").asItemStack(), ParticleEffect.FLAME),
-                    new DataPerk<>("Noten", ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§dNoten").asItemStack(), ParticleEffect.NOTE),
-                    new DataPerk<>("Funken", ItemBuilder.of(Material.NETHER_STAR).setDisplayName("§dFunken").asItemStack(), ParticleEffect.FIREWORKS_SPARK),
-                    new DataPerk<>("Slime", ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§dSlime").asItemStack(), ParticleEffect.SLIME),
-                    new DataPerk<>("Feuer", ItemBuilder.of(Material.LAVA_BUCKET).setDisplayName("§dFeuer").asItemStack(), ParticleEffect.LAVA),
-                    new DataPerk<>("Bunter Staub", ItemBuilder.of(Material.GLOWSTONE).setDisplayName("§dBunter Staub").asItemStack(), ParticleEffect.REDSTONE)
+                    new ParticlePerk.StaticParticlePerk("Herz", ItemBuilder.of(Material.RED_ROSE).setDisplayName("§dHerz").asItemStack(), ParticleEffect.HEART),
+                    new ParticlePerk.StaticParticlePerk("Flammen", ItemBuilder.of(Material.BLAZE_POWDER).setDisplayName("§dFlammen").asItemStack(), ParticleEffect.FLAME),
+                    new ParticlePerk.NoteParticlePerk("Noten", ItemBuilder.of(Material.NOTE_BLOCK).setDisplayName("§dNoten").asItemStack(), ParticleEffect.NOTE),
+                    new ParticlePerk.StaticParticlePerk("Funken", ItemBuilder.of(Material.NETHER_STAR).setDisplayName("§dFunken").asItemStack(), ParticleEffect.FIREWORKS_SPARK),
+                    new ParticlePerk.ColoredParticlePerk("Redstone Staub", ItemBuilder.of(Material.REDSTONE).setDisplayName("§dRedstone Staub").asItemStack(), ParticleEffect.REDSTONE, new Vector(1, 0, 0)),
+                    new ParticlePerk.StaticParticlePerk("Slime", ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§dSlime").asItemStack(), ParticleEffect.SLIME),
+                    new ParticlePerk.StaticParticlePerk("Feuer", ItemBuilder.of(Material.LAVA_BUCKET).setDisplayName("§dFeuer").asItemStack(), ParticleEffect.LAVA),
+                    new ParticlePerk.ColoredParticlePerk("Bunter Staub", ItemBuilder.of(Material.GLOWSTONE).setDisplayName("§dBunter Staub").asItemStack(), ParticleEffect.REDSTONE)
             )
     };
 

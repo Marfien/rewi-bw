@@ -2,7 +2,10 @@ package dev.marfien.rewibw.perk;
 
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.RewiBWPlugin;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
@@ -20,10 +23,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>> {
+public class ProjectileTailPerkGroup extends PerkGroup<ParticlePerk> {
 
-    @SafeVarargs
-    public ProjectileTailPerkGroup(String key, ItemStack displayItem, DataPerk<ParticleEffect> defaultPerk, DataPerk<ParticleEffect>... perks) {
+    public ProjectileTailPerkGroup(String key, ItemStack displayItem, ParticlePerk defaultPerk, ParticlePerk... perks) {
         super(key, displayItem, defaultPerk, perks);
     }
 
@@ -46,13 +48,10 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
             if (!(shooter instanceof Player)) return;
             Player player = (Player) shooter;
 
-            DataPerk<ParticleEffect> data = getOrDefault(player);
-            if (data == null) return;
-            ParticleEffect effect = data.getData();
-
-            if (effect == null) return;
-
-            this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, effect).runTaskTimer(RewiBWPlugin.getInstance(), 0, 1));
+            ParticlePerk perk = getOrDefault(player);
+            if (perk != null) {
+                this.effectTasks.put(projectile, new ProjectileParticleTask(projectile, perk).runTaskTimer(RewiBWPlugin.getInstance(), 0, 1));
+            }
         }
 
         @EventHandler
@@ -64,19 +63,15 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
         }
     }
 
+    @RequiredArgsConstructor
     private static class ProjectileParticleTask extends BukkitRunnable {
 
-        private static final Random RANDOM = new Random();
-
         private final Projectile projectile;
-        private final ParticleEffect effect;
-        private final boolean isColorable;
+        private final ParticlePerk perk;
 
-        public ProjectileParticleTask(Projectile projectile, ParticleEffect effect) {
-            this.projectile = projectile;
-            this.effect = effect;
-            this.isColorable = effect == ParticleEffect.REDSTONE || effect == ParticleEffect.SPELL_MOB || effect == ParticleEffect.SPELL_MOB_AMBIENT;
-        }
+        // Will be filled by the entity every tick
+        // Used to avoid creating a new Location object every tick
+        private final Location location = new Location(null, 0, 0, 0);
 
         @Override
         public void run() {
@@ -85,12 +80,8 @@ public class ProjectileTailPerkGroup extends PerkGroup<DataPerk<ParticleEffect>>
                 return;
             }
 
-            if (this.isColorable) {
-                this.effect.display(RANDOM.nextFloat(), RANDOM.nextFloat(), RANDOM.nextFloat(), 0, 1, this.projectile.getLocation(), 64);
-            } else {
-                this.effect.display(0, 0, 0, 0, 1, this.projectile.getLocation(), 64);
-            }
-
+            this.projectile.getLocation(this.location);
+            this.perk.spawnParticle(this.location);
         }
     }
 
