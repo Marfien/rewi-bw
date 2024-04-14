@@ -32,7 +32,7 @@ public class PlayerDeathListener implements Listener {
         Player player = event.getPlayer();
         if (player.getNoDamageTicks() > 0) return;
 
-        if (event.getTo().getY() < -64) {
+        if (event.getTo().getY() < -50) {
             Player killer = player.getKiller();
             player.damage(20.0, killer == null ? player : killer);
         }
@@ -163,6 +163,7 @@ public class PlayerDeathListener implements Listener {
         RewiBWPlugin.getScheduler().runTaskLater(() -> {
             for (Player other : Bukkit.getOnlinePlayers()) {
                 other.showPlayer(player);
+                player.setSaturation(10);
             }
         }, 20L);
     }

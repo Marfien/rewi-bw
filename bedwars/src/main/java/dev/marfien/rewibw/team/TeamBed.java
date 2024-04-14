@@ -7,6 +7,7 @@ import dev.marfien.rewibw.perk.PerkManager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Effect;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -73,4 +74,10 @@ public class TeamBed implements Listener {
         return block.equals(this.firstBedBlock) || block.equals(this.secondBedBlock);
     }
 
+    public double distanceSquared(Location location) {
+        return Math.min(
+                this.firstBedBlock.getLocation().distanceSquared(location),
+                this.secondBedBlock.getLocation().distanceSquared(location)
+        );
+    }
 }

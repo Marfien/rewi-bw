@@ -29,6 +29,8 @@ public class PlayerManager {
         player.setTotalExperience(0);
         player.setFallDistance(0);
         player.setGameMode(GameMode.SURVIVAL);
+        player.setAllowFlight(false);
+        player.setFlying(false);
         PlayerInventory inventory = player.getInventory();
         inventory.setHeldItemSlot(0);
         inventory.clear();

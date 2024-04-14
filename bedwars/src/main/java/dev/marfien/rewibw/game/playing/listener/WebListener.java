@@ -2,6 +2,9 @@ package dev.marfien.rewibw.game.playing.listener;
 
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.team.GameTeam;
+import dev.marfien.rewibw.team.TeamBed;
+import dev.marfien.rewibw.team.TeamManager;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -27,14 +30,22 @@ public class WebListener implements Listener {
         if (placed.getType() != Material.WEB) return;
 
         Player player = event.getPlayer();
-        long lastPlace = lastWebPlace.getOrDefault(player, 0L);
+        long lastPlace = this.lastWebPlace.getOrDefault(player, 0L);
         if (System.currentTimeMillis() - lastPlace < 20_000) {
             event.setCancelled(true);
             player.sendMessage(RewiBWPlugin.PREFIX + Message.WEB_COOLDOWN);
             return;
         }
 
-        lastWebPlace.put(player, System.currentTimeMillis());
+        for (GameTeam team : TeamManager.getTeams()) {
+            TeamBed bed = team.getBed();
+            if (bed.isAlive() && bed.distanceSquared(placed.getLocation()) < 2) {
+                RewiBWPlugin.getPluginLogger().debug("Web placed near bed");
+                return;
+            }
+        }
+
+        this.lastWebPlace.put(player, System.currentTimeMillis());
         this.removeTaskByBlock.put(placed, RewiBWPlugin.getScheduler().runTaskLater(() -> {
             event.getBlockReplacedState().update(true, false);
             this.removeTaskByBlock.remove(placed);
