@@ -116,9 +116,6 @@ public class RewiBWPlugin extends JavaPlugin {
         Bukkit.getPluginCommand("map").setExecutor(new MapCommand());
         Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand(lobbyGameState.getMapVoting()));
         Bukkit.getPluginCommand("music").setExecutor(new MusicCommand());
-
-        // g#
-        //
     }
 
     @Override
