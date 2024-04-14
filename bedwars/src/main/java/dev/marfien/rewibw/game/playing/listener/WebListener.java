@@ -31,7 +31,9 @@ public class WebListener implements Listener {
 
         for (GameTeam team : TeamManager.getTeams()) {
             TeamBed bed = team.getBed();
-            if (bed.isAlive() && bed.distanceSquared(placed.getLocation()) < 2.01) {
+            double distance = bed.getFirstBedBlock().getLocation().distance(placed.getLocation());
+            if (bed.isAlive() && distance < 2.01) {
+                event.getPlayer().sendMessage("Distance to bed: " + distance);
                 RewiBWPlugin.getPluginLogger().debug("Web placed near bed");
                 return;
             }
