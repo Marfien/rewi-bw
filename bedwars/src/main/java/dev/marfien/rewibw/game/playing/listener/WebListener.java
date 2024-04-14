@@ -29,20 +29,20 @@ public class WebListener implements Listener {
         Block placed = event.getBlockPlaced();
         if (placed.getType() != Material.WEB) return;
 
+        for (GameTeam team : TeamManager.getTeams()) {
+            TeamBed bed = team.getBed();
+            if (bed.isAlive() && bed.distanceSquared(placed.getLocation()) < 2.01) {
+                RewiBWPlugin.getPluginLogger().debug("Web placed near bed");
+                return;
+            }
+        }
+
         Player player = event.getPlayer();
         long lastPlace = this.lastWebPlace.getOrDefault(player, 0L);
         if (System.currentTimeMillis() - lastPlace < 20_000) {
             event.setCancelled(true);
             player.sendMessage(RewiBWPlugin.PREFIX + Message.WEB_COOLDOWN);
             return;
-        }
-
-        for (GameTeam team : TeamManager.getTeams()) {
-            TeamBed bed = team.getBed();
-            if (bed.isAlive() && bed.distanceSquared(placed.getLocation()) < 2) {
-                RewiBWPlugin.getPluginLogger().debug("Web placed near bed");
-                return;
-            }
         }
 
         this.lastWebPlace.put(player, System.currentTimeMillis());
