@@ -19,3 +19,4 @@ commands:
     description: Setzt die Map
     usage: /forcemap [map]
     permission: rewibw.forcemap
+  music:
