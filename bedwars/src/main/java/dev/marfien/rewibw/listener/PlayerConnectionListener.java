@@ -13,6 +13,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.server.ServerListPingEvent;
 
 import java.io.IOException;
 import java.util.concurrent.ThreadLocalRandom;
@@ -41,6 +42,11 @@ public class PlayerConnectionListener implements Listener {
         PlayerManager.resetPlayerStatus(player);
 
         ((CraftPlayer) player).getHandle().playerConnection.sendPacket(TABLIST_PACKET);
+    }
+
+    @EventHandler
+    private void onPing(ServerListPingEvent event) {
+        event.setMaxPlayers(RewiBWPlugin.getPluginConfig().getTeams().getMaxPlayers());
     }
 
 }
