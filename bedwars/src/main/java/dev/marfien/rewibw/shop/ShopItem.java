@@ -7,13 +7,12 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 @Getter
-public abstract class ShopItem implements Shoppable {
+public abstract class ShopItem extends Shoppable {
 
-    private final ShopPrice price;
     private final int shiftClickMultiplier;
 
     protected ShopItem(ShopPrice price, int shiftClickMultiplier) {
-        this.price = price;
+        super(price);
         this.shiftClickMultiplier = shiftClickMultiplier;
     }
 
@@ -94,7 +93,7 @@ public abstract class ShopItem implements Shoppable {
 
     void addPriceToLore(ItemStack itemStack) {
         ItemBuilder.of(itemStack)
-                .addLoreLines(" ", " " + price.toColoredString());
+                .addLoreLines(" ", " " + super.getPrice().toColoredString());
     }
 
 }

@@ -1,6 +1,8 @@
 package dev.marfien.rewibw.shop;
 
 import dev.marfien.rewibw.Message;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -11,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public interface Shoppable extends ShopButton {
+@Getter
+@RequiredArgsConstructor
+public abstract class Shoppable implements ShopButton {
 
-    Shoppable SPACER = new Shoppable() {
+    public static final Shoppable SPACER = new Shoppable(null) {
         @Override
         public ShopPrice getPrice() {
             return null;
@@ -40,43 +44,62 @@ public interface Shoppable extends ShopButton {
         }
     };
 
-    ShopPrice getPrice();
+    private final ShopPrice price;
 
-    boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot);
+    public abstract boolean giveToPlayer(Player player, ItemStack[] contents, int multiplier, int slot);
 
-    int getShiftClickMultiplier();
+    public abstract int getShiftClickMultiplier();
 
-    // TODO: Reduce compexity
     @Override
-    default void onClick(InventoryClickEvent event) {
+    public void onClick(InventoryClickEvent event) {
         Player clicker = (Player) event.getWhoClicked();
         Inventory playerInventory = clicker.getInventory();
-        ShopPrice price = this.getPrice();
-
-        int maxMultiplier = event.isShiftClick()
-                ? this.getShiftClickMultiplier()
-                : 1;
 
         ItemStack[] inventoryContents = playerInventory.getContents().clone();
 
-        List<int[]> slots = new ArrayList<>(inventoryContents.length / 2);
+        List<int[]> slotsWithAmount = this.getSortedSlotAmountMap(inventoryContents);
+        int multiplier = this.getMultiplierAndRemoveResources(
+                inventoryContents,
+                slotsWithAmount,
+                event.isShiftClick() ? this.getShiftClickMultiplier() : 1
+        );
 
-        // Collect all the slots with matching resource type
-        for (int i = 0; i < inventoryContents.length; i++) {
-            ItemStack current = inventoryContents[i];
-            if (current != null && price.getType().getMaterial() == current.getType()) {
-                slots.add(new int[]{i, current.getAmount()});
-            }
-        }
-
-        if (slots.isEmpty()) {
+        if (multiplier < 0) {
             clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
             clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
             return;
         }
 
+        if (!this.giveToPlayer(clicker, inventoryContents, multiplier, event.getHotbarButton())) {
+            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_SPACE);
+            clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
+            return;
+        }
+
+        playerInventory.setContents(inventoryContents);
+        clicker.playSound(clicker.getLocation(), Sound.ITEM_PICKUP, 1, 1);
+    }
+
+    private List<int[]> getSortedSlotAmountMap(ItemStack[] inventoryContents) {
+        List<int[]> slots = new ArrayList<>(inventoryContents.length / 2);
+
+        // Collect all the slots with matching resource type
+        for (int i = 0; i < inventoryContents.length; i++) {
+            ItemStack current = inventoryContents[i];
+            if (current != null && this.price.getType().getMaterial() == current.getType()) {
+                slots.add(new int[]{i, current.getAmount()});
+            }
+        }
+
         // Sort them so we get the one with the lowest quantity first
         slots.sort(Comparator.comparingInt(slot -> slot[1]));
+        return slots;
+    }
+
+    private int getMultiplierAndRemoveResources(ItemStack[] inventoryContents, List<int[]> slotsWithAmount, int maxMultiplier) {
+        if (slotsWithAmount.isEmpty()) {
+            return -1;
+        }
 
         // Calculate all slots we need to remove and check how many times this purchase will be done
         int resourcesFound = 0;
@@ -85,8 +108,7 @@ public interface Shoppable extends ShopButton {
         int lastSlot = -1;
         ItemStack itemInLastSlot = null;
 
-        outerLoop:
-        for (int[] slotAndAmount : slots) {
+        for (int[] slotAndAmount : slotsWithAmount) {
             int slot = slotAndAmount[0];
             resourcesFound += slotAndAmount[1];
 
@@ -94,38 +116,28 @@ public interface Shoppable extends ShopButton {
             itemInLastSlot = inventoryContents[slot];
             inventoryContents[slot] = null;
 
-            while (resourcesFound >= price.getAmount()) {
-                resourcesFound -= price.getAmount();
+            while (resourcesFound >= this.price.getAmount()) {
+                resourcesFound -= this.price.getAmount();
                 multiplier++;
 
-                if (multiplier >= maxMultiplier) break outerLoop;
+                if (multiplier >= maxMultiplier) break;
             }
 
             if (multiplier >= maxMultiplier) break;
         }
 
         if (multiplier == 0) {
-            clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_RESOURCES.format(price.getType().getTranslation()));
-            clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
-            return;
+            return -1;
         }
 
         // Clear the slots and set the last one to the rest of it
-        int rest = resourcesFound;
-        if (rest > 0) {
+        if (resourcesFound > 0) {
             itemInLastSlot = itemInLastSlot.clone();
-            itemInLastSlot.setAmount(rest);
+            itemInLastSlot.setAmount(resourcesFound);
             inventoryContents[lastSlot] = itemInLastSlot;
         }
 
-        if (this.giveToPlayer(clicker, inventoryContents, multiplier, event.getHotbarButton())) {
-            playerInventory.setContents(inventoryContents);
-            clicker.playSound(clicker.getLocation(), Sound.ITEM_PICKUP, 1, 1);
-            return;
-        }
-
-        clicker.sendMessage("§b[Shop] " + Message.SHOP_NOT_ENOUGH_SPACE);
-        clicker.playSound(clicker.getLocation(), Sound.NOTE_BASS_GUITAR, 1, 1);
+        return multiplier;
     }
 
 }

@@ -81,7 +81,7 @@ public class FakePlayer extends AbstractFakeEntity {
             return;
         }
 
-        this.profile = new GameProfile(new UUID(uuidMost++, 0), profile.getName());
+        this.profile = new GameProfile(new UUID(--uuidMost, 0), profile.getName());
         profile.getProperties().get("textures").forEach(property -> this.profile.getProperties().put("textures", property));
     }
 
