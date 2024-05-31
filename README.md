@@ -1,6 +1,6 @@
 # RewiBW Clone
 ### Disclaimer
-This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This plugin is not affiliated with Rewinside.tv in any way. This plugin is not intended to be used for commercial.
+This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This plugin is not affiliated nor related to Rewinside.tv in any way. This plugin is not intended to be used for commercial.
 
 ### Run locally
 ```shell
