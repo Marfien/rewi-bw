@@ -49,6 +49,7 @@ public class EndGameState extends GameState {
         LOGGER.info("Teleporting players to {}", spawn);
         for (Player player : Bukkit.getOnlinePlayers()) {
             player.teleport(spawn);
+            PlayerManager.resetPlayerStatus(player);
             PlayerManager.showSpectators(player);
             Inventory inventory = player.getInventory();
             inventory.clear();
