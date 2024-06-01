@@ -163,6 +163,7 @@ public class TeamManager {
             if (originalDamager instanceof Projectile) {
                 ProjectileSource shooter = ((Projectile) originalDamager).getShooter();
                 if (shooter instanceof Entity) {
+                    originalDamager.remove();
                     originalDamager = (Entity) shooter;
                 }
             }
