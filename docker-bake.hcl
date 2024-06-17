@@ -7,8 +7,8 @@ group "default" {
 }
 
 target "paper-base" {
-  args = {
-    BASE_IMAGE = "$BASE_IMAGE"
+  contexts = {
+    base-image = "docker-image://${BASE_IMAGE}"
   }
   context = "server-bin/"
 }
