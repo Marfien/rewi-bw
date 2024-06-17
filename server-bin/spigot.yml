@@ -1,0 +1,6 @@
+world-settings:
+  default:
+    anti-xray:
+      enabled: false
+    merge-radius:
+      item: 0.5
