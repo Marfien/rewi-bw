@@ -98,6 +98,8 @@ public class TeamBed implements Listener {
     private static void startBreakEffect(Location location) {
         HelixEffect effect = new HelixEffect(RewiBWPlugin.getEffectManager());
         effect.asynchronous = true;
+        effect.radius = 1;
+        effect.particles = 50;
         effect.setLocation(location);
         effect.particle = ParticleEffect.SPELL_WITCH;
         effect.offset = RewiBWPlugin.ZERO_VECTOR;
