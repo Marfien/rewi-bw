@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -174,6 +175,8 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
         public void onClick(GuiInventory inventory, InventoryClickEvent click) {
             Player clicker = (Player) click.getWhoClicked();
             PerkGroup.this.setPerk(clicker, this.perk);
+            inventory.update(click.getSlot(), clicker);
+            clicker.playSound(clicker.getLocation(), Sound.CLICK, 1, 1);
             clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(ChatColor.stripColor(this.perk.getName())));
         }
     }
