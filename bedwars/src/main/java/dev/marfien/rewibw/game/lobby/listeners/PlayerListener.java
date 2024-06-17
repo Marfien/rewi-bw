@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.FoodLevelChangeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
@@ -59,11 +60,32 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     private void onInteract(PlayerInteractEvent event) {
-        event.setCancelled(true);
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+            event.setCancelled(true);
+        }
+
+        switch (event.getClickedBlock().getType()) {
+            case ACACIA_DOOR:
+            case BIRCH_DOOR:
+            case DARK_OAK_DOOR:
+            case IRON_DOOR:
+            case JUNGLE_DOOR:
+            case SPRUCE_DOOR:
+            case WOOD_DOOR:
+            case TRAP_DOOR:
+            case WOODEN_DOOR:
+            case IRON_TRAPDOOR:
+            case STONE_BUTTON:
+            case WOOD_BUTTON:
+            case LEVER:
+                return;
+            default:
+                event.setCancelled(true);
+        }
     }
 
     @EventHandler
-    private void onInteract(PlayerInteractAtEntityEvent event) {
+    private void onInteractEntity(PlayerInteractAtEntityEvent event) {
         event.setCancelled(true);
     }
 
