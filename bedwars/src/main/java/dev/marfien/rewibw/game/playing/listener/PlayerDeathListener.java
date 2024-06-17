@@ -58,6 +58,7 @@ public class PlayerDeathListener implements Listener {
         Message.broadcast(RewiBWPlugin.PREFIX + getDeathMessage(player));
         PlayerManager.setSpectator(player);
         event.setCancelled(true);
+        player.playSound(player.getLocation(), Sound.HURT_FLESH, 1.0F, 1.0F);
         player.sendTitle(
                 player.getKiller() != null && player.getKiller() != player
                         ? Message.DEATH_TITLE_KILLED.toString()

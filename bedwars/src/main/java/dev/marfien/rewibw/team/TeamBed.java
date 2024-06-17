@@ -1,5 +1,7 @@
 package dev.marfien.rewibw.team;
 
+import de.slikey.effectlib.effect.HelixEffect;
+import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.playing.PlayingGameState;
@@ -12,11 +14,14 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.material.MaterialData;
 
 @Getter
@@ -48,6 +53,7 @@ public class TeamBed implements Listener {
         this.firstBedBlock.setType(Material.AIR);
         this.secondBedBlock.setType(Material.AIR);
         Block block = event.getBlock();
+        startBreakEffect(block.getLocation().add(0.5, 0.5, 0.5));
         block.getWorld().playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
 
         PlayingGameState.getSidebarObjective().removeScore(this.team.getScoreboardEntry());
@@ -70,8 +76,16 @@ public class TeamBed implements Listener {
         event.setCancelled(false);
     }
 
+    @EventHandler
+    private void onInteract(PlayerInteractEvent event) {
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+        if (!this.isValid(event.getClickedBlock())) return;
+
+        event.setUseInteractedBlock(Event.Result.DENY);
+    }
+
     private boolean isValid(Block block) {
-        return block.equals(this.firstBedBlock) || block.equals(this.secondBedBlock);
+        return this.firstBedBlock.equals(block) || this.secondBedBlock.equals(block);
     }
 
     public double distanceSquared(Location location) {
@@ -79,5 +93,15 @@ public class TeamBed implements Listener {
                 this.firstBedBlock.getLocation().distanceSquared(location),
                 this.secondBedBlock.getLocation().distanceSquared(location)
         );
+    }
+
+    private static void startBreakEffect(Location location) {
+        HelixEffect effect = new HelixEffect(RewiBWPlugin.getEffectManager());
+        effect.asynchronous = true;
+        effect.setLocation(location);
+        effect.particle = ParticleEffect.SPELL_WITCH;
+        effect.offset = RewiBWPlugin.ZERO_VECTOR;
+        effect.particleCount = 1;
+        effect.start();
     }
 }
