@@ -22,6 +22,30 @@ jobs:
   publish:
     needs: build
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform:
+          - linux/amd64
+          - linux/arm64
+        base-image:
+          - eclipse-temurin:8-jre
+          - eclipse-temurin:8-jre-alpine
+          - eclipse-temurin:8-jdk
+          - eclipse-temurin:8-jdk-alpine
+        include:
+          - base-image: eclipse-temurin:8-jre
+            tag-suffix: ''
+          - base-image: eclipse-temurin:8-jre-alpine
+            tag-suffix: '-alpine'
+          - base-image: eclipse-temurin:8-jdk
+            tag-suffix: '-jdk'
+          - base-image: eclipse-temurin:8-jdk-alpine
+            tag-suffix: '-jdk-alpine'
+        exclude:
+          - platform: linux/arm64
+            base-image: eclipse-temurin:8-jre-alpine
+          - platform: linux/arm64
+            base-image: eclipse-temurin:8-jdk-alpine
     env:
       TAGS: |
         type=ref,event=branch
@@ -51,6 +75,8 @@ jobs:
         with:
           images: marfiens/rewibw-server
           tags: ${{ env.TAGS }}
+          flavor: |
+            suffix=${{ matrix.tag-suffix }}
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
         uses: docker/metadata-action@v5
@@ -58,9 +84,13 @@ jobs:
         with:
           images: marfiens/rewibw-setup-tool
           tags: ${{ env.TAGS }}
+          flavor: |
+            suffix=${{ matrix.tag-suffix }}
           bake-target: docker-metadata-action-setup-tool
       - name: Build and push
         uses: docker/bake-action@v4
+        env:
+          BASE_IMAGE: ${{ matrix.base-image }}
         with:
           files: |
             ./docker-bake.hcl
@@ -69,5 +99,6 @@ jobs:
           push: true
           pull: true
           set: |
+            *.platform=${{ matrix.platform }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max

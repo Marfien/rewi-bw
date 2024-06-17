@@ -1,5 +1,5 @@
-variable "ONLINE_MODE" {
-  default = "true"
+variable "BASE_IMAGE" {
+  default = null
 }
 
 group "default" {
@@ -7,6 +7,9 @@ group "default" {
 }
 
 target "paper-base" {
+  args = {
+    BASE_IMAGE = "$BASE_IMAGE"
+  }
   context = "server-bin/"
 }
 

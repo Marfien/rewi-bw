@@ -1,11 +1,13 @@
-FROM eclipse-temurin:8-jre-alpine
+ARG BASE_IMAGE
+FROM $BASE_IMAGE
 
 EXPOSE 25565
 EXPOSE 5005
 EXPOSE 9010
 WORKDIR /server
 
-RUN apk add --no-cache libgcc
+# Install libgcc when running in alpine (for ssl certificates)
+RUN apk add --no-cache libgcc || true
 RUN wget -O spigot.jar https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/445/downloads/paper-1.8.8-445.jar
 # Precreate patched jars to speed up server startup
 RUN java -Dpaperclip.patchonly=true -jar spigot.jar

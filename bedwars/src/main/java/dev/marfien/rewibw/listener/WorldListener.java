@@ -56,6 +56,7 @@ public class WorldListener implements Listener {
             case VILLAGE_DEFENSE:
             case SILVERFISH_BLOCK:
                 event.setCancelled(true);
+                break;
             default:
                 break;
         }
