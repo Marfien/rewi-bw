@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.team;
 
+import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.HelixEffect;
 import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.Message;
@@ -99,7 +100,8 @@ public class TeamBed implements Listener {
         HelixEffect effect = new HelixEffect(RewiBWPlugin.getEffectManager());
         effect.asynchronous = true;
         effect.radius = 1;
-        effect.particles = 50;
+        effect.type = EffectType.INSTANT;
+        effect.particles = 20;
         effect.setLocation(location);
         effect.particle = ParticleEffect.SPELL_WITCH;
         effect.offset = RewiBWPlugin.ZERO_VECTOR;
