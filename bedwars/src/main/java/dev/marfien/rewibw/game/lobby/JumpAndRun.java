@@ -80,7 +80,7 @@ public class JumpAndRun {
                 super.display(particle, location, speed, 1);
             }
         };
-        effect.setLocation(location);
+        effect.setLocation(location.clone().add(0.1, 0, 0.1));
         effect.radius = (float) Math.sqrt(2) / 2;
         effect.enableRotation = false;
         effect.type = EffectType.REPEATING;
@@ -124,9 +124,12 @@ public class JumpAndRun {
 
         @EventHandler
         private void onJumpAndRunStart(PlayerMoveEvent event) {
-            if (event.getTo().distanceSquared(this.start) < 0.5) {
-                start(event.getPlayer());
-            }
+            if (event.getTo().distanceSquared(this.start) > 0.5) return;
+            Player player = event.getPlayer();
+            Long started = startTime.get(player);
+            if (started != null && System.currentTimeMillis() - started < 100) return;
+
+            start(player);
         }
 
         @EventHandler
