@@ -1,5 +1,6 @@
 package dev.marfien.rewibw.game.lobby.listeners;
 
+import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
@@ -117,10 +118,10 @@ public class CatchListener implements Listener {
     private void setCatchee(Player player) {
         if (this.catchee != null) {
             this.catchee.getInventory().setHelmet(null);
-            this.catchee.sendMessage(player.getDisplayName() + " hat dich gefangen!");
+            this.catchee.sendMessage("§8[§3Catch§8] " + Message.CATCH_CATCHED.format(player.getDisplayName()));
         }
 
-        player.sendMessage("Du hat den Kopf. Ren weg!");
+        player.sendMessage("§8[§3Catch§8] " + Message.CATCH_SELECTED);
         this.catchee = player;
         this.catchee.getInventory().setHelmet(nextColor());
     }

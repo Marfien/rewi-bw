@@ -89,6 +89,8 @@ public class Message {
     public static final Message MAP_NAME = system("Die Map heißt §a%s§r §8(§a%s§8)§r.");
     public static final Message JUMP_AND_RUN_FINISH = info("Du hast das Jump'n'Run in §a%s§r Sekunden geschafft!");
     public static final Message JUMP_AND_RUN_NEW_RECORD = info("Du hast einen neuen Rekord aufgestellt: §a%s§r.");
+    public static final Message CATCH_CATCHED = info("%s§r hat jetzt den Kopf. Schnell!");
+    public static final Message CATCH_SELECTED = info("Du hat jetzt den Kopf. Ren weg!");
 
     private final String string;
 
