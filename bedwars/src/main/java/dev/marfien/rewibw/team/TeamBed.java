@@ -101,7 +101,7 @@ public class TeamBed implements Listener {
         effect.asynchronous = true;
         effect.radius = 1;
         effect.type = EffectType.INSTANT;
-        effect.particles = 20;
+        effect.particles = 10;
         effect.setLocation(location);
         effect.particle = ParticleEffect.SPELL_WITCH;
         effect.offset = RewiBWPlugin.ZERO_VECTOR;
