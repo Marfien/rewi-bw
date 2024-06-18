@@ -61,7 +61,7 @@ public class EndGameState extends GameState {
 //        this.songPlayer.setPlaying(true);
 
         this.countdown.start();
-        LOGGER.info("Winner: {}", this.winner);
+        LOGGER.info("Winner: {}", this.winner.getColor());
         if (this.winner == null) {
             Message.broadcast(" ");
             Message.broadcast(Message.NO_WINNER.toString());

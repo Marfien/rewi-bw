@@ -23,7 +23,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CatchListener implements Listener {
 
-    private static final int MIN_PLAYERS = 1;
+    private static final int MIN_PLAYERS = 2;
 
     private static final ItemBuilder RAINBOW_HEAD = ItemBuilder.of(Material.WOOL)
             .setDisplayName("§c§lF§aa§6n§2g §em§2i§9c§dh§b!");
@@ -113,6 +113,8 @@ public class CatchListener implements Listener {
     private void setCatchee(Player player) {
         if (this.catchee != null) {
             this.catchee.getInventory().setHelmet(null);
+
+
             this.catchee.sendMessage("§8[§3Catch§8] " + Message.CATCH_CATCHED.format(player.getDisplayName()));
         }
 
@@ -128,13 +130,11 @@ public class CatchListener implements Listener {
     }
 
     private void findNewCachee() {
-        this.setCatchee(
-                Bukkit.getOnlinePlayers()
-                        .stream()
-                        .filter(player -> player != this.catchee)
-                        .findAny()
-                        .orElse(null)
-        );
+        Bukkit.getOnlinePlayers()
+                .stream()
+                .filter(player -> player != this.catchee)
+                .findAny()
+                .ifPresent(this::setCatchee);
     }
 
 }

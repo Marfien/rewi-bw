@@ -139,7 +139,8 @@ public class GameTeam {
     public void updateScoreboardEntry() {
         ScoreboardObjective objective = PlayingGameState.getSidebarObjective();
         if (objective != null) {
-            objective.setScore(this.getScoreboardEntry(), this.size());
+            objective.setScore(this.getScoreboardEntry(true), this.size());
+            objective.setScore(this.getScoreboardEntry(false), this.size());
         }
     }
 
