@@ -10,6 +10,15 @@ cps-tester:
   z: 2.5
   pitch: 0.0
   yaw: 0.0
+jump-and-run:
+  start:
+    x: 24.5
+    y: 64
+    z: 1.5
+  finish:
+    x: 26.5
+    y: 65
+    z: -8.5
 teams:
   red:
     joiner:

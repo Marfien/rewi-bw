@@ -79,8 +79,9 @@ public class JumpAndRun {
     private static Effect startCirclePositionEffect(Location location) {
         CircleEffect effect = new CircleEffect(RewiBWPlugin.getEffectManager());
         effect.setLocation(location);
-        effect.radius = 0.5f;
+        effect.radius = 0.6f;
         effect.enableRotation = false;
+        effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
         effect.period = 10;
