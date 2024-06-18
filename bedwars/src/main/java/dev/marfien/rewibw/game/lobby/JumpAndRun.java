@@ -85,7 +85,7 @@ public class JumpAndRun {
         effect.enableRotation = false;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 1;
+        effect.period = 2;
         effect.particles = 20;
         effect.start();
         return effect;
