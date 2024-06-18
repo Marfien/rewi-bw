@@ -57,7 +57,10 @@ public class LobbyCountdown extends AbstractCountdown {
 
     @Override
     public void onStop() {
-        // Nothing to do
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.setLevel(0);
+            player.setExp(0);
+        }
     }
 
     @SneakyThrows

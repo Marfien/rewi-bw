@@ -5,10 +5,7 @@ import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameStateManager;
 import dev.marfien.rewibw.game.lobby.LobbyGameState;
 import dev.marfien.rewibw.shared.ItemBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
-import org.bukkit.FireworkEffect;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Firework;
 import org.bukkit.entity.Player;
@@ -120,6 +117,7 @@ public class CatchListener implements Listener {
         }
 
         player.sendMessage("§8[§3Catch§8] " + Message.CATCH_SELECTED);
+        player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
         this.catchee = player;
         this.catchee.getInventory().setHelmet(nextColor());
     }
