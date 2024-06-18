@@ -36,7 +36,7 @@ public class CatchListener implements Listener {
     public CatchListener() {
         new BukkitRunnable() {
 
-            private int counter;
+            private int counter = 1;
 
             @Override
             public void run() {
@@ -52,6 +52,7 @@ public class CatchListener implements Listener {
                 if (this.counter++ % 30 == 0) {
                     Firework firework = catchee.getWorld().spawn(catchee.getLocation(), Firework.class);
                     FireworkMeta meta = firework.getFireworkMeta();
+                    meta.setPower(1);
                     meta.addEffect(createRandomEffect());
                     firework.setFireworkMeta(meta);
                 }

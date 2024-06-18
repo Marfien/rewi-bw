@@ -2,6 +2,7 @@ package dev.marfien.rewibw.game.lobby.listeners;
 
 import dev.marfien.rewibw.RewiBWPlugin;
 import lombok.RequiredArgsConstructor;
+import org.bukkit.Effect;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,6 +29,7 @@ public class PlayerListener implements Listener {
     private void onMoveBelowY(PlayerMoveEvent event) {
         if (event.getTo().getY() < 0) {
             event.getPlayer().teleport(this.spawn);
+            this.spawn.getWorld().playEffect(this.spawn, Effect.ENDER_SIGNAL, 0);
         }
     }
 
