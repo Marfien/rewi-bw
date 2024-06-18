@@ -11,6 +11,7 @@ public class Items {
 
     // Lobby Items
     public static final ItemStack QUIT_ITEM = ItemBuilder.of(Material.SLIME_BALL).setDisplayName("§eVerlassen").asItemStack();
+    public static final ItemStack JUMP_AND_RUN_RESET_ITEM = ItemBuilder.of(Material.GLOWSTONE_DUST).setDisplayName("§eZurück zum start").asItemStack();
     public static final ItemStack VOTE_ITEM = ItemBuilder.of(Material.PAPER).setDisplayName("§eMap-Voting").asItemStack();
     public static final ItemStack PERKS_ITEM = ItemBuilder.of(Material.DRAGON_EGG).setDisplayName("§ePerks").asItemStack();
 

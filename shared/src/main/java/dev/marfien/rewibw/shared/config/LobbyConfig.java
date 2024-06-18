@@ -7,6 +7,7 @@ import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 import org.spongepowered.configurate.objectmapping.meta.Required;
 
 import java.util.Map;
+import java.util.Optional;
 
 @Data
 @ConfigSerializable
@@ -18,6 +19,12 @@ public class LobbyConfig extends GameWorldConfig {
     @Required
     private Map<TeamColor, LobbyTeamConfig> teams;
 
+    private JumpAndRunConfig jumpAndRun;
+
+    public Optional<Position> getCpsTester() {
+        return Optional.ofNullable(this.cpsTester);
+    }
+
     @Data
     @ConfigSerializable
     public static class LobbyTeamConfig {
@@ -26,4 +33,14 @@ public class LobbyConfig extends GameWorldConfig {
         private Position[] displays;
 
     }
+
+    @Data
+    @ConfigSerializable
+    public static class JumpAndRunConfig {
+
+        private Position start;
+        private Position finish;
+
+    }
+
 }

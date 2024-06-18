@@ -6,10 +6,7 @@ import dev.marfien.rewibw.command.ForceMapCommand;
 import dev.marfien.rewibw.command.StartCommand;
 import dev.marfien.rewibw.fakeentities.FakeEntityManager;
 import dev.marfien.rewibw.game.GameState;
-import dev.marfien.rewibw.game.lobby.listeners.LobbyWorldListener;
-import dev.marfien.rewibw.game.lobby.listeners.PlayerConnectionListener;
-import dev.marfien.rewibw.game.lobby.listeners.PlayerListener;
-import dev.marfien.rewibw.game.lobby.listeners.TeamJoinerListener;
+import dev.marfien.rewibw.game.lobby.listeners.*;
 import dev.marfien.rewibw.perk.PerkGroup;
 import dev.marfien.rewibw.perk.PerkManager;
 import dev.marfien.rewibw.shared.Position;
@@ -53,6 +50,8 @@ public class LobbyGameState extends GameState {
         };
 
         this.itemManager.putHandler(Items.VOTE_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> this.mapVoting.openGui(event.getPlayer())));
+        this.itemManager.putHandler(Items.JUMP_AND_RUN_RESET_ITEM, new UsableItemInfo(ConsumeType.NONE,
+                event -> event.getPlayer().teleport(this.world.asLocation(config -> config.getJumpAndRun().getStart()))));
         this.itemManager.putHandler(Items.PERKS_ITEM, new UsableItemInfo(ConsumeType.NONE, event -> PerkManager.openGui(event.getPlayer())));
     }
 
@@ -64,20 +63,24 @@ public class LobbyGameState extends GameState {
         this.world.load();
 
         TeamManager.initTeams(this.world, this.teamJoinerListener);
-
         PerkManager.init(RewiBWPlugin.getInstance());
 
-        Position position = this.world.getConfig().getCpsTester();
-        if (position == null) return;
+        this.world.getConfig().getCpsTester().ifPresent(position -> {
+            FakeEntityManager.spawn(new CpsTester(position.toLocation(this.world.getWorld())));
+        });
+
+        if (this.world.getConfig().getJumpAndRun() != null) {
+            JumpAndRun.init(this.world);
+        }
 
         Bukkit.getPluginCommand("start").setExecutor(new StartCommand());
         Bukkit.getPluginCommand("forcemap").setExecutor(new ForceMapCommand(this.mapVoting));
 
-        FakeEntityManager.spawn(new CpsTester(position.toLocation(this.world.getWorld())));
     }
 
     @Override
     public void onStop() {
+        JumpAndRun.destroy();
         this.itemManager.shutdown();
         TeamManager.assignTeams();
         this.mapVoting.destroyGui();
