@@ -33,21 +33,21 @@ jobs:
           - base-image: eclipse-temurin:8-jre
             tag-suffix: ''
             set: |
-              *.platform='linux/amd64'
-              *.platform='linux/arm64'
+              *.platform=linux/amd64
+              *.platform=linux/arm64
           - base-image: eclipse-temurin:8-jre-alpine
             tag-suffix: '-alpine'
             set: |
-              *.platform='linux/amd64'
+              *.platform=linux/amd64
           - base-image: eclipse-temurin:8-jdk
             tag-suffix: '-jdk'
             set: |
-              *.platform='linux/amd64'
-              *.platform='linux/arm64'
+              *.platform=linux/amd64
+              *.platform=linux/arm64
           - base-image: eclipse-temurin:8-jdk-alpine
             tag-suffix: '-jdk-alpine'
             set: |
-              *.platform='linux/amd64'
+              *.platform=linux/amd64
     env:
       TAGS: |
         type=ref,event=branch
