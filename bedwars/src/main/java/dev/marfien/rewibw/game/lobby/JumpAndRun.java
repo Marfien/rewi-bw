@@ -49,20 +49,16 @@ public class JumpAndRun {
         startEffect = startCirclePositionEffect(listener.start);
         finishEffect = startCirclePositionEffect(listener.finish);
 
+        // 2 is actionbar
         PacketPlayOutChat packet = new PacketPlayOutChat(null, (byte) 2);
         packet.components = new BaseComponent[]{ new TextComponent() };
         actionbarBroadcaster = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
-            // 2 is actionbar
             long now = System.currentTimeMillis();
             for (Map.Entry<Player, Long> startTimeByPlayer : startTime.entrySet()) {
                 Player player = startTimeByPlayer.getKey();
                 long startTime = startTimeByPlayer.getValue();
-                long deltaTime = now - startTime;
-                long seconds = deltaTime / 1000;
-                long rest = deltaTime % 1000 / 10;
 
-                ((TextComponent) packet.components[0]).setText(String.format("§a§l%02d.%02ds", seconds, rest));
-
+                ((TextComponent) packet.components[0]).setText(ChatColor.DARK_AQUA + formatTime(now - startTime));
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
         }, 0, 1);
@@ -108,11 +104,10 @@ public class JumpAndRun {
 
         long time = System.currentTimeMillis() - started;
         Long previousRecord = records.get(player);
-        String timeString = String.format("%.2fs", time / 1000F);
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
-        player.sendMessage(Message.JUMP_AND_RUN_FINISH.format(String.valueOf(time)));
+        player.sendMessage("§8[§3JumpAndRun§6] " + Message.JUMP_AND_RUN_FINISH.format(formatTime(time)));
         if (previousRecord == null || time < previousRecord) {
-            player.sendMessage(Message.JUMP_AND_RUN_NEW_RECORD.format(timeString));
+            player.sendMessage("§8[§3JumpAndRun§6] " + Message.JUMP_AND_RUN_NEW_RECORD.format(formatTime(time)));
             records.put(player, time);
         }
     }
@@ -147,6 +142,10 @@ public class JumpAndRun {
             reset(event.getPlayer());
         }
 
+    }
+
+    private static String formatTime(long deltaTime) {
+        return String.format("%02.2ds", deltaTime / 1000f);
     }
 
 }

@@ -87,8 +87,8 @@ public class Message {
     public static final Message SPECTATOR_TARGET = of("Du bist nun in der Sicht von §a%s§r.", ChatColor.AQUA);
     public static final Message GAME_NOT_STARTED_YET = bad("Das Spiel hat noch nicht begonnen.");
     public static final Message MAP_NAME = system("Die Map heißt §a%s§r §8(§a%s§8)§r.");
-    public static final Message JUMP_AND_RUN_FINISH = good("Du hast das Jump'n'Run in §b%s§r Sekunden geschafft!");
-    public static final Message JUMP_AND_RUN_NEW_RECORD = good("Du hast einen neuen Rekord aufgestellt: §b%s§r.");
+    public static final Message JUMP_AND_RUN_FINISH = system("Du hast das Jump'n'Run in §a%s§r Sekunden geschafft!");
+    public static final Message JUMP_AND_RUN_NEW_RECORD = system("Du hast einen neuen Rekord aufgestellt: §a%s§r.");
 
     private final String string;
 
