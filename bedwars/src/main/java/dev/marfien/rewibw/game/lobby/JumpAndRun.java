@@ -62,6 +62,7 @@ public class JumpAndRun {
                 long rest = deltaTime % 1000 / 10;
 
                 ((TextComponent) packet.components[0]).setText(String.format("%02d.%02ds", seconds, rest));
+                player.spigot().sendMessage(packet.components);
 
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
@@ -90,7 +91,7 @@ public class JumpAndRun {
         effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 40;
+        effect.period = 30;
         effect.particles = 20;
         effect.start();
         return effect;
