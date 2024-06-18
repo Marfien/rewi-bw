@@ -105,10 +105,7 @@ public class GameTeam {
         player.setDisplayName(this.color.getChatColor() + player.getName());
         this.getEmptyDisplay().ifPresent(memberDisplay -> memberDisplay.setPlayer(player));
 
-        ScoreboardObjective objective = PlayingGameState.getSidebarObjective();
-        if (objective != null) {
-            objective.setScore(this.color.getDisplayName(), this.size());
-        }
+        this.updateScoreboardEntry();
     }
 
     void removeMember(Player player) {
@@ -117,10 +114,7 @@ public class GameTeam {
         player.setDisplayName(player.getName());
         this.getDisplayOfPlayer(player).ifPresent(TeamMemberDisplay::removePlayer);
 
-        ScoreboardObjective objective = PlayingGameState.getSidebarObjective();
-        if (objective != null) {
-            objective.setScore(this.color.getDisplayName(), this.size());
-        }
+        this.updateScoreboardEntry();
     }
 
     public Optional<TeamMemberDisplay> getEmptyDisplay() {
@@ -139,8 +133,7 @@ public class GameTeam {
     public void updateScoreboardEntry() {
         ScoreboardObjective objective = PlayingGameState.getSidebarObjective();
         if (objective != null) {
-            objective.setScore(this.getScoreboardEntry(true), this.size());
-            objective.setScore(this.getScoreboardEntry(false), this.size());
+            objective.setScore(this.getScoreboardEntry(), this.size());
         }
     }
 
