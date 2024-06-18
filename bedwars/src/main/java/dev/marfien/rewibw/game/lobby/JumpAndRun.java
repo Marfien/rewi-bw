@@ -3,6 +3,7 @@ package dev.marfien.rewibw.game.lobby;
 import de.slikey.effectlib.Effect;
 import de.slikey.effectlib.EffectType;
 import de.slikey.effectlib.effect.CircleEffect;
+import de.slikey.effectlib.util.ParticleEffect;
 import dev.marfien.rewibw.Message;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.util.Items;
@@ -77,7 +78,12 @@ public class JumpAndRun {
     }
 
     private static Effect startCirclePositionEffect(Location location) {
-        CircleEffect effect = new CircleEffect(RewiBWPlugin.getEffectManager());
+        CircleEffect effect = new CircleEffect(RewiBWPlugin.getEffectManager()) {
+            @Override
+            protected void display(ParticleEffect particle, Location location, float speed, int amount) {
+                super.display(particle, location, speed, 1);
+            }
+        };
         effect.setLocation(location);
         effect.radius = (float) Math.sqrt(2) / 2;
         effect.enableRotation = false;
