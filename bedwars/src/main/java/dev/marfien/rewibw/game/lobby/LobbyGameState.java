@@ -46,6 +46,7 @@ public class LobbyGameState extends GameState {
                 new PlayerListener(this.world.asLocation(LobbyConfig::getSpawn)),
                 new LobbyWorldListener(),
                 new PlayerConnectionListener(this.countdown, this.mapVoting),
+                new CatchListener(),
                 this.teamJoinerListener
         };
 
