@@ -86,7 +86,10 @@ public class TeamBed implements Listener {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         if (!this.isValid(event.getClickedBlock())) return;
 
-        event.setUseInteractedBlock(Event.Result.DENY);
+        if (event.getPlayer().isSneaking()) {
+            event.setUseItemInHand(Event.Result.ALLOW);
+            event.setUseInteractedBlock(Event.Result.DENY);
+        }
     }
 
     private boolean isValid(Block block) {
