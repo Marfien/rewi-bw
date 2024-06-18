@@ -105,7 +105,7 @@ public class TeamBed implements Listener {
         effect.asynchronous = true;
         effect.radius = 1;
         effect.type = EffectType.INSTANT;
-        effect.particles = 10;
+        effect.particles = 15;
         effect.setLocation(
                 this.firstBedBlockLocation.toVector()
                         .midpoint(this.secondBedBlockLocation.toVector())

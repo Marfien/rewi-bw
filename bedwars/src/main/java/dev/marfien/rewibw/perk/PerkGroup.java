@@ -175,7 +175,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
         public void onClick(GuiInventory inventory, InventoryClickEvent click) {
             Player clicker = (Player) click.getWhoClicked();
             PerkGroup.this.setPerk(clicker, this.perk);
-            inventory.update(click.getSlot());
+            clicker.closeInventory();
             clicker.playSound(clicker.getLocation(), Sound.CLICK, 1, 1);
             clicker.sendMessage(RewiBWPlugin.PREFIX + Message.SELECT_PERK.format(ChatColor.stripColor(this.perk.getName())));
         }
