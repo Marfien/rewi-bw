@@ -58,7 +58,7 @@ public class JumpAndRun {
                 Player player = startTimeByPlayer.getKey();
                 long startTime = startTimeByPlayer.getValue();
 
-                ((TextComponent) packet.components[0]).setText(ChatColor.DARK_AQUA + formatTime(now - startTime));
+                ((TextComponent) packet.components[0]).setText(ChatColor.GREEN + formatTime(now - startTime));
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
         }, 0, 1);
@@ -127,7 +127,7 @@ public class JumpAndRun {
             if (event.getTo().distanceSquared(this.start) > 0.5) return;
             Player player = event.getPlayer();
             Long started = startTime.get(player);
-            if (started != null && System.currentTimeMillis() - started < 100) return;
+            if (started != null && System.currentTimeMillis() - started < 1000) return;
 
             start(player);
         }
