@@ -79,7 +79,7 @@ public class CatchListener implements Listener {
     @EventHandler
     private void onPlayerQuit(PlayerQuitEvent event) {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-        if (players.size() < MIN_PLAYERS) {
+        if (players.size() < MIN_PLAYERS && this.catchee != null) {
             this.catchee.getInventory().setHelmet(null);
             this.catchee = null;
             return;
