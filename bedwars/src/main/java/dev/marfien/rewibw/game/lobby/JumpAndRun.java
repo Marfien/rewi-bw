@@ -85,8 +85,8 @@ public class JumpAndRun {
         effect.enableRotation = false;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 2;
-        effect.particles = 20;
+        effect.period = 1;
+        effect.particles = 30;
         effect.start();
         return effect;
     }
@@ -104,9 +104,9 @@ public class JumpAndRun {
         long time = System.currentTimeMillis() - started;
         Long previousRecord = records.get(player);
         player.playSound(player.getLocation(), Sound.LEVEL_UP, 1, 1);
-        player.sendMessage("§8[§3JumpAndRun§6] " + Message.JUMP_AND_RUN_FINISH.format(formatTime(time)));
+        player.sendMessage("§8[§3JumpAndRun§8] " + Message.JUMP_AND_RUN_FINISH.format(formatTime(time)));
         if (previousRecord == null || time < previousRecord) {
-            player.sendMessage("§8[§3JumpAndRun§6] " + Message.JUMP_AND_RUN_NEW_RECORD.format(formatTime(time)));
+            player.sendMessage("§8[§3JumpAndRun§8] " + Message.JUMP_AND_RUN_NEW_RECORD.format(formatTime(time)));
             records.put(player, time);
         }
     }
