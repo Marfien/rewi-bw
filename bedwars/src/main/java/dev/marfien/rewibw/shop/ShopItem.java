@@ -60,6 +60,11 @@ public abstract class ShopItem extends Shoppable {
         ItemStack item = this.createItem(player);
 
         ItemStack inSlot = contents[slot];
+        if (inSlot == null) {
+            contents[slot] = item;
+            return true;
+        }
+
         if (!item.isSimilar(inSlot)) {
             int firstEmpty = InventoryUtil.firstEmptySlot(contents);
             if (firstEmpty == -1) {
