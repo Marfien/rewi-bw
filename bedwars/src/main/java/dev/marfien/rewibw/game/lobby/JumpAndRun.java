@@ -83,11 +83,13 @@ public class JumpAndRun {
         effect.setLocation(location);
         effect.radius = (float) Math.sqrt(2) / 2;
         effect.enableRotation = false;
-        effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
         effect.period = 20;
         effect.particles = 20;
+        effect.angularVelocityX *= 2;
+        effect.angularVelocityY *= 2;
+        effect.angularVelocityZ *= 2;
         effect.start();
         return effect;
     }
@@ -145,7 +147,7 @@ public class JumpAndRun {
     }
 
     private static String formatTime(long deltaTime) {
-        return String.format("%d - %02.2fs", deltaTime, deltaTime / 1000f);
+        return String.format("%02.2fs", deltaTime / 1000f);
     }
 
 }
