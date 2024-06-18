@@ -51,8 +51,6 @@ public class JumpAndRun {
 
         PacketPlayOutChat packet = new PacketPlayOutChat(null, (byte) 2);
         packet.components = new BaseComponent[]{ new TextComponent() };
-        packet.components[0].setColor(ChatColor.GREEN);
-        packet.components[0].setBold(true);
         actionbarBroadcaster = Bukkit.getScheduler().runTaskTimerAsynchronously(RewiBWPlugin.getInstance(), () -> {
             // 2 is actionbar
             long now = System.currentTimeMillis();
@@ -63,12 +61,11 @@ public class JumpAndRun {
                 long seconds = deltaTime / 1000;
                 long rest = deltaTime % 1000 / 10;
 
-                ((TextComponent) packet.components[0]).setText(String.format("%02d.%02ds", seconds, rest));
-                player.spigot().sendMessage(packet.components);
+                ((TextComponent) packet.components[0]).setText(String.format("§a§l%02d.%02ds", seconds, rest));
 
                 ((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
             }
-        }, 0, 2);
+        }, 0, 1);
     }
 
     public static void destroy() {
