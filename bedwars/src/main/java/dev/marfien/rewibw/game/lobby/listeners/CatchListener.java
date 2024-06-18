@@ -20,15 +20,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.scheduler.BukkitTask;
 
 import java.util.Collection;
 import java.util.concurrent.ThreadLocalRandom;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class CatchListener implements Listener {
 
-    private static final int MIN_PLAYERS = 2;
+    private static final int MIN_PLAYERS = 1;
 
     private static final ItemBuilder RAINBOW_HEAD = ItemBuilder.of(Material.WOOL)
             .setDisplayName("§c§lF§aa§6n§2g §em§2i§9c§dh§b!");
