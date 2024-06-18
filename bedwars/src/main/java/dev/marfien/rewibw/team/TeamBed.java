@@ -30,6 +30,8 @@ public class TeamBed implements Listener {
 
     private final Block firstBedBlock;
     private final Block secondBedBlock;
+    private final Location firstBedBlockLocation;
+    private final Location secondBedBlockLocation;
     private final GameTeam team;
 
     private boolean alive = true;
@@ -37,12 +39,15 @@ public class TeamBed implements Listener {
     public TeamBed(GameTeam team, Block block, BlockFace direction) {
         this.team = team;
         this.firstBedBlock = block;
+        this.firstBedBlockLocation = this.firstBedBlock.getLocation();
         this.secondBedBlock = this.firstBedBlock.getRelative(direction);
+        this.secondBedBlockLocation = this.secondBedBlock.getLocation();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
     private void onBedBreak(BlockBreakEvent event) {
-        if (!this.alive || !this.isValid(event.getBlock())) return;
+        Block block = event.getBlock();
+        if (!this.alive || !this.isValid(block)) return;
 
         Player breaker = event.getPlayer();
         if (this.team.isMember(breaker)) {
@@ -53,9 +58,8 @@ public class TeamBed implements Listener {
 
         this.firstBedBlock.setType(Material.AIR);
         this.secondBedBlock.setType(Material.AIR);
-        Block block = event.getBlock();
-        startBreakEffect(block.getLocation().add(0.5, 0.5, 0.5));
         block.getWorld().playEffect(block.getLocation(), Effect.TILE_BREAK, new MaterialData(block.getType()));
+        this.playBreakEffect();
 
         PlayingGameState.getSidebarObjective().removeScore(this.team.getScoreboardEntry());
         this.alive = false;
@@ -89,20 +93,25 @@ public class TeamBed implements Listener {
         return this.firstBedBlock.equals(block) || this.secondBedBlock.equals(block);
     }
 
-    public double distanceSquared(Location location) {
+    public double blockDistanceSquared(Location location) {
         return Math.min(
-                this.firstBedBlock.getLocation().distanceSquared(location),
-                this.secondBedBlock.getLocation().distanceSquared(location)
+                this.firstBedBlockLocation.distanceSquared(location),
+                this.secondBedBlockLocation.distanceSquared(location)
         );
     }
 
-    private static void startBreakEffect(Location location) {
+    private void playBreakEffect() {
         HelixEffect effect = new HelixEffect(RewiBWPlugin.getEffectManager());
         effect.asynchronous = true;
         effect.radius = 1;
         effect.type = EffectType.INSTANT;
         effect.particles = 10;
-        effect.setLocation(location);
+        effect.setLocation(
+                this.firstBedBlockLocation.toVector()
+                        .midpoint(this.secondBedBlockLocation.toVector())
+                        .toLocation(this.firstBedBlockLocation.getWorld())
+                        .add(0.5, 0.0, 0.5)
+        );
         effect.particle = ParticleEffect.SPELL_WITCH;
         effect.offset = RewiBWPlugin.ZERO_VECTOR;
         effect.particleCount = 1;
