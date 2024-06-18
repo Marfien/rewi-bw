@@ -79,13 +79,13 @@ public class JumpAndRun {
     private static Effect startCirclePositionEffect(Location location) {
         CircleEffect effect = new CircleEffect(RewiBWPlugin.getEffectManager());
         effect.setLocation(location);
-        effect.radius = 0.6f;
+        effect.radius = (float) Math.sqrt(2) / 2;
         effect.enableRotation = false;
         effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 20;
-        effect.particles = 10;
+        effect.period = 40;
+        effect.particles = 20;
         effect.start();
         return effect;
     }
