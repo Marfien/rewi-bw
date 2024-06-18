@@ -62,6 +62,7 @@ public class PlayerListener implements Listener {
     private void onInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
+            return;
         }
 
         switch (event.getClickedBlock().getType()) {

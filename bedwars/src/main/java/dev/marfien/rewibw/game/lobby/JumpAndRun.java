@@ -21,6 +21,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
@@ -145,7 +146,7 @@ public class JumpAndRun {
         }
 
         @EventHandler
-        private void onQuit(PlayerMoveEvent event) {
+        private void onQuit(PlayerQuitEvent event) {
             reset(event.getPlayer());
         }
 
