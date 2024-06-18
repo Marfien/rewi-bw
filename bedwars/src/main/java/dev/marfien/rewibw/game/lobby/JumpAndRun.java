@@ -84,7 +84,7 @@ public class JumpAndRun {
         effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 10;
+        effect.period = 20;
         effect.particles = 10;
         effect.start();
         return effect;
