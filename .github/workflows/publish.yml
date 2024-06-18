@@ -24,9 +24,6 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        platform:
-          - linux/amd64
-          - linux/arm64
         base-image:
           - eclipse-temurin:8-jre
           - eclipse-temurin:8-jre-alpine
@@ -35,17 +32,22 @@ jobs:
         include:
           - base-image: eclipse-temurin:8-jre
             tag-suffix: ''
+            set: |
+              *.platform='linux/amd64'
+              *.platform='linux/arm64'
           - base-image: eclipse-temurin:8-jre-alpine
             tag-suffix: '-alpine'
+            set: |
+              *.platform='linux/amd64'
           - base-image: eclipse-temurin:8-jdk
             tag-suffix: '-jdk'
+            set: |
+              *.platform='linux/amd64'
+              *.platform='linux/arm64'
           - base-image: eclipse-temurin:8-jdk-alpine
             tag-suffix: '-jdk-alpine'
-        exclude:
-          - platform: linux/arm64
-            base-image: eclipse-temurin:8-jre-alpine
-          - platform: linux/arm64
-            base-image: eclipse-temurin:8-jdk-alpine
+            set: |
+              *.platform='linux/amd64'
     env:
       TAGS: |
         type=ref,event=branch
@@ -99,6 +101,6 @@ jobs:
           push: true
           pull: true
           set: |
-            *.platform=${{ matrix.platform }}
+            ${{ matrix.set }}
             *.cache-from=type=gha
             *.cache-to=type=gha,mode=max
