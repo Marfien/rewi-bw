@@ -145,7 +145,7 @@ public class JumpAndRun {
     }
 
     private static String formatTime(long deltaTime) {
-        return String.format("%02.2ds", deltaTime / 1000f);
+        return String.format("%02.2fs", deltaTime / 1000f);
     }
 
 }
