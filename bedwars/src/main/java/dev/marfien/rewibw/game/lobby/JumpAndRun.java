@@ -87,9 +87,6 @@ public class JumpAndRun {
         effect.iterations = -1;
         effect.period = 1;
         effect.particles = 20;
-        effect.angularVelocityX *= 2;
-        effect.angularVelocityY *= 2;
-        effect.angularVelocityZ *= 2;
         effect.start();
         return effect;
     }
