@@ -53,11 +53,11 @@ public class CatchListener implements Listener {
                     Firework firework = catchee.getWorld().spawn(catchee.getLocation(), Firework.class);
                     FireworkMeta meta = firework.getFireworkMeta();
                     meta.addEffect(createRandomEffect());
-                    meta.setPower(10);
+                    meta.setPower(5);
                     firework.setFireworkMeta(meta);
                 }
             }
-        }.runTaskTimer(RewiBWPlugin.getInstance(), 0L, 20L);
+        }.runTaskTimer(RewiBWPlugin.getInstance(), 0L, 10L);
     }
 
     private static FireworkEffect createRandomEffect() {
