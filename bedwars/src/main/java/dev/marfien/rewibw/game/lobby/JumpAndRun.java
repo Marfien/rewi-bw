@@ -25,12 +25,13 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
 public class JumpAndRun {
 
     private static final Map<Player, Long> records = new HashMap<>();
-    private static final Map<Player, Long> startTime = new HashMap<>();
+    private static final Map<Player, Long> startTime = new ConcurrentHashMap<>();
 
     private static JumpAndRunListener listener;
     private static BukkitTask actionbarBroadcaster;
@@ -91,7 +92,7 @@ public class JumpAndRun {
         effect.wholeCircle = true;
         effect.type = EffectType.REPEATING;
         effect.iterations = -1;
-        effect.period = 30;
+        effect.period = 20;
         effect.particles = 20;
         effect.start();
         return effect;
