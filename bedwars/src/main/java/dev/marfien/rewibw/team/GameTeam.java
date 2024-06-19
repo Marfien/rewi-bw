@@ -118,7 +118,7 @@ public class GameTeam {
     }
 
     public Optional<TeamMemberDisplay> getEmptyDisplay() {
-        return getDisplayOfPlayer(null);
+        return this.getDisplayOfPlayer(null);
     }
 
     public Optional<TeamMemberDisplay> getDisplayOfPlayer(Player player) {
