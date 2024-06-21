@@ -31,7 +31,7 @@ jobs:
           - eclipse-temurin:8-jdk-alpine
         include:
           - base-image: eclipse-temurin:8-jre
-            tag-suffix: ''
+            tag-suffix: ['', '-jre']
             set: |
               *.platform=linux/amd64
               *.platform=linux/arm64
