@@ -7,7 +7,42 @@ This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This
 docker compose run --rm --service-ports rewi-bw-server
 ```
 
+### How to build from source
+This projects uses gradle(-wrapper) as build tool. Therefore, you can use the following commands to build the project:
+On shell:
+```shell
+./gradlew clean build
+```
+On Windows:
+```shell
+.\gradlew.bat clean build
+```
+
+The plugin can be found inside the `bedwars/build/libs` directory. The setup tool will be located in the `map-setup-tool/build/libs` directory.
+
+### Server up and running
+
+1. [Build the project](#how-to-build-from-source)
+2. Create an empty directory for the server
+3. Download Spigot 1.8.8 or any fork of it (perferably [PaperSpigot](https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/445/downloads/paper-1.8.8-445.jar)) and place the jar file in the server directory
+4. Put the plugin jar from `bedwars/build/libs` into the `plugins` directory inside your server directory (you might need to create it)
+5. Add the [NoteblocksAPI](https://jitpack.io/com/github/koca2000/NoteBlockAPI/1.6.2/NoteBlockAPI-1.6.2.jar) plugin to the `plugins` directory
+6. Create a file called `eula.txt` in the server directory and add `eula=true` to it to accept the EULA of Mojang
+7. Start the server with `java -jar <your_server_jar>.jar
+
+#### Bonus: Anti-Reducing
+7. Put the agent jar from `anti-reduce-agent/build/libs` into your server directory
+8. Start the server with `java -javaagent:<your_agent_jar>.jar -jar <your_server_jar>.jar`
+
+If you are feeling adventurous, you can take a look at the `server-bin` directory.
+It contains an example start script for the server and some preconfigured server files for performance improvements.
+
+Alternatively, you can use Docker to run the server. If you are familiar with Docker, you can use the `docker-compose.yml` file in the root directory to run the server. \
+The Image is provided on [DockerHub](https://hub.docker.com/r/marfiens/rewibw-server).
+You might also take a look at [the Dockerfile of the BedWars server](bedwars/Dockerfile) and [the Dockerfile of the server base](server-bin/Dockerfile).
+
 ## Configuration
+
 ### plugins/rewi-bw/config.yml
 ```yaml
 teams:
@@ -36,10 +71,19 @@ spawn: # Spawn location
   y: 64.0
   z: 2.5
   yaw: 180.0
-cps-tester: # Where the cps tester is located
+cps-tester: # Optional: Where the cps tester is located
   x: 14.5
   y: 64.0
   z: 2.5
+jump-and-run: # Optional: Where the jump and run is located
+  start:
+    x: 12.5
+    y: 64.0
+    z: 2.5
+  finish:
+    x: 10.5
+    y: 64.0
+    z: 2.5
 teams:
   <team color>:
     joiner: # The ArmorStand to join the team
@@ -55,6 +99,9 @@ teams:
 ```
 
 ### maps/\<map name>/config.yaml
+This might not be the most convenient way to configure a map, but it gives you the most control about the locations.
+If you want to have a more user-friendly way to configure the map, you can use the Map Setup Tool to generate the configuration file.
+
 ```yaml
 world: # Same as lobby config
 spectator-pawn:
