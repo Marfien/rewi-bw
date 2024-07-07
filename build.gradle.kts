@@ -11,18 +11,23 @@ version = (project.findProperty("projectVersion")?.toString() ?: "{version}").re
 val lombokVersion = "1.18.30"
 val lombok = "org.projectlombok:lombok:$lombokVersion"
 
+tasks {
+    register<Exec>("installSpigot") {
+
+        workingDir = project.layout.buildDirectory.dir("installSpigot").get().asFile
+        commandLine("bash", "install.sh")
+    }
+
+    build {
+        dependsOn("installSpigot")
+    }
+}
+
 subprojects {
     apply(plugin = "java")
 
     group = rootProject.group
     version = rootProject.version
-
-    repositories {
-        mavenCentral()
-        mavenLocal()
-        maven("https://jitpack.io")
-        maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
 
     dependencies {
         compileOnly(lombok)

@@ -8,6 +8,10 @@ docker compose run --rm --service-ports rewi-bw-server
 ```
 
 ### How to build from source
+First of all, you need to make sure that you have the spigot server in your local maven repository.
+You can archive this by using [SpigotMC's BuildTools](https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar).
+Just run it with `java -jar BuildTools.jar --rev 1.8.8`. Note that you need to have Java 8 and Maven installed.
+
 This projects uses gradle(-wrapper) as build tool. Therefore, you can use the following commands to build the project:
 On shell:
 ```shell
