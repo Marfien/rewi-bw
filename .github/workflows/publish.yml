@@ -1,4 +1,4 @@
-name: Publish on DockerHub
+name: Publish
 run-name: Publish '${{ github.ref_name }}' for Commit '${{ github.event.head_commit.message }}'
 
 on:
@@ -16,7 +16,31 @@ jobs:
       task: 'shadowJar'
       extra_flags: -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-' }}${{ github.ref_name }}'
 
+  release:
+    name: Create GitHub Release
+    needs: build
+    if: github.event_name == 'push' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download build artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifacts
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: |
+            README.md
+            anti-reduce-agent/build/libs/*.jar
+            bedwars/build/libs/*.jar
+            map-setup-tool/build/libs/*.jar
+
   publish:
+    name: Publish Docker images
     needs: build
     runs-on: ubuntu-latest
     strategy:
