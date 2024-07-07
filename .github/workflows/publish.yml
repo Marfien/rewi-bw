@@ -9,9 +9,6 @@ on:
       - main
       - develop
 
-env:
-  TAG: ${{ github.ref_name }}
-
 jobs:
   build:
     uses: ./.github/workflows/build-with-gradle.yml
