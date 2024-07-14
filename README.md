@@ -50,6 +50,9 @@ You might also take a look at [the Dockerfile of the BedWars server](bedwars/Doc
 
 ### plugins/rewi-bw/config.yml
 ```yaml
+server:
+  tablistHeaderFooter: true # Whether to show the BedWars tablist header and footer
+  serializeGameInfoInMotd: null # true/false/null - whether to serialize the game info in the MOTD. Null will use spigot's bungeecord option
 teams:
   players: 2 # amount of players per team
   colors: # which teams are available

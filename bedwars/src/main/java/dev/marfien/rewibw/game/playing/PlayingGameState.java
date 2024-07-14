@@ -1,6 +1,7 @@
 package dev.marfien.rewibw.game.playing;
 
 import dev.marfien.rewibw.PlayerManager;
+import dev.marfien.rewibw.RewiBWConfig;
 import dev.marfien.rewibw.RewiBWPlugin;
 import dev.marfien.rewibw.game.GameState;
 import dev.marfien.rewibw.game.playing.item.*;
@@ -17,6 +18,7 @@ import dev.marfien.rewibw.util.Items;
 import dev.marfien.rewibw.util.Strings;
 import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -42,6 +44,7 @@ public class PlayingGameState extends GameState {
     private final Listener[] listeners;
 
     public PlayingGameState(MapWorld map) {
+        super(ChatColor.RED + "Running");
         this.map = map;
         this.itemManager.putHandler(Items.SPECTATOR_COMPASS, new SpectatorCompass());
         this.itemManager.putHandler(Items.RESCUE_PLATFORM, new RescuePlatform());
@@ -97,13 +100,23 @@ public class PlayingGameState extends GameState {
         this.map.unload();
     }
 
+    @Override
+    public String getMotdInfo() {
+        RewiBWConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+        return String.format("%dx%d - %s",
+                teamConfig.getVariants().length,
+                teamConfig.getPlayersPerTeam(),
+                this.map.getName()
+        );
+    }
+
     private static void buildScoreboard() {
         int playersPerTeam = RewiBWPlugin.getPluginConfig().getTeams().getPlayersPerTeam();
         sidebarObjective = CustomScoreboardManager.registerObjective("sidebar", "dummy");
         sidebarObjective.setDisplaySlot(DisplaySlot.SIDEBAR);
         sidebarObjective.setDisplayName("§3BedWars §7- §b60:00");
         sidebarObjective.setScore("§6marfien.dev", playersPerTeam + 6);
-        sidebarObjective.setScore("§7GameID: §r" + Strings.generateGameId(), playersPerTeam + 5);
+        sidebarObjective.setScore("§7GameID: §r" + RewiBWPlugin.GAME_ID, playersPerTeam + 5);
         sidebarObjective.setScore("§0", playersPerTeam + 4);
         sidebarObjective.setScore("§6Kills", playersPerTeam + 3);
         killsTeam = CustomScoreboardManager.registerTeam("stat_kills");

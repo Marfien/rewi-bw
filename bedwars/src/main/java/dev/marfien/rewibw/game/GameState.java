@@ -1,18 +1,24 @@
 package dev.marfien.rewibw.game;
 
 import dev.marfien.rewibw.RewiBWPlugin;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 
+@Getter
+@RequiredArgsConstructor
 public abstract class GameState {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     public abstract Listener[] getListeners();
     public abstract Countdown getCountdown();
+
+    private final String name;
 
     void start() {
         LOGGER.info("Starting game state {}", this.getClass());
@@ -33,5 +39,7 @@ public abstract class GameState {
     public abstract void onStart();
 
     public abstract void onStop();
+
+    public abstract String getMotdInfo();
 
 }

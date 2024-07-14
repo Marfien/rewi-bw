@@ -11,6 +11,8 @@ import java.nio.file.Paths;
 @ConfigSerializable
 public class RewiBWConfig {
 
+    private ServerConfig server = new ServerConfig();
+
     private TeamConfig teams = new TeamConfig();
     private VoteConfig voting = new VoteConfig();
 
@@ -42,4 +44,14 @@ public class RewiBWConfig {
         private int[] inventorySlots = {1, 4, 7};
 
     }
+
+    @Getter
+    @ConfigSerializable
+    public static class ServerConfig {
+
+        private boolean tablistHeaderFooter = true;
+        private Boolean serializeGameInfoInMotd = null;
+
+    }
+
 }

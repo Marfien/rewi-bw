@@ -19,6 +19,7 @@ import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
+import dev.marfien.rewibw.util.Strings;
 import dev.marfien.rewibw.world.MapPool;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -42,6 +43,7 @@ public class RewiBWPlugin extends JavaPlugin {
 
     private static RewiBWPlugin instance;
     public static final Vector ZERO_VECTOR = new Vector(0, 0, 0);
+    public static final String GAME_ID = Strings.generateGameId();
 
     @Getter
     @Setter(AccessLevel.PRIVATE)

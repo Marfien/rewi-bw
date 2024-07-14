@@ -16,8 +16,10 @@ import dev.marfien.rewibw.shared.usable.UsableItemInfo;
 import dev.marfien.rewibw.shared.usable.UsableItemManager;
 import dev.marfien.rewibw.team.TeamManager;
 import dev.marfien.rewibw.util.Items;
+import dev.marfien.rewibw.world.MapWorld;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Chunk;
 import org.bukkit.event.Listener;
 
@@ -36,6 +38,7 @@ public class LobbyGameState extends GameState {
     private final TeamJoinerListener teamJoinerListener = new TeamJoinerListener();
 
     public LobbyGameState(Path lobbyPath, RewiBWConfig.VoteConfig voteConfig) throws IOException {
+        super(null);
         this.mapVoting = new MapVoting(voteConfig);
         this.countdown = new LobbyCountdown(this.mapVoting);
 
@@ -96,4 +99,25 @@ public class LobbyGameState extends GameState {
         }
     }
 
+    @Override
+    public String getMotdInfo() {
+        MapWorld winner = this.mapVoting.getWinner();
+        RewiBWConfig.TeamConfig teamConfig = RewiBWPlugin.getPluginConfig().getTeams();
+        return String.format("%dx%d - %s",
+                teamConfig.getVariants().length,
+                teamConfig.getPlayersPerTeam(),
+                winner == null ? "Voting..." : winner.getName()
+        );
+    }
+
+    @Override
+    public String getName() {
+        if (Bukkit.getOnlinePlayers().size() >= RewiBWPlugin.getPluginConfig().getTeams().getMaxPlayers())
+            return ChatColor.GOLD + "Lobby";
+        if (Bukkit.getOnlinePlayers().isEmpty()) {
+            return ChatColor.BLACK + "Lobby";
+        } else {
+            return ChatColor.GREEN + "Lobby";
+        }
+    }
 }

@@ -88,4 +88,9 @@ public class PlayerManager {
             player.showPlayer(spectator);
         }
     }
+
+    public static int getSpectatorCount() {
+        return SPECTATORS.size();
+    }
+
 }

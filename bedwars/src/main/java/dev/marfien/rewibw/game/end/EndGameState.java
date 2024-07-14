@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Firework;
@@ -23,7 +24,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.meta.FireworkMeta;
 
 @Getter
-@RequiredArgsConstructor
 public class EndGameState extends GameState {
 
     private static final Logger LOGGER = RewiBWPlugin.getPluginLogger();
@@ -33,6 +33,11 @@ public class EndGameState extends GameState {
     //private final RadioSongPlayer songPlayer = new RadioSongPlayer(NBSDecoder.parse(RewiBWPlugin.getInstance().getResource("end.nbs")));
     private final EndCountdown countdown = new EndCountdown();
     private final GameTeam winner;
+
+    public EndGameState(GameTeam winner) {
+        super(ChatColor.DARK_RED + "Stopping");
+        this.winner = winner;
+    }
 
     @Getter
     private final Listener[] listeners = new Listener[]{
@@ -96,5 +101,11 @@ public class EndGameState extends GameState {
             player.kickPlayer("§cDas Spiel ist vorbei.");
         }
         Bukkit.shutdown();
+    }
+
+    @Override
+    public String getMotdInfo() {
+        // Shows the winner in max 16 characters
+        return this.winner == null ? "Unentschieden" : this.winner.getColor().getDisplayName() + " gewinnt";
     }
 }

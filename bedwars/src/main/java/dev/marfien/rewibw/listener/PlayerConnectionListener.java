@@ -1,11 +1,14 @@
 package dev.marfien.rewibw.listener;
 
+import com.google.gson.JsonObject;
 import dev.marfien.rewibw.PlayerManager;
 import dev.marfien.rewibw.RewiBWPlugin;
+import dev.marfien.rewibw.game.GameStateManager;
 import io.netty.buffer.Unpooled;
 import net.minecraft.server.v1_8_R3.IChatBaseComponent;
 import net.minecraft.server.v1_8_R3.PacketDataSerializer;
 import net.minecraft.server.v1_8_R3.PacketPlayOutPlayerListHeaderFooter;
+import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_8_R3.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_8_R3.util.CraftChatMessage;
 import org.bukkit.entity.Player;
@@ -14,8 +17,11 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.spigotmc.SpigotConfig;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerConnectionListener implements Listener {
@@ -41,12 +47,34 @@ public class PlayerConnectionListener implements Listener {
         Player player = event.getPlayer();
         PlayerManager.resetPlayerStatus(player);
 
-        ((CraftPlayer) player).getHandle().playerConnection.sendPacket(TABLIST_PACKET);
+        if (RewiBWPlugin.getPluginConfig().getServer().isTablistHeaderFooter()) {
+            ((CraftPlayer) player).getHandle().playerConnection.sendPacket(TABLIST_PACKET);
+        }
     }
 
     @EventHandler
-    private void onPing(ServerListPingEvent event) {
+    private void onServerPing(ServerListPingEvent event) {
         event.setMaxPlayers(RewiBWPlugin.getPluginConfig().getTeams().getMaxPlayers());
+        Boolean serializeGameData = RewiBWPlugin.getPluginConfig().getServer().getSerializeGameInfoInMotd();
+
+        if (serializeGameData == Boolean.TRUE || serializeGameData == null && SpigotConfig.bungee) {
+            event.setMotd(serializeGameData());
+        } else {
+            event.setMotd(
+                    "§eRewi§6§lBW §8- §7" + GameStateManager.getActiveGameState().getName() + "\n" +
+                    "§7" + GameStateManager.getActiveGameState().getMotdInfo()
+            );
+        }
+    }
+
+    private static String serializeGameData() {
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("activePlayers", Bukkit.getOnlinePlayers().size() - PlayerManager.getSpectatorCount());
+        jsonObject.addProperty("state", GameStateManager.getActiveGameState().getName());
+        jsonObject.addProperty("gameId", RewiBWPlugin.GAME_ID);
+        jsonObject.addProperty("additionalInfo", GameStateManager.getActiveGameState().getMotdInfo());
+
+        return Base64.getEncoder().encodeToString(jsonObject.toString().getBytes(StandardCharsets.UTF_8));
     }
 
 }
