@@ -106,7 +106,7 @@ public class LobbyGameState extends GameState {
         return String.format("%dx%d - %s",
                 teamConfig.getVariants().length,
                 teamConfig.getPlayersPerTeam(),
-                winner == null ? "Voting..." : winner.getName()
+                winner == null ? "Votephase" : winner.getName()
         );
     }
 
