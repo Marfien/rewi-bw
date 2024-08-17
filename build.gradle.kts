@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "dev.marfien.rewibw"
-version = (project.findProperty("projectVersion")?.toString() ?: "{version}").replace("{version}", version as String)
+version = (project.findProperty("projectVersion")?.toString() ?: "{version}").replace("{version}", version as String).replace('/', '-')
 
 val lombokVersion = "1.18.30"
 val lombok = "org.projectlombok:lombok:$lombokVersion"
