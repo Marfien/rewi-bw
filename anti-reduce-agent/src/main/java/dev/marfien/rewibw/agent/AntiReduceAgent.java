@@ -10,7 +10,6 @@ public class AntiReduceAgent {
 
     private static final Logger logger = Logger.getLogger("AntiReduceAgent");
 
-    @SuppressWarnings("unused")
     public static void premain(String args, Instrumentation instrumentation) {
         logger.info("Loading AntiReduceAgent");
         try {
