@@ -162,7 +162,7 @@ public class GuiInventory {
         player.openInventory(inventory);
     }
 
-    public void destory() {
+    public void destroy() {
         this.closeAll();
         this.cache.clear();
         HandlerList.unregisterAll(this.listener);

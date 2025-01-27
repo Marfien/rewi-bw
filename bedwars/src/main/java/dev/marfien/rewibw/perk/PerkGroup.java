@@ -147,7 +147,7 @@ public abstract class PerkGroup<P extends Perk> implements GuiItem {
     }
 
     public void destroyGui() {
-        this.inventory.destory();
+        this.inventory.destroy();
         this.inventory = null;
     }
 

@@ -156,7 +156,7 @@ public class MapVoting {
     }
 
     public void destroyGui() {
-        this.gui.destory();
+        this.gui.destroy();
         this.gui = null;
     }
 
