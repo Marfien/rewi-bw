@@ -177,18 +177,19 @@ public class GuiInventory {
             throw new IndexOutOfBoundsException("Index: " + slot + ", array size: " + this.items.length);
     }
 
+    private boolean isManagedByGui(Inventory inventory) {
+        if (inventory == null) return false;
+
+        InventoryHolder holder = inventory.getHolder();
+        return holder instanceof GuiInventoryHolder && ((GuiInventoryHolder) holder).guiInventory == this;
+    }
+
     private class EventListener implements Listener {
 
         @EventHandler
         private void onInventoryInteract(InventoryClickEvent event) {
             Inventory inventory = event.getClickedInventory();
-            if (inventory == null) return;
-            InventoryHolder holder = inventory.getHolder();
-
-            if (!(holder instanceof GuiInventoryHolder)) return;
-            GuiInventoryHolder guiHolder = (GuiInventoryHolder) holder;
-
-            if (guiHolder.guiInventory != GuiInventory.this) return;
+            if (!isManagedByGui(inventory)) return;
 
             event.setCancelled(true);
 
@@ -198,7 +199,6 @@ public class GuiInventory {
                 clickedItem.onClick(GuiInventory.this, event);
             }
         }
-
         @EventHandler
         private void onShiftClick(InventoryClickEvent event) {
             if (event.getAction() != InventoryAction.MOVE_TO_OTHER_INVENTORY) return;
@@ -207,18 +207,13 @@ public class GuiInventory {
             if (!(inventory instanceof PlayerInventory)) return;
 
             Inventory topInventory = event.getView().getTopInventory();
-            if (topInventory == null) return;
-            InventoryHolder holder = topInventory.getHolder();
-
-            if (!(holder instanceof GuiInventoryHolder)) return;
-            GuiInventoryHolder guiHolder = (GuiInventoryHolder) holder;
-
-            if (guiHolder.guiInventory != GuiInventory.this) return;
+            if (!isManagedByGui(topInventory)) return;
 
             event.setCancelled(true);
         }
 
         @EventHandler
+        @SuppressWarnings("SuspiciousMethodCalls") // This is alright in this case (HumanEntity is a Player, although it's a quite useless abstraction layer)
         private void onClose(InventoryCloseEvent event) {
             // Every inventory is created per player
             if (!useCache) {
