@@ -1,23 +1,30 @@
 # RewiBW Clone
+
 ### Disclaimer
+
 This is a clone of the BedWars plugin of the Rewinside.tv Minecraft server. This plugin is not affiliated nor related to Rewinside.tv in any way. This plugin is not intended to be used for commercial.
 
 ### Run locally
+
 ```shell
 docker compose run --rm --service-ports rewi-bw-server
 ```
 
 ### How to build from source
+
 First of all, you need to make sure that you have the spigot server in your local maven repository.
 You can archive this by using [SpigotMC's BuildTools](https://hub.spigotmc.org/jenkins/job/BuildTools/lastSuccessfulBuild/artifact/target/BuildTools.jar).
 Just run it with `java -jar BuildTools.jar --rev 1.8.8`. Note that you need to have Java 8 and Maven installed.
 
 This projects uses gradle(-wrapper) as build tool. Therefore, you can use the following commands to build the project:
 On shell:
+
 ```shell
 ./gradlew clean build
 ```
+
 On Windows:
+
 ```shell
 .\gradlew.bat clean build
 ```
@@ -35,8 +42,9 @@ The plugin can be found inside the `bedwars/build/libs` directory. The setup too
 7. Start the server with `java -jar <your_server_jar>.jar
 
 #### Bonus: Anti-Reducing
+
 7. Download the `anti-reduce-agent-*-all.jar` from the [latest release](https://github.com/Marfien/rewi-bw/releases/latest)
-and put it into the server directory
+   and put it into the server directory
 8. Start the server with `java -javaagent:<your_agent_jar>.jar -jar <your_server_jar>.jar`
 
 If you are feeling adventurous, you can take a look at the `server-bin` directory.
@@ -49,6 +57,7 @@ You might also take a look at [the Dockerfile of the BedWars server](bedwars/Doc
 ## Configuration
 
 ### plugins/rewi-bw/config.yml
+
 ```yaml
 teams:
   players: 2 # amount of players per team
@@ -59,12 +68,13 @@ teams:
     - yellow
 voting:
   votable-slots: [1, 4, 7] # which slots in the vote inventory are filled with a map
-maps:
-  path: /data/maps/ # path to the map pool collection (maps will be copied to the server)
-  lobby: /data/lobby/ # path to the lobby map
+
+map-pool: /data/maps/ # path to the map pool collection (maps will be copied to the server)
+lobby-map: /data/lobby/ # path to the lobby map
 ```
 
 ### lobby/config.yaml
+
 ```yaml
 world:
   generator: empty # Map generator (currently only empty is supported)
@@ -95,7 +105,7 @@ teams:
       x: 9.5
       y: 64.0
       z: -5.5
-    displays: # An array of positions for the display npc's 
+    displays: # An array of positions for the display npc's
       - x: 8.5
         y: 65.0
         z: -8.5
@@ -104,6 +114,7 @@ teams:
 ```
 
 ### maps/\<map name>/config.yaml
+
 This might not be the most convenient way to configure a map, but it gives you the most control about the locations.
 If you want to have a more user-friendly way to configure the map, you can use the Map Setup Tool to generate the configuration file.
 
