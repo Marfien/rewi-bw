@@ -20,18 +20,20 @@ This projects uses gradle(-wrapper) as build tool. Therefore, you can use the fo
 On shell:
 
 ```shell
-./gradlew clean build
+./gradlew clean shadowJar
 ```
 
 On Windows:
 
 ```shell
-.\gradlew.bat clean build
+.\gradlew.bat clean shadowJar
 ```
 
 The plugin can be found inside the `bedwars/build/libs` directory. The setup tool will be located in the `map-setup-tool/build/libs` directory.
 
 ### Server up and running
+
+Note: The `map-setup-tool` and the `bedwars` plugin are not compatible. You should only use one of them at a time.
 
 1. Download the [latest release](https://github.com/Marfien/rewi-bw/releases/latest)
 2. Create an empty directory for the server
@@ -56,7 +58,7 @@ You might also take a look at [the Dockerfile of the BedWars server](bedwars/Doc
 
 ## Configuration
 
-### plugins/rewi-bw/config.yml
+### plugins/rewi-bw/config.yaml
 
 ```yaml
 teams:

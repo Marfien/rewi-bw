@@ -4,7 +4,7 @@ run-name: Publish '${{ github.ref_name }}' for Commit '${{ github.event.head_com
 on:
   push:
     tags:
-      - '*'
+      - "*"
     branches:
       - main
       - develop
@@ -14,7 +14,7 @@ jobs:
   build:
     uses: ./.github/workflows/build-with-gradle.yml
     with:
-      task: 'shadowJar'
+      task: "shadowJar"
       extra_flags: -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-' || '' }}${{ github.ref_name }}'
 
   release:
@@ -27,7 +27,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts
       - name: Create Release
@@ -53,21 +53,21 @@ jobs:
           - eclipse-temurin:8-jdk-alpine
         include:
           - base-image: eclipse-temurin:8-jre
-            tag-suffix: ''
+            tag-suffix: ""
             set: |
               *.platform=linux/amd64
               *.platform=linux/arm64
           - base-image: eclipse-temurin:8-jre-alpine
-            tag-suffix: '-alpine'
+            tag-suffix: "-alpine"
             set: |
               *.platform=linux/amd64
           - base-image: eclipse-temurin:8-jdk
-            tag-suffix: '-jdk'
+            tag-suffix: "-jdk"
             set: |
               *.platform=linux/amd64
               *.platform=linux/arm64
           - base-image: eclipse-temurin:8-jdk-alpine
-            tag-suffix: '-jdk-alpine'
+            tag-suffix: "-jdk-alpine"
             set: |
               *.platform=linux/amd64
     env:
@@ -83,7 +83,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Download build artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: build-artifacts
       - name: Login to DockerHub

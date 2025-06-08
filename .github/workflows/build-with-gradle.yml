@@ -4,12 +4,12 @@ on:
       task:
         type: string
         required: true
-        description: 'The task to run'
+        description: "The task to run"
       extra_flags:
         type: string
         required: false
-        default: ''
-        description: 'Extra flags to pass to the task'
+        default: ""
+        description: "Extra flags to pass to the task"
 
 jobs:
   build:
@@ -19,9 +19,9 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          cache: 'gradle'
-          java-version: '8'
+          distribution: "temurin"
+          cache: "gradle"
+          java-version: "8"
       - name: Get Maven cache
         uses: actions/cache@v4
         id: cache-maven
@@ -36,7 +36,8 @@ jobs:
       - name: Gradle ${{ inputs.task }}
         run: ./gradlew ${{ inputs.extra_flags }} clean ${{ inputs.task }} --no-daemon --parallel
       - name: Upload build artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: build-artifacts
-          path: '**/build/libs/*.jar'
+          path: "**/build/libs/*.jar"
+

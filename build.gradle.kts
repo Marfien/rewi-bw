@@ -11,18 +11,6 @@ version = (project.findProperty("projectVersion")?.toString() ?: "{version}").re
 val lombokVersion = "1.18.30"
 val lombok = "org.projectlombok:lombok:$lombokVersion"
 
-tasks {
-    register<Exec>("installSpigot") {
-
-        workingDir = project.layout.buildDirectory.dir("installSpigot").get().asFile
-        commandLine("bash", "install.sh")
-    }
-
-    build {
-        dependsOn("installSpigot")
-    }
-}
-
 subprojects {
     apply(plugin = "java")
 
