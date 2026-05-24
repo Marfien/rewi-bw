@@ -1,4 +1,6 @@
 public void serialize(PacketDataSerializer $1) throws IOException {
+    System.out.println("Called bytecode replaced serializer method.");
+
     $1.b($0.a);
     $1.writeInt($0.b.size());
     java.util.Iterator var2 = $0.b.iterator();
