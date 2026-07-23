@@ -16,7 +16,8 @@ jobs:
     uses: ./.github/workflows/build-with-gradle.yml
     with:
       task: "shadowJar"
-      extra_flags: -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-'
+      extra_flags:
+        -PprojectVersion='${{ github.ref_type == 'branch' && '{version}-'
         || '' }}${{ github.ref_name }}'
 
   release:
@@ -83,22 +84,22 @@ jobs:
       FLAVOR: |
         suffix=${{ matrix.tag-suffix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Download build artifact
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           name: build-artifacts
       - name: Login to DockerHub
-        uses: docker/login-action@v3
+        uses: docker/login-action@v4
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        uses: docker/setup-buildx-action@v4
         with:
           platforms: linux/amd64
       - name: Docker metadata server
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         id: meta-server
         with:
           images: marfiens/rewibw-server
@@ -106,7 +107,7 @@ jobs:
           flavor: ${{ env.FLAVOR }}
           bake-target: docker-metadata-action-server
       - name: Docker metadata setup-tool
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         id: meta-setup-tool
         with:
           images: marfiens/rewibw-setup-tool
@@ -120,8 +121,8 @@ jobs:
         with:
           files: |
             ./docker-bake.hcl
-            ${{ steps.meta-server.outputs.bake-file }}
-            ${{ steps.meta-setup-tool.outputs.bake-file }}
+            cwd://${{ steps.meta-server.outputs.bake-file }}
+            cwd://${{ steps.meta-setup-tool.outputs.bake-file }}
           push: true
           pull: true
           set: |
