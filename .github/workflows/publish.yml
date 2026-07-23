@@ -114,13 +114,12 @@ jobs:
           tags: ${{ env.TAGS }}
           flavor: ${{ env.FLAVOR }}
           bake-target: docker-metadata-action-setup-tool
-      - name: Display structure of downloaded files
-        run: ls -R .
       - name: Build and push
         uses: docker/bake-action@v7
         env:
           BASE_IMAGE: ${{ matrix.base-image }}
         with:
+          source: .
           files: |
             ./docker-bake.hcl
             cwd://${{ steps.meta-server.outputs.bake-file }}
