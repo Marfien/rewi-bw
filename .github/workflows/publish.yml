@@ -114,6 +114,8 @@ jobs:
           tags: ${{ env.TAGS }}
           flavor: ${{ env.FLAVOR }}
           bake-target: docker-metadata-action-setup-tool
+      - name: Display structure of downloaded files
+        run: ls -R .
       - name: Build and push
         uses: docker/bake-action@v7
         env:
