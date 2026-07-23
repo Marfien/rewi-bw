@@ -75,6 +75,12 @@ map-pool: /data/maps/ # path to the map pool collection (maps will be copied to 
 lobby-map: /data/lobby/ # path to the lobby map
 ```
 
+### plugins/rewi-bw-setup/config.yaml
+
+```yaml
+import-path: /data/import/ # path to map that will be avaible for import
+```
+
 ### lobby/config.yaml
 
 ```yaml
