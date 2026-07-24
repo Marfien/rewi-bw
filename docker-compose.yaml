@@ -1,10 +1,10 @@
 services:
   rewi-bw-server:
     image: marfiens/rewibw-server:main
-    pull_policy: always
+    pull_policy: if_not_present
     volumes:
       - ./data:/data
-      - ./data/plugin-config/:/server/plugins/rewi-bw/
+      - ./data/rewi-bw/:/server/plugins/rewi-bw/
     ports:
       - 25565:25565
       - 5005:5005
@@ -17,10 +17,10 @@ services:
       ANTI_REDUCE: true
   rewi-bw-setup-tool:
     image: marfiens/rewibw-setup-tool:main
-    platform: linux/amd64
-    pull_policy: always
+    pull_policy: if_not_present
     volumes:
       - ./data:/data
+      - ./data/rewi-bw-setup/:/server/plugins/rewi-bw-setup
     ports:
       - 25565:25565
       - 5005:5005
